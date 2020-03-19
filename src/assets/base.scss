@@ -1,0 +1,66 @@
+// BOOTSTRAP 4 VARIABLES
+
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+
+// ArchitectUI Themes Variables
+
+@import "themes/layout-variables";
+
+// BOOTSTRAP 4 IMPORTS
+
+@import "~bootstrap/scss/bootstrap";
+
+// LAYOUT
+
+@import "layout/layout";
+
+// UTILS
+
+@import "utils/helpers";
+@import "utils/backgrounds";
+@import "utils/animate";
+@import "utils/comps-animations";
+
+// ELEMENTS
+
+@import "elements/buttons";
+@import "elements/dropdown";
+@import "elements/badges";
+@import "elements/accordions";
+@import "elements/modals";
+@import "elements/timeline";
+@import "elements/popovers-tooltips";
+
+// DASHBOARD BOXES
+
+@import "widgets/chart-boxes/chart-boxes";
+@import "widgets/content-boxes/content-boxes";
+
+// PAGES
+@import "pages/userpages";
+
+// COMPONENTS
+
+// Perfect Scrollbar
+
+@import "~perfect-scrollbar/css/perfect-scrollbar.css";
+@import "components/perfect-scrollbar";
+
+// Hamburger button
+
+@import "components/hamburgers";
+
+// Icons
+
+$pe-7s-font-path: "~pe7-icon/dist/fonts";
+@import "~pe7-icon/dist/scss/pe-icon-7-stroke";
+
+// Responsive
+
+@import "layout/responsive/responsive-base";
+
+// DEMO
+
+@import "demo-ui/demo";
