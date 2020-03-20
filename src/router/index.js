@@ -93,7 +93,11 @@ export default new VueRouter({
   routes: [
 
     // Dashboards
-
+    {
+      path: '/intervention',
+      name: 'intervention',
+      component: () => import('../views/Dashboards/Intervention.vue'),
+    },
     {
       path: '/',
       name: 'analytics',
@@ -103,12 +107,12 @@ export default new VueRouter({
     // Pages
 
     {
-      path: '/pages/login-boxed',
-      name: 'login-boxed',
+      path: '/login',
+      name: 'login',
       meta: {
         layout: 'userpages'
       },
-      component: () => import('../views/auth/LoginBoxed.vue'),
+      component: () => import('../views/auth/Login.vue'),
     },
     // {
     //   path: '/pages/forgot-password-boxed',
