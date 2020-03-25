@@ -22,6 +22,7 @@ export default {
 
 <style lang="scss">
 @import "assets/base.scss";
+
 </style>
 
 <!-- <template>

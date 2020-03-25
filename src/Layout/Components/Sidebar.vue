@@ -6,6 +6,7 @@
   >
     <div class="app-header__logo">
       <div class="logo-src" />
+      logo here
       <div class="header__pane ml-auto">
         <button
           type="button"
@@ -47,7 +48,7 @@ export default {
           title: "Main Navigation"
         },
         {
-          title: "Dashboards",
+          title: "Interventions",
           icon: "pe-7s-rocket",
           child: [
             {
@@ -57,6 +58,14 @@ export default {
             {
               href: "/intervention",
               title: "Intervention"
+            },
+            {
+              href: "/nouvelle-intervention",
+              title: "Nouvelle Intervention"
+            },
+            {
+              href: "/intervention-en-cours",
+              title: "Intervention En cours"
             }
           ]
         },

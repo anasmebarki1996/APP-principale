@@ -82,37 +82,45 @@ Vue.use(VueRouter);
 // });
 // export default router;
 
-
 export default new VueRouter({
   scrollBehavior() {
     return window.scrollTo({
       top: 0,
-      behavior: 'smooth'
+      behavior: "smooth"
     });
   },
   routes: [
-
     // Dashboards
     {
-      path: '/intervention',
-      name: 'intervention',
-      component: () => import('../views/Dashboards/Intervention.vue'),
+      path: "/intervention",
+      name: "intervention",
+      component: () => import("../views/Dashboards/Intervention.vue")
     },
     {
-      path: '/',
-      name: 'analytics',
-      component: () => import('../views/Dashboards/Analytics.vue'),
+      path: "/nouvelle-intervention",
+      name: "Nouvelle Intervention",
+      component: () => import("../views/Dashboards/Nouvelle-Intervention.vue")
+    },
+    {
+      path: "/intervention-en-cours",
+      name: "Intervention en cours",
+      component: () => import("../views/Dashboards/Intervention-En-Cours.vue")
+    },
+    {
+      path: "/",
+      name: "analytics",
+      component: () => import("../views/Dashboards/Analytics.vue")
     },
 
     // Pages
 
     {
-      path: '/login',
-      name: 'login',
+      path: "/login",
+      name: "login",
       meta: {
-        layout: 'userpages'
+        layout: "userpages"
       },
-      component: () => import('../views/auth/Login.vue'),
+      component: () => import("../views/auth/Login.vue")
     },
     // {
     //   path: '/pages/forgot-password-boxed',
@@ -126,123 +134,123 @@ export default new VueRouter({
     // Elements
 
     {
-      path: '/elements/buttons-standard',
-      name: 'buttons-standard',
-      component: () => import('../views/Elements/Buttons/Standard.vue'),
+      path: "/elements/buttons-standard",
+      name: "buttons-standard",
+      component: () => import("../views/Elements/Buttons/Standard.vue")
     },
     {
-      path: '/elements/dropdowns',
-      name: 'dropdowns',
-      component: () => import('../views/Elements/Dropdowns.vue'),
+      path: "/elements/dropdowns",
+      name: "dropdowns",
+      component: () => import("../views/Elements/Dropdowns.vue")
     },
     {
-      path: '/elements/icons',
-      name: 'icons',
-      component: () => import('../views/Elements/Icons.vue'),
+      path: "/elements/icons",
+      name: "icons",
+      component: () => import("../views/Elements/Icons.vue")
     },
     {
-      path: '/elements/badges-labels',
-      name: 'badges',
-      component: () => import('../views/Elements/Badges.vue'),
+      path: "/elements/badges-labels",
+      name: "badges",
+      component: () => import("../views/Elements/Badges.vue")
     },
     {
-      path: '/elements/cards',
-      name: 'cards',
-      component: () => import('../views/Elements/Cards.vue'),
+      path: "/elements/cards",
+      name: "cards",
+      component: () => import("../views/Elements/Cards.vue")
     },
     {
-      path: '/elements/list-group',
-      name: 'list-group',
-      component: () => import('../views/Elements/ListGroups.vue'),
+      path: "/elements/list-group",
+      name: "list-group",
+      component: () => import("../views/Elements/ListGroups.vue")
     },
     {
-      path: '/elements/timelines',
-      name: 'timeline',
-      component: () => import('../views/Elements/Timeline.vue'),
+      path: "/elements/timelines",
+      name: "timeline",
+      component: () => import("../views/Elements/Timeline.vue")
     },
     {
-      path: '/elements/utilities',
-      name: 'utilities',
-      component: () => import('../views/Elements/Utilities.vue'),
+      path: "/elements/utilities",
+      name: "utilities",
+      component: () => import("../views/Elements/Utilities.vue")
     },
 
     // Components
 
     {
-      path: '/components/tabs',
-      name: 'tabs',
-      component: () => import('../components/Tabs.vue'),
+      path: "/components/tabs",
+      name: "tabs",
+      component: () => import("../components/Tabs.vue")
     },
     {
-      path: '/components/accordions',
-      name: 'accordions',
-      component: () => import('../components/Accordions.vue'),
+      path: "/components/accordions",
+      name: "accordions",
+      component: () => import("../components/Accordions.vue")
     },
     {
-      path: '/components/modals',
-      name: 'modals',
-      component: () => import('../components/Modals.vue'),
+      path: "/components/modals",
+      name: "modals",
+      component: () => import("../components/Modals.vue")
     },
     {
-      path: '/components/progress-bar',
-      name: 'progress-bar',
-      component: () => import('../components/ProgressBar.vue'),
+      path: "/components/progress-bar",
+      name: "progress-bar",
+      component: () => import("../components/ProgressBar.vue")
     },
     {
-      path: '/components/tooltips-popovers',
-      name: 'tooltips-popovers',
-      component: () => import('../components/TooltipsPopovers.vue'),
+      path: "/components/tooltips-popovers",
+      name: "tooltips-popovers",
+      component: () => import("../components/TooltipsPopovers.vue")
     },
     {
-      path: '/components/carousel',
-      name: 'carousel',
-      component: () => import('../components/Carousel.vue'),
+      path: "/components/carousel",
+      name: "carousel",
+      component: () => import("../components/Carousel.vue")
     },
     {
-      path: '/components/pagination',
-      name: 'pagination',
-      component: () => import('../components/Pagination.vue'),
+      path: "/components/pagination",
+      name: "pagination",
+      component: () => import("../components/Pagination.vue")
     },
     {
-      path: '/components/maps',
-      name: 'maps',
-      component: () => import('../components/Maps.vue'),
+      path: "/components/maps",
+      name: "maps",
+      component: () => import("../components/Maps.vue")
     },
 
     // Tables
 
     {
-      path: '/tables/regular-tables',
-      name: 'regular-tables',
-      component: () => import('../views/Tables/RegularTables.vue'),
+      path: "/tables/regular-tables",
+      name: "regular-tables",
+      component: () => import("../views/Tables/RegularTables.vue")
     },
 
     // Dashboard Widgets
 
     {
-      path: '/widgets/chart-boxes-3',
-      name: 'chart-boxes-3',
-      component: () => import('../views/Widgets/ChartBoxes3.vue'),
+      path: "/widgets/chart-boxes-3",
+      name: "chart-boxes-3",
+      component: () => import("../views/Widgets/ChartBoxes3.vue")
     },
 
     // Forms
 
     {
-      path: '/forms/controls',
-      name: 'controls',
-      component: () => import('../views/Forms/Elements/Controls.vue'),
+      path: "/forms/controls",
+      name: "controls",
+      component: () => import("../views/Forms/Elements/Controls.vue")
     },
     {
-      path: '/forms/layouts',
-      name: 'layouts',
-      component: () => import('../views/Forms/Elements/Layouts.vue'),
+      path: "/forms/layouts",
+      name: "layouts",
+      component: () => import("../views/Forms/Elements/Layouts.vue")
     },
     // Charts
 
     {
-      path: '/charts/chartjs',
-      name: 'chartjs',
-      component: () => import('../views/Charts/Chartjs.vue'),
-    },
+      path: "/charts/chartjs",
+      name: "chartjs",
+      component: () => import("../views/Charts/Chartjs.vue")
+    }
   ]
-})
+});

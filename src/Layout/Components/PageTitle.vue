@@ -13,16 +13,15 @@
         </div>
       </div>
       <div class="page-title-actions">
-        <button type="button" class="btn-shadow mr-3 btn btn-dark">
-          <font-awesome-icon icon="star" />
-        </button>
-        <button
-          type="button"
-          class="btn-shadow d-inline-flex align-items-center btn btn-success"
-        >
-          <font-awesome-icon class="mr-2" icon="plus" />
-          Create New
-        </button>
+        <router-link to="/nouvelle-intervention">
+          <button
+            type="button"
+            class="btn-shadow d-inline-flex align-items-center btn btn-success"
+          >
+            <font-awesome-icon class="mr-2" icon="plus" />
+            Nouvelle Intervention
+          </button>
+        </router-link>
       </div>
     </div>
   </div>
