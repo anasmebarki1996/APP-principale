@@ -5,8 +5,7 @@
     @mouseleave="toggleSidebarHover('remove', 'closed-sidebar-open')"
   >
     <div class="app-header__logo">
-      <div class="logo-src" />
-      logo here
+      <div class="logo-src" />logo here
       <div class="header__pane ml-auto">
         <button
           type="button"
@@ -62,6 +61,10 @@ export default {
             {
               href: "/nouvelle-intervention",
               title: "Nouvelle Intervention"
+            },
+            {
+              href: "/test",
+              title: "test"
             },
             {
               href: "/intervention-en-cours",

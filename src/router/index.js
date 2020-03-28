@@ -100,6 +100,10 @@ export default new VueRouter({
       path: "/nouvelle-intervention",
       name: "Nouvelle Intervention",
       component: () => import("../views/Dashboards/Nouvelle-Intervention.vue")
+    }, {
+      path: "/test",
+      name: "Test",
+      component: () => import("../views/Dashboards/Test.vue")
     },
     {
       path: "/intervention-en-cours",
