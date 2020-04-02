@@ -5,7 +5,7 @@
       :subheading="subheading"
       :icon="icon"
     ></page-title>
-    <div class="row" style="margin-top:100px">
+    <div class="row">
       <div class="col col-lg-4">
         <!-- ##################################################### -->
         <div class="card-hover-shadow-2x mb-3 card">
@@ -21,7 +21,7 @@
                         class="vertical-timeline-element-icon bounce-in"
                       ></span>
                       <div class="vertical-timeline-element-content bounce-in">
-                        <h4 class="timeline-title">All Hands Meeting</h4>
+                        <h4 class="timeline-title">All Hands Meetingeeee</h4>
                       </div>
                     </div>
                   </div>
@@ -196,7 +196,7 @@
 <script>
 import { library } from "@fortawesome/fontawesome-svg-core";
 import PageTitle from "../../Layout/Components/PageTitle";
-
+import VuePerfectScrollbar from "vue-perfect-scrollbar";
 import Vue from "vue";
 import * as VueGoogleMaps from "vue2-google-maps";
 import {
@@ -221,18 +221,18 @@ Vue.use(VueGoogleMaps, {
 export default {
   components: {
     PageTitle,
+    VuePerfectScrollbar,
     "google-map": VueGoogleMaps.Map,
     "google-marker": VueGoogleMaps.Marker
   },
   data: () => ({
+    heading: "Intervention en cours",
+    subheading: "Toutes les interventions en cours.",
+    icon: "pe-7s-map icon-gradient bg-premium-dark",
     type: {
       accident: ["bus", "voiture"],
       feux: ["maison", "foret"]
     },
-    searchOpen: true,
-    heading: "Maps",
-    subheading: "Implement in your applications Google or vector maps.",
-    icon: "pe-7s-map icon-gradient bg-premium-dark",
 
     url: "http://{s}.tile.osm.org/{z}/{x}/{y}.png",
     zoom: 3,

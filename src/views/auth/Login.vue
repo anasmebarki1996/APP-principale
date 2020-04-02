@@ -1,68 +1,81 @@
 <template>
-  <div>
-    <div class="h-100 bg-plum-plate bg-animation">
-      <div class="d-flex h-100 justify-content-center align-items-center">
-        <b-col md="8" class="mx-auto app-login-box">
-          <div class="app-logo-inverse mx-auto mb-3" />
-
-          <div class="modal-dialog w-100 mx-auto">
-            <div class="modal-content">
-              <div class="modal-body">
-                <div class="h5 modal-title text-center">
-                  <h4 class="mt-2">
-                    <div>Welcome back,</div>
-                    <span>Please sign in to your account below.</span>
-                  </h4>
-                </div>
-                <b-form-group
-                  id="exampleInputGroup1"
-                  label-for="exampleInput1"
-                  description="We'll never share your email with anyone else."
-                >
-                  <b-form-input
-                    id="exampleInput1"
-                    type="email"
-                    v-model="email"
-                    required
-                    autofocus
-                    placeholder="Enter email..."
-                  >
-                  </b-form-input>
-                </b-form-group>
-                <b-form-group id="exampleInputGroup2" label-for="exampleInput2">
-                  <b-form-input
-                    id="exampleInput2"
-                    type="password"
-                    v-model="password"
-                    required
-                    placeholder="Enter password..."
-                  >
-                  </b-form-input>
-                </b-form-group>
-              </div>
-              <div class="modal-footer clearfix">
-                <div class="float-left">
-                  <a href="javascript:void(0);" class="btn-lg btn btn-link"
-                    >Recover Password</a
-                  >
-                </div>
-                <div class="float-right">
-                  <b-button variant="primary" size="lg"
-                    >Login to Dashboard</b-button
-                  >
-                </div>
-              </div>
+  <div id="parent">
+    <div
+      class="d-flex h-100 justify-content-center align-items-center"
+      id="form_login"
+    >
+      <b-col md="4" style="margin-bottom:100px;">
+        <div class="h5 modal-title text-center" style="margin:30px">
+          <img
+            src="./../../assets/images/protection_civile_logo.png"
+            alt=""
+            style="width:100px"
+          />
+        </div>
+        <b-form-group
+          id="exampleInputGroup1"
+          label-for="username"
+          :invalid-feedback="invalidFeedbackUsername"
+        >
+          <b-form-input
+            id="username"
+            type="text"
+            v-model="username"
+            :state="stateUsername"
+            trim
+            autofocus
+            placeholder="Nom d'utilsateur"
+          >
+          </b-form-input>
+        </b-form-group>
+        <b-form-group
+          id="exampleInputGroup2"
+          label-for="password"
+          :invalid-feedback="invalidFeedbackPassword"
+          :state="statePassword"
+        >
+          <b-form-input
+            id="password"
+            type="password"
+            v-model="password"
+            :state="statePassword"
+            placeholder="Mot de passe"
+          >
+          </b-form-input>
+        </b-form-group>
+        <div>
+          <b-button class="btn btn-warning col-12" v-on:click="onSubmit"
+            >Entrer</b-button
+          >
+        </div>
+        <div class="d-flex justify-content-center">
+          <div style="position: fixed;bottom: 0; margin-bottom:2%">
+            <div>
+              Copyright © 2020 Protection Civile.
+            </div>
+            <div>
+              الحماية المدنية
             </div>
           </div>
-          <div class="text-center text-white opacity-8 mt-3">
-            Copyright &copy; ArchitectUI 2019
-          </div>
-        </b-col>
-      </div>
+        </div>
+      </b-col>
     </div>
   </div>
 </template>
 
+<style scoped>
+#parent {
+  display: table;
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+}
+#form_login {
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+}
+</style>
 <script>
 // @ is an alias to /src
 const axios = require("axios");
@@ -73,34 +86,71 @@ export default {
 
   data() {
     return {
-      email: "anasmebarki1996@outlook.fr",
-      password: "123123123",
-      messages: []
+      username: "admin",
+      password: "ANas123123123_",
+      messages: [],
+      stateUsername: null,
+      invalidFeedbackUsername: null,
+      statePassword: null,
+      invalidFeedbackPassword: null
     };
   },
   methods: {
     onSubmit() {
-      axios
-        .post("http://localhost:8000/API/login", {
-          email: this.email,
-          password: this.password
-        })
-        .then(res => {
-          this.$store.commit("init_user_id", res.data.user_id);
-          this.$router.push({ path: "/home" }).catch(err => {
-            console.log(err);
+      this.checkInput();
+      if (this.stateUsername != false && this.statePassword != false) {
+        axios
+          .post("http://localhost:8000/API/login", {
+            username: this.username,
+            password: this.password
+          })
+          .then(res => {
+            this.$store.commit("init_agent", res.data);
+            this.$router.push({ path: "/" }).catch(err => {
+              console.log("------------------");
+              console.log(err);
+            });
+          })
+          .catch(error => {
+            this.stateUsername = false;
+            this.statePassword = false;
+            this.invalidFeedbackUsername = "";
+            this.invalidFeedbackPassword = error.response.data.message;
           });
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      }
     },
     getMessage() {
       axios.get("http://localhost:8000/API/conversation").then(res => {
         this.messages = res.data.data.conversations[0].message;
       });
+    },
+    checkInput() {
+      this.stateUsername = this.username.length >= 4 ? true : false;
+      if (this.username.length >= 4) {
+        this.invalidFeedbackUsername = "";
+      } else if (this.username.length > 0) {
+        this.invalidFeedbackUsername =
+          "veuillez vous verifier votre nom d'utilisateur";
+      } else {
+        this.invalidFeedbackUsername =
+          "veuillez vous introduire votre nom d'utilisateur";
+      }
+
+      // #####################################
+      this.statePassword = this.password.length >= 8 ? true : false;
+      if (this.password.length >= 8) {
+        this.invalidFeedbackPassword = "";
+      } else if (this.password.length > 0) {
+        this.invalidFeedbackPassword =
+          "veuillez vous verifier votre mot de passe";
+      } else {
+        this.invalidFeedbackPassword =
+          "veuillez vous introduire votre mot de passe";
+      }
     }
   },
-  created() {}
+
+  created() {},
+  computed: {}
 };
 </script>

@@ -5,7 +5,14 @@
     @mouseleave="toggleSidebarHover('remove', 'closed-sidebar-open')"
   >
     <div class="app-header__logo">
-      <div class="logo-src" />logo here
+      <div class="logo-src" />
+      <!-- <img
+        src="./../../assets/images/logo-inverse.png"
+        style="width:50px"
+        alt="meeeeee"
+      />
+      protection civil -->
+
       <div class="header__pane ml-auto">
         <button
           type="button"
@@ -68,20 +75,46 @@ export default {
             },
             {
               href: "/intervention-en-cours",
-              title: "Intervention En cours"
+              title: "Intervention_En_Cours"
+            }
+          ]
+        },
+        {
+          title: "Agents",
+          icon: "pe-7s-users",
+          child: [
+            {
+              href: "/agents",
+              title: "Les agents"
+            },
+            {
+              href: "/nouvelle-agent",
+              title: "Nouveau agent"
+            },
+            {
+              href: "/modifier-agent",
+              title: "Modifier Agent"
+            },
+            {
+              href: "/test",
+              title: "test"
+            },
+            {
+              href: "/statistque-agent",
+              title: "Statistique agent"
             }
           ]
         },
         {
           title: "Pages",
-          icon: "pe-7s-browser",
+          icon: "pe-7s-car",
           child: [
             {
-              href: "/pages/login-boxed",
+              href: "/login",
               title: "Login Boxed"
             },
             {
-              href: "/pages/register-boxed",
+              href: "/register",
               title: "Register Boxed"
             },
             {
