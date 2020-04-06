@@ -16,12 +16,7 @@
             >
               <span slot="button-content">
                 <div class="icon-wrapper icon-wrapper-alt rounded-circle">
-                  <img
-                    width="42"
-                    class="rounded-circle"
-                    src="./../../../assets/images/avatars/admin.png"
-                    alt=""
-                  />
+                  <img width="42" class="rounded-circle" src="" alt="zzzz" />
                 </div>
               </span>
               <button type="button" tabindex="0" class="dropdown-item">
@@ -85,7 +80,7 @@ export default {
   data: () => ({}),
   props: {
     nom: String,
-    role: String
+    role: String,
   },
 
   methods: {
@@ -96,10 +91,10 @@ export default {
           this.$store.commit("delete_agent");
           this.$router.push({ path: "/login" });
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
-    }
-  }
+    },
+  },
 };
 </script>

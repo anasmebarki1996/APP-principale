@@ -4,12 +4,12 @@
       class="d-flex h-100 justify-content-center align-items-center"
       id="form_login"
     >
-      <b-col md="4" style="margin-bottom:100px;">
-        <div class="h5 modal-title text-center" style="margin:30px">
+      <b-col md="4" style="margin-bottom: 100px;">
+        <div class="h5 modal-title text-center" style="margin: 30px;">
           <img
             src="./../../assets/images/protection_civile_logo.png"
-            alt=""
-            style="width:100px"
+            alt
+            style="width: 100px;"
           />
         </div>
         <b-form-group
@@ -25,8 +25,7 @@
             trim
             autofocus
             placeholder="Nom d'utilsateur"
-          >
-          </b-form-input>
+          ></b-form-input>
         </b-form-group>
         <b-form-group
           id="exampleInputGroup2"
@@ -40,8 +39,7 @@
             v-model="password"
             :state="statePassword"
             placeholder="Mot de passe"
-          >
-          </b-form-input>
+          ></b-form-input>
         </b-form-group>
         <div>
           <b-button class="btn btn-warning col-12" v-on:click="onSubmit"
@@ -49,13 +47,9 @@
           >
         </div>
         <div class="d-flex justify-content-center">
-          <div style="position: fixed;bottom: 0; margin-bottom:2%">
-            <div>
-              Copyright © 2020 Protection Civile.
-            </div>
-            <div>
-              الحماية المدنية
-            </div>
+          <div style="position: fixed; bottom: 0; margin-bottom: 2%;">
+            <div>Copyright © 2020 Protection Civile.</div>
+            <div>الحماية المدنية</div>
           </div>
         </div>
       </b-col>
@@ -86,13 +80,13 @@ export default {
 
   data() {
     return {
-      username: "admin",
+      username: "cco_agent",
       password: "ANas123123123_",
       messages: [],
       stateUsername: null,
       invalidFeedbackUsername: null,
       statePassword: null,
-      invalidFeedbackPassword: null
+      invalidFeedbackPassword: null,
     };
   },
   methods: {
@@ -102,16 +96,24 @@ export default {
         axios
           .post("http://localhost:8000/API/login", {
             username: this.username,
-            password: this.password
+            password: this.password,
           })
-          .then(res => {
+          .then((res) => {
             this.$store.commit("init_agent", res.data);
-            this.$router.push({ path: "/" }).catch(err => {
-              console.log("------------------");
-              console.log(err);
-            });
+            axios
+              .post("http://localhost:8000/API/getAllTree")
+              .then((result) => {
+                this.$store.commit("init_tree", result.data.data.tree);
+                this.$router.push({ path: "/" });
+              })
+              .catch((error) => {
+                this.stateUsername = false;
+                this.statePassword = false;
+                this.invalidFeedbackUsername = "";
+                this.invalidFeedbackPassword = error.response.data.message;
+              });
           })
-          .catch(error => {
+          .catch((error) => {
             this.stateUsername = false;
             this.statePassword = false;
             this.invalidFeedbackUsername = "";
@@ -120,7 +122,7 @@ export default {
       }
     },
     getMessage() {
-      axios.get("http://localhost:8000/API/conversation").then(res => {
+      axios.get("http://localhost:8000/API/conversation").then((res) => {
         this.messages = res.data.data.conversations[0].message;
       });
     },
@@ -147,10 +149,10 @@ export default {
         this.invalidFeedbackPassword =
           "veuillez vous introduire votre mot de passe";
       }
-    }
+    },
   },
 
   created() {},
-  computed: {}
+  computed: {},
 };
 </script>
