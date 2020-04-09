@@ -103,17 +103,17 @@
         </div>
 
         <div class="mb-3 card">
-          <div class="card-header-tab card-header">
-            <div
-              class="card-header-title font-size-lg text-capitalize font-weight-normal"
-            >
-              <i
-                class="header-icon lnr-cloud-download icon-gradient bg-happy-itmeo"
-              >
-              </i>
-              Niveau 1
-            </div>
-          </div>
+          
+              <ol class="breadcrumb" style="back" id="nodes_path" >
+                 <li class="breadcrumb-item" >
+                  <span style="cursor:pointer" class="text-primary"> <b>Niveau Principal</b> </span>
+                </li>
+                <li class="breadcrumb-item " v-for="(selected_node) in selected_path" :key="selected_node">
+                  <span style="cursor:pointer" class="text-primary"> selected_node </span>
+                </li>
+                
+              </ol>
+            
 
           <div class="p-0 card-body">
             <div class="p-1 slick-slider-sm mx-auto">
@@ -123,16 +123,16 @@
                     <b-button
                       variant="light"
                       class="col-lg-3 col-md-3"
-                      v-for="(data, index) in tree"
-                      :key="data.niv1.niv1_type"
-                      v-on:click="getNiveau1(index)"
+                      v-for="(node) in current_level"
+                      :key="node._id"
+                      v-on:click="getChildren(node._id)"
                       style="margin: 10px;"
                     >
                       <div class="widget-content">
                         <div class="widget-content-wrapper">
                           <div class="widget-content-left">
                             <div class="widget-heading">
-                              {{ data.niv1.niv1_type }}
+                              {{ node.name }}
                             </div>
                           </div>
                         </div>
@@ -144,61 +144,7 @@
             </div>
           </div>
 
-          <!-- ##################################################### -->
-
-          <div class="card-header-tab card-header">
-            <div
-              class="card-header-title font-size-lg text-capitalize font-weight-normal"
-            >
-              <i
-                class="header-icon lnr-cloud-download icon-gradient bg-happy-itmeo"
-              >
-              </i>
-              Niveau 2
-            </div>
-          </div>
-          <div class="p-0 card-body">
-            <div class="p-1 slick-slider-sm mx-auto">
-              <div class="widget-chart widget-chart2 text-left p-0">
-                <div class="widget-chat-wrapper-outer">
-                  <div class="widget-chart-content pb-0" style="padding: 20px;">
-                    <div class="row">
-                      <b-button
-                        class="col-lg-3 col-md-3"
-                        v-for="(dataaa, index) in niv2"
-                        :key="dataaa.niv2_type"
-                        v-show="niv2.length"
-                        v-on:click="getNiveau2(index)"
-                      >
-                        <div class="widget-content">
-                          <div class="widget-content-wrapper">
-                            <div class="widget-content-left">
-                              <div class="widget-heading">
-                                {{ dataaa.niv2_type }}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </b-button>
-                      <div class="col-md-12" v-show="!niv2.length">
-                        <div class="alert alert-warning fade show" role="alert">
-                          <h5>Bootstrap Helpers</h5>
-                          <p class="mb-0">
-                            All Bootstrap 4 helper classes available in the
-                            official Bootstrap documentation are also available
-                            in ArchitectUI Framework: Spacing, resets,
-                            typography utilities, sizing and others.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- ##################################################### -->
-
+         
           <div class="card-header-tab card-header">
             <div
               class="card-header-title font-size-lg text-capitalize font-weight-normal"
@@ -246,36 +192,7 @@
     </div>
   </div>
 </template>
-<style scoped>
-body {
-  background: #eee;
-}
-span {
-  font-size: 15px;
-}
-a {
-  text-decoration: none;
-  color: #0062cc;
-  border-bottom: 2px solid #0062cc;
-}
-.box {
-  padding: 60px 0px;
-}
 
-.box-part {
-  background: #fff;
-  border-radius: 0;
-  padding: 60px 10px;
-  margin: 30px 0px;
-}
-.text {
-  margin: 20px 0px;
-}
-
-.fa {
-  color: #4183d7;
-}
-</style>
 
 <script>
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -294,6 +211,9 @@ const axios = require("axios");
 export default {
   components: {},
   data: () => ({
+    parent_node_id:'',
+    selected_path:[],
+    current_level:{}, 
     numTelInput: "",
     numTel: "",
     wilaya: "",
@@ -356,20 +276,74 @@ export default {
           });
       }
     },
-    getNiveau1(index) {
-      this.niv1 = this.tree[index].niv1;
-      this.niv2 = this.niv1.niv2;
-      console.log(this.niv1);
-      console.log("------------------------");
-      console.log(this.niv2);
+    getCurrentLevel(){
+          axios
+              .get("http://localhost:8000/api/tree/nodes/"+this.parent_node_id)
+              .then((res) => {
+              
+                this.current_level = res.data.data
+              })
+              .catch((error) => {
+                console.log(error.message);
+                this.$swal.fire({
+                  icon: "error",
+                  title: "Oops...",
+                  text: error.response.data.message,
+                });
+              });
+
     },
-    getNiveau2(index) {
-      this.decision = this.niv2[index].decision;
-      
-    },
+    getChildren(parent_node_id){
+      //first thing is that this.parent_node_id is going to change 
+      this.parent_node_id = parent_node_id
+      this.selected_path.push(parent_node_id)
+    }
+  },
+  watch:{
+    parent_node_id : function(){
+      //when ever this prop changes we get current_level nodes from db
+       
+      this.getCurrentLevel()
+    }
+
   },
   created() {
-    this.tree = this.$store.getters.get_tree;
+    this.getCurrentLevel()
+
+    
+    
+          
+    //this.current_level = 
   },
 };
 </script>
+<style scoped>
+body {
+  background: #eee;
+}
+span {
+  font-size: 15px;
+}
+a {
+  text-decoration: none;
+  color: #0062cc;
+  border-bottom: 2px solid #0062cc;
+}
+.box {
+  padding: 60px 0px;
+}
+
+.box-part {
+  background: #fff;
+  border-radius: 0;
+  padding: 60px 10px;
+  margin: 30px 0px;
+}
+.text {
+  margin: 20px 0px;
+}
+
+.fa {
+  color: #4183d7;
+}
+</style>
