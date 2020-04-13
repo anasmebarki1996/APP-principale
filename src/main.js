@@ -2,6 +2,12 @@ import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store/store";
+import LoadScript from 'vue-plugin-load-script';
+
+ Vue.use(LoadScript);
+ Vue.loadScript("https://code.jquery.com/jquery-3.4.1.slim.min.js")
+ Vue.loadScript("https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js")
+ Vue.loadScript("https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js")
 import {
   BootstrapVue,
   IconsPlugin
