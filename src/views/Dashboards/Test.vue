@@ -5,13 +5,21 @@
       <div class="col-lg-12">
         <div class="mb-3 card">
           <div class="card-header-tab card-header">
-            <div class="card-header-title font-size-lg text-capitalize font-weight-normal">
-              <i class="header-icon lnr-cloud-download icon-gradient bg-happy-itmeo"></i>
+            <div
+              class="card-header-title font-size-lg text-capitalize font-weight-normal"
+            >
+              <i
+                class="header-icon lnr-cloud-download icon-gradient bg-happy-itmeo"
+              ></i>
               Technical Support
             </div>
           </div>
           <div>
-            <b-pagination :total-rows="totalPhotos" :per-page="perPage" v-model="currentPage"></b-pagination>
+            <b-pagination
+              :total-rows="totalPhotos"
+              :per-page="perPage"
+              v-model="currentPage"
+            ></b-pagination>
             <br />
             <b-table
               :items="myProvider"

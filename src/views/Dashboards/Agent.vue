@@ -4,24 +4,31 @@
       :heading="heading"
       :subheading="subheading"
       :icon="icon"
-      :title="title"
-      :link="link"
     ></page-title>
-    <div class="input-group">
-      <input
-        type="text"
-        class="form-control"
-        placeholder="Search this blog"
-        v-model="search"
-      />
-      <div class="input-group-append">
-        <button
-          class="btn btn-secondary"
-          type="button"
-          v-on:click="getAllIntervention"
-        >
-          <b-icon icon="search"></b-icon>
-        </button>
+    <div class="row">
+      <div class="col-md-6">
+        <b-form-datepicker
+          id="example-datepicker"
+          v-model="value"
+          class="mb-2"
+        ></b-form-datepicker>
+      </div>
+      <div class="col-md-6 input-group">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Search this blog"
+          v-model="search"
+        />
+        <div class="input-group-append">
+          <button
+            class="btn btn-secondary"
+            type="button"
+            v-on:click="getAllIntervention"
+          >
+            <b-icon icon="search"></b-icon>
+          </button>
+        </div>
       </div>
     </div>
 
@@ -84,30 +91,28 @@ const axios = require("axios");
 
 export default {
   components: {
-    PageTitle
+    PageTitle,
   },
   data() {
     return {
-      heading: "Les intervention",
+      heading: "Les agents",
       subheading:
         "This is an example dashboard created using build-in elements and components.",
       icon: "pe-7s-plane icon-gradient bg-tempting-azure",
-      title: "Nouvelle Intervention",
-      link: "/nouvelle-intervention",
       fields: [
         {
           key: "num",
           label: "num",
           tdClass: "nameOfTheClass",
-          sortable: true
+          sortable: true,
         },
         {
           key: "numTel",
           label: "numero de telephone",
           tdClass: "nameOfTheClass",
-          sortable: true
+          sortable: true,
         },
-        { key: "show_details", label: "Role", tdClass: "nameOfTheClass" }
+        { key: "show_details", label: "Role", tdClass: "nameOfTheClass" },
       ],
       isBusy: false,
       items: [],
@@ -116,7 +121,7 @@ export default {
       currentPage: 1,
       sort: "dateTimeAppel",
       sortBy: "",
-      search: ""
+      search: "",
     };
   },
   methods: {
@@ -135,12 +140,12 @@ export default {
       }
       axios
         .post(link, {})
-        .then(res => {
+        .then((res) => {
           this.items = res.data.data.interventions;
           this.rows = res.data.data.interventions_total;
           this.isBusy = false;
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     },
@@ -153,10 +158,10 @@ export default {
 
     hello() {
       alert(this.currentPage);
-    }
+    },
   },
   created() {
     this.getAllIntervention();
-  }
+  },
 };
 </script>

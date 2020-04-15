@@ -100,18 +100,20 @@ export default {
           })
           .then((res) => {
             this.$store.commit("init_agent", res.data);
-            axios
-              .post("http://localhost:8000/API/getAllTree")
-              .then((result) => {
-                this.$store.commit("init_tree", result.data.data.tree);
-                this.$router.push({ path: "/" });
-              })
-              .catch((error) => {
-                this.stateUsername = false;
-                this.statePassword = false;
-                this.invalidFeedbackUsername = "";
-                this.invalidFeedbackPassword = error.response.data.message;
-              });
+            this.$router.push({ path: "/" });
+
+            // axios
+            //   .post("http://localhost:8000/API/getAllTree")
+            //   .then((result) => {
+            //     this.$store.commit("init_tree", result.data.data.tree);
+            //     this.$router.push({ path: "/" });
+            //   })
+            //   .catch((error) => {
+            //     this.stateUsername = false;
+            //     this.statePassword = false;
+            //     this.invalidFeedbackUsername = "";
+            //     this.invalidFeedbackPassword = error.response.data.message;
+            //   });
           })
           .catch((error) => {
             this.stateUsername = false;

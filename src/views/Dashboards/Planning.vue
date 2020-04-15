@@ -7,24 +7,32 @@
       :title="title"
       :link="link"
     ></page-title>
-    <div class="input-group">
-      <input
-        type="text"
-        class="form-control"
-        placeholder="Search this blog"
-        v-model="search"
-      />
-      <div class="input-group-append">
-        <button
-          class="btn btn-secondary"
-          type="button"
-          v-on:click="getAllIntervention"
-        >
-          <b-icon icon="search"></b-icon>
-        </button>
+    <div class="row">
+      <div class="col-md-6">
+        <b-form-datepicker
+          id="example-datepicker"
+          v-model="value"
+          class="mb-2"
+        ></b-form-datepicker>
+      </div>
+      <div class="col-md-6 input-group">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Search this blog"
+          v-model="search"
+        />
+        <div class="input-group-append">
+          <button
+            class="btn btn-secondary"
+            type="button"
+            v-on:click="getAllIntervention"
+          >
+            <b-icon icon="search"></b-icon>
+          </button>
+        </div>
       </div>
     </div>
-
     <b-table
       :items="items"
       :fields="fields"
@@ -88,12 +96,13 @@ export default {
   },
   data() {
     return {
-      heading: "Les intervention",
+      value: "",
+      heading: "Les agents",
       subheading:
         "This is an example dashboard created using build-in elements and components.",
       icon: "pe-7s-plane icon-gradient bg-tempting-azure",
-      title: "Nouvelle Intervention",
-      link: "/nouvelle-intervention",
+      title: "Nouvelle équipe",
+      link: "/nouvelle-equipe",
       fields: [
         {
           key: "num",

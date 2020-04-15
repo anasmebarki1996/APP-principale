@@ -84,7 +84,7 @@ export default {
           icon: "pe-7s-users",
           child: [
             {
-              href: "/agents",
+              href: "/agent",
               title: "Les agents"
             },
             {
@@ -102,6 +102,46 @@ export default {
             {
               href: "/statistque-agent",
               title: "Statistique agent"
+            }
+          ]
+        },
+        {
+          title: "Engins",
+          icon: "pe-7s-car",
+          child: [
+            {
+              href: "/engins",
+              title: "Les engins"
+            },
+            {
+              href: "/nouvelle-agent",
+              title: "Nouveau agent"
+            },
+            {
+              href: "/modifier-agent",
+              title: "Modifier Agent"
+            },
+            {
+              href: "/test",
+              title: "test"
+            },
+            {
+              href: "/statistque-agent",
+              title: "Statistique agent"
+            }
+          ]
+        },
+        {
+          title: "Planning",
+          icon: "pe-7s-car",
+          child: [
+            {
+              href: "/planning",
+              title: "Planning"
+            },
+            {
+              href: "/nouvelle-equipe",
+              title: "Nouvelle équipe"
             }
           ]
         },

@@ -32,11 +32,30 @@ const routes = [
     component: () => import("../views/Dashboards/Intervention-En-Cours.vue")
   },
   {
+    path: "/agent",
+    name: "Agent",
+    component: () => import("../views/Dashboards/Agent.vue")
+  },
+  {
     path: "/",
     name: "analytics",
     component: () => import("../views/Dashboards/Analytics.vue")
   },
-
+  {
+    path: "/engin",
+    name: "Engin",
+    component: () => import("../views/Dashboards/Engin.vue")
+  },
+  {
+    path: "/planning",
+    name: "Planning",
+    component: () => import("../views/Dashboards/Planning.vue")
+  },
+  {
+    path: "/nouvelle-equipe",
+    name: "Nouvelle équipe",
+    component: () => import("../views/Dashboards/Nouvelle-Equipe.vue")
+  },
   // Pages
 
   {

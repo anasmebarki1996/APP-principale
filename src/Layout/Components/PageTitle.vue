@@ -13,13 +13,13 @@
         </div>
       </div>
       <div class="page-title-actions">
-        <router-link to="/nouvelle-intervention">
+        <router-link :to="link">
           <button
             type="button"
             class="btn-shadow d-inline-flex align-items-center btn btn-success"
           >
             <font-awesome-icon class="mr-2" icon="plus" />
-            Nouvelle Intervention
+            {{ title }}
           </button>
         </router-link>
       </div>
@@ -41,7 +41,9 @@ export default {
   props: {
     icon: String,
     heading: String,
-    subheading: String
+    subheading: String,
+    title: String,
+    link: String
   }
 };
 </script>
