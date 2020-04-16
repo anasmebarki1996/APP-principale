@@ -41,7 +41,7 @@ import VuePerfectScrollbar from "vue-perfect-scrollbar";
 export default {
   components: {
     SidebarMenu,
-    VuePerfectScrollbar
+    VuePerfectScrollbar,
   },
   data() {
     return {
@@ -51,7 +51,7 @@ export default {
       menu: [
         {
           header: true,
-          title: "Main Navigation"
+          title: "Main Navigation",
         },
         {
           title: "Interventions",
@@ -59,25 +59,25 @@ export default {
           child: [
             {
               href: "/",
-              title: "Analytics"
+              title: "Analytics",
             },
             {
               href: "/intervention",
-              title: "Intervention"
+              title: "Intervention",
             },
             {
               href: "/nouvelle-intervention",
-              title: "Nouvelle Intervention"
+              title: "Nouvelle Intervention",
             },
             {
               href: "/test",
-              title: "test"
+              title: "test",
             },
             {
               href: "/intervention-en-cours",
-              title: "Intervention_En_Cours"
-            }
-          ]
+              title: "Intervention_En_Cours",
+            },
+          ],
         },
         {
           title: "Agents",
@@ -85,51 +85,35 @@ export default {
           child: [
             {
               href: "/agent",
-              title: "Les agents"
+              title: "Les agents",
             },
             {
-              href: "/nouvelle-agent",
-              title: "Nouveau agent"
+              href: "/nouveau-agent",
+              title: "Nouveau Agent",
             },
             {
               href: "/modifier-agent",
-              title: "Modifier Agent"
+              title: "Modifier Agent",
             },
             {
               href: "/test",
-              title: "test"
+              title: "test",
             },
             {
               href: "/statistque-agent",
-              title: "Statistique agent"
-            }
-          ]
+              title: "Statistique agent",
+            },
+          ],
         },
         {
           title: "Engins",
           icon: "pe-7s-car",
           child: [
             {
-              href: "/engins",
-              title: "Les engins"
+              href: "/engin",
+              title: "Engin",
             },
-            {
-              href: "/nouvelle-agent",
-              title: "Nouveau agent"
-            },
-            {
-              href: "/modifier-agent",
-              title: "Modifier Agent"
-            },
-            {
-              href: "/test",
-              title: "test"
-            },
-            {
-              href: "/statistque-agent",
-              title: "Statistique agent"
-            }
-          ]
+          ],
         },
         {
           title: "Planning",
@@ -137,13 +121,13 @@ export default {
           child: [
             {
               href: "/planning",
-              title: "Planning"
+              title: "Planning",
             },
             {
               href: "/nouvelle-equipe",
-              title: "Nouvelle équipe"
-            }
-          ]
+              title: "Nouvelle équipe",
+            },
+          ],
         },
         {
           title: "Pages",
@@ -151,21 +135,21 @@ export default {
           child: [
             {
               href: "/login",
-              title: "Login Boxed"
+              title: "Login Boxed",
             },
             {
               href: "/register",
-              title: "Register Boxed"
+              title: "Register Boxed",
             },
             {
               href: "/pages/forgot-password-boxed",
-              title: "Forgot Password Boxed"
-            }
-          ]
+              title: "Forgot Password Boxed",
+            },
+          ],
         },
         {
           header: true,
-          title: "UI Components"
+          title: "UI Components",
         },
         {
           icon: "pe-7s-diamond",
@@ -176,39 +160,39 @@ export default {
               child: [
                 {
                   title: "Standard",
-                  href: "/elements/buttons-standard"
-                }
-              ]
+                  href: "/elements/buttons-standard",
+                },
+              ],
             },
             {
               title: "Dropdowns",
-              href: "/elements/dropdowns"
+              href: "/elements/dropdowns",
             },
             {
               title: "Icons",
-              href: "/elements/icons"
+              href: "/elements/icons",
             },
             {
               title: "Badges",
-              href: "/elements/badges-labels"
+              href: "/elements/badges-labels",
             },
             {
               title: "Cards",
-              href: "/elements/cards"
+              href: "/elements/cards",
             },
             {
               title: "List Groups",
-              href: "/elements/list-group"
+              href: "/elements/list-group",
             },
             {
               title: "Timeline",
-              href: "/elements/timelines"
+              href: "/elements/timelines",
             },
             {
               title: "Utilities",
-              href: "/elements/utilities"
-            }
-          ]
+              href: "/elements/utilities",
+            },
+          ],
         },
         {
           icon: "pe-7s-car",
@@ -216,37 +200,37 @@ export default {
           child: [
             {
               title: "Tabs",
-              href: "/components/tabs"
+              href: "/components/tabs",
             },
             {
               title: "Accordions",
-              href: "/components/accordions"
+              href: "/components/accordions",
             },
             {
               title: "Modals",
-              href: "/components/modals"
+              href: "/components/modals",
             },
             {
               title: "Progress Bar",
-              href: "/components/progress-bar"
+              href: "/components/progress-bar",
             },
             {
               title: "Tooltips & Popovers",
-              href: "/components/tooltips-popovers"
+              href: "/components/tooltips-popovers",
             },
             {
               title: "Carousel",
-              href: "/components/carousel"
+              href: "/components/carousel",
             },
             {
               title: "Pagination",
-              href: "/components/pagination"
+              href: "/components/pagination",
             },
             {
               title: "Maps",
-              href: "/components/maps"
-            }
-          ]
+              href: "/components/maps",
+            },
+          ],
         },
         {
           icon: "pe-7s-display2",
@@ -254,22 +238,22 @@ export default {
           child: [
             {
               title: "Regular Tables",
-              href: "/tables/regular-tables"
-            }
-          ]
+              href: "/tables/regular-tables",
+            },
+          ],
         },
         {
           header: true,
-          title: "Dashboard Boxes"
+          title: "Dashboard Boxes",
         },
         {
           icon: "pe-7s-graph2",
           title: "Chart Boxes",
-          href: "/widgets/chart-boxes-3"
+          href: "/widgets/chart-boxes-3",
         },
         {
           header: true,
-          title: "Forms"
+          title: "Forms",
         },
         {
           icon: "pe-7s-light",
@@ -277,31 +261,31 @@ export default {
           child: [
             {
               title: "Controls",
-              href: "/forms/controls"
+              href: "/forms/controls",
             },
             {
               title: "Layouts",
-              href: "/forms/layouts"
-            }
-          ]
+              href: "/forms/layouts",
+            },
+          ],
         },
         {
           header: true,
-          title: "Charts"
+          title: "Charts",
         },
         {
           icon: "pe-7s-graph2",
           title: "ChartJS",
-          href: "/charts/chartjs"
-        }
+          href: "/charts/chartjs",
+        },
       ],
       collapsed: true,
 
-      windowWidth: 0
+      windowWidth: 0,
     };
   },
   props: {
-    sidebarbg: String
+    sidebarbg: String,
   },
   methods: {
     toggleBodyClass(className) {
@@ -338,7 +322,7 @@ export default {
       } else {
         el.classList.remove("closed-sidebar", "closed-sidebar-md");
       }
-    }
+    },
   },
   mounted() {
     this.$nextTick(function() {
@@ -351,6 +335,6 @@ export default {
 
   beforeDestroy() {
     window.removeEventListener("resize", this.getWindowWidth);
-  }
+  },
 };
 </script>

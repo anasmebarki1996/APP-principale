@@ -4,17 +4,9 @@
       :heading="heading"
       :subheading="subheading"
       :icon="icon"
-      :title="title"
-      :link="link"
     ></page-title>
     <div class="row">
-      <div class="col-md-6">
-        <b-form-datepicker
-          id="example-datepicker"
-          v-model="value"
-          class="mb-2"
-        ></b-form-datepicker>
-      </div>
+      <div class="col-md-6 input-group"></div>
       <div class="col-md-6 input-group">
         <input
           type="text"
@@ -52,29 +44,6 @@
           <strong>Loading...</strong>
         </div>
       </template>
-      <template v-slot:cell(show_details)="row">
-        <b-button size="sm" @click="row.toggleDetails" class="mr-2"
-          >{{ row.detailsShowing ? "Hide" : "Show" }} Details</b-button
-        >
-      </template>
-
-      <template v-slot:row-details="row">
-        <b-card>
-          <b-row class="mb-2">
-            <b-col sm="3" class="text-sm-right">
-              <b>numTel:</b>
-            </b-col>
-            <b-col>{{ row.item.numTel }}</b-col>
-          </b-row>
-
-          <b-row class="mb-2">
-            <b-col sm="3" class="text-sm-right">
-              <b>gps_coordonnee:</b>
-            </b-col>
-            <b-col>{{ row.item.gps_coordonnee }}</b-col>
-          </b-row>
-        </b-card>
-      </template>
     </b-table>
     <b-pagination
       v-model="currentPage"
@@ -87,52 +56,65 @@
 </template>
 
 <script>
-import PageTitle from "../../Layout/Components/PageTitle";
+import PageTitle from "../../../Layout/Components/PageTitle";
 const axios = require("axios");
 
 export default {
   components: {
-    PageTitle
+    PageTitle,
   },
   data() {
     return {
-      value: "",
       heading: "Les agents",
       subheading:
         "This is an example dashboard created using build-in elements and components.",
       icon: "pe-7s-plane icon-gradient bg-tempting-azure",
-      title: "Nouvelle équipe",
-      link: "/nouvelle-equipe",
       fields: [
         {
-          key: "num",
-          label: "num",
+          key: "nom",
+          label: "nom",
           tdClass: "nameOfTheClass",
-          sortable: true
+          sortable: true,
+        },
+        {
+          key: "prenom",
+          label: "prenom",
+          tdClass: "nameOfTheClass",
+          sortable: true,
+        },
+        {
+          key: "username",
+          label: "username",
+          tdClass: "nameOfTheClass",
+          sortable: true,
+        },
+        {
+          key: "role",
+          label: "role",
+          tdClass: "nameOfTheClass",
+          sortable: true,
         },
         {
           key: "numTel",
-          label: "numero de telephone",
+          label: "numTel",
           tdClass: "nameOfTheClass",
-          sortable: true
         },
-        { key: "show_details", label: "Role", tdClass: "nameOfTheClass" }
       ],
       isBusy: false,
       items: [],
       limit: 5,
       rows: 0,
       currentPage: 1,
-      sort: "dateTimeAppel",
       sortBy: "",
-      search: ""
+      search: "",
+      value: "",
     };
   },
   methods: {
     getAllIntervention() {
       this.isBusy = true;
       var link =
-        "http://localhost:8000/API/getAllIntervention?limit=" +
+        "http://localhost:8000/API/getAllAgents?limit=" +
         this.limit +
         "&page=" +
         this.currentPage;
@@ -144,12 +126,12 @@ export default {
       }
       axios
         .post(link, {})
-        .then(res => {
-          this.items = res.data.data.interventions;
-          this.rows = res.data.data.interventions_total;
+        .then((res) => {
+          this.items = res.data.agents;
+          this.rows = res.data.agents_total;
           this.isBusy = false;
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     },
@@ -159,13 +141,9 @@ export default {
       } else this.sortBy = e.sortBy;
       this.getAllIntervention();
     },
-
-    hello() {
-      alert(this.currentPage);
-    }
   },
   created() {
     this.getAllIntervention();
-  }
+  },
 };
 </script>

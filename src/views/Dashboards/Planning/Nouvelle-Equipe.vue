@@ -158,7 +158,7 @@
 <style scoped></style>
 
 <script>
-import PageTitle from "../../Layout/Components/PageTitle";
+import PageTitle from "../../../Layout/Components/PageTitle";
 const axios = require("axios");
 const dialog = require("electron").remote.dialog;
 export default {

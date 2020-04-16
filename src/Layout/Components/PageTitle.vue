@@ -13,7 +13,7 @@
         </div>
       </div>
       <div class="page-title-actions">
-        <router-link :to="link">
+        <router-link :to="link" v-if="link">
           <button
             type="button"
             class="btn-shadow d-inline-flex align-items-center btn btn-success"
@@ -36,14 +36,14 @@ library.add(faStar, faPlus);
 
 export default {
   components: {
-    "font-awesome-icon": FontAwesomeIcon
+    "font-awesome-icon": FontAwesomeIcon,
   },
   props: {
     icon: String,
     heading: String,
     subheading: String,
     title: String,
-    link: String
-  }
+    link: String,
+  },
 };
 </script>
