@@ -173,7 +173,7 @@
 
 <script>
 import PageTitle from "../../../Layout/Components/PageTitle";
-const axios = require("axios");
+
 const dialog = require("electron").remote.dialog;
 
 export default {
@@ -240,7 +240,7 @@ export default {
       if (this.sortBy != "") {
         link = link + "&sort=" + this.sortBy;
       }
-      axios
+      this.$http
         .post(link, {})
         .then((res) => {
           this.items = res.data.engins;
@@ -267,7 +267,7 @@ export default {
         },
         (response) => {
           if (response == 0) {
-            axios
+            this.$http
               .post("http://localhost:8000/API/changeStatutPanne", {
                 id_engin: id_engin,
                 panne: statutPanne,
@@ -283,7 +283,7 @@ export default {
       );
     },
     createEngin() {
-      axios
+      this.$http
         .post("http://localhost:8000/API/createEngin", {
           code_name: this.code_name,
           matricule: this.matricule,
@@ -301,7 +301,7 @@ export default {
         });
     },
     updateEngin() {
-      axios
+      this.$http
         .post("http://localhost:8000/API/updateEngin", {
           id_engin: this.id_engin,
           code_name: this.code_name,
@@ -329,7 +329,7 @@ export default {
         },
         (response) => {
           if (response == 0) {
-            axios
+            this.$http
               .post("http://localhost:8000/API/deleteEngin", {
                 id_engin: id_engin,
               })

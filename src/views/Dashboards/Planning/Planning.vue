@@ -11,7 +11,7 @@
       <div class="col-md-6">
         <b-form-datepicker
           id="example-datepicker"
-          v-model="value"
+          v-model="date"
           class="mb-2"
         ></b-form-datepicker>
       </div>
@@ -23,11 +23,7 @@
           v-model="search"
         />
         <div class="input-group-append">
-          <button
-            class="btn btn-secondary"
-            type="button"
-            v-on:click="getAllIntervention"
-          >
+          <button class="btn btn-secondary" type="button" v-on:click="getTeams">
             <b-icon icon="search"></b-icon>
           </button>
         </div>
@@ -81,18 +77,17 @@
       :total-rows="rows"
       :per-page="limit"
       aria-controls="my-table"
-      v-on:click.native="getAllIntervention"
+      v-on:click.native="getTeams"
     ></b-pagination>
   </div>
 </template>
 
 <script>
 import PageTitle from "../../../Layout/Components/PageTitle";
-const axios = require("axios");
 
 export default {
   components: {
-    PageTitle
+    PageTitle,
   },
   data() {
     return {
@@ -105,18 +100,24 @@ export default {
       link: "/nouvelle-equipe",
       fields: [
         {
-          key: "num",
-          label: "num",
+          key: "engin",
+          label: "Engin Type",
           tdClass: "nameOfTheClass",
-          sortable: true
+          sortable: true,
+        },
+        {
+          key: "chef",
+          label: "chef d'agrée",
+          tdClass: "nameOfTheClass",
+          sortable: true,
         },
         {
           key: "numTel",
           label: "numero de telephone",
           tdClass: "nameOfTheClass",
-          sortable: true
+          sortable: true,
         },
-        { key: "show_details", label: "Role", tdClass: "nameOfTheClass" }
+        { key: "show_details", label: "Role", tdClass: "nameOfTheClass" },
       ],
       isBusy: false,
       items: [],
@@ -125,14 +126,16 @@ export default {
       currentPage: 1,
       sort: "dateTimeAppel",
       sortBy: "",
-      search: ""
+      search: "",
+      // #######################
+      date: "2020-04-02",
     };
   },
   methods: {
-    getAllIntervention() {
+    getTeams() {
       this.isBusy = true;
       var link =
-        "http://localhost:8000/API/getAllIntervention?limit=" +
+        "http://localhost:8000/API/getTeams?limit=" +
         this.limit +
         "&page=" +
         this.currentPage;
@@ -142,14 +145,17 @@ export default {
       if (this.sortBy != "") {
         link = link + "&sort=" + this.sortBy;
       }
-      axios
-        .post(link, {})
-        .then(res => {
-          this.items = res.data.data.interventions;
-          this.rows = res.data.data.interventions_total;
+      this.$http
+        .post(link, {
+          date: this.date,
+        })
+        .then((res) => {
+          console.log(res.data.teams.team);
+          this.items = res.data.teams.team;
+          this.rows = res.data.teams_total;
           this.isBusy = false;
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     },
@@ -157,15 +163,15 @@ export default {
       if (e.sortDesc) {
         this.sortBy = "-" + e.sortBy;
       } else this.sortBy = e.sortBy;
-      this.getAllIntervention();
+      this.getTeams();
     },
 
     hello() {
       alert(this.currentPage);
-    }
+    },
   },
   created() {
-    this.getAllIntervention();
-  }
+    this.getTeams();
+  },
 };
 </script>

@@ -18,8 +18,15 @@
               class="modal-title text-center"
               id="exampleModalLabel"
               style="width:100%;"
-            >Modifier Nœud</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            >
+              Modifier Nœud
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -27,7 +34,11 @@
             <div id="node_update_1">
               <div class="form-group">
                 <label for="Nom">Nom</label>
-                <input class="form-control" id="Nom" v-model="node_to_update.name" />
+                <input
+                  class="form-control"
+                  id="Nom"
+                  v-model="node_to_update.name"
+                />
               </div>
 
               <div class="form-group">
@@ -69,14 +80,14 @@
                       node_to_update.Conseils_instructions.splice(key, 1)
                     "
                     title="double-cliquez pour supprimer cet élément"
-                  >{{ instruction }}</option>
+                    >{{ instruction }}</option
+                  >
                 </select>
               </div>
 
               <div class="form-group">
                 <label for="Nom">
-                  Définir les moyens (Engins) pour cet cas
-                  d'intervention
+                  Définir les moyens (Engins) pour cet cas d'intervention
                 </label>
 
                 <select
@@ -93,7 +104,8 @@
                     v-for="(engin, key) in Engins"
                     :key="key"
                     :value="engin.name"
-                  >{{ engin.name }}</option>
+                    >{{ engin.name }}</option
+                  >
                 </select>
 
                 <select class="form-control" multiple>
@@ -106,14 +118,14 @@
                       node_to_update.decision.intern.splice(key, 1)
                     "
                     title="double-cliquez pour supprimer cet élément"
-                  >{{ engin }}</option>
+                    >{{ engin }}</option
+                  >
                 </select>
               </div>
 
               <div class="form-group">
                 <label for="Nom">
-                  Les établissements extern nécéssaire pour cette
-                  intervention
+                  Les établissements extern nécéssaire pour cette intervention
                 </label>
 
                 <select
@@ -130,7 +142,8 @@
                     v-for="(etablissement, key) in etablissement_extern"
                     :key="key"
                     :value="etablissement.name"
-                  >{{ etablissement.name }}</option>
+                    >{{ etablissement.name }}</option
+                  >
                 </select>
 
                 <select class="form-control" multiple>
@@ -159,20 +172,26 @@
               id="update_back"
               style="display:none;"
               v-on:click="modal_next_click(false)"
-            >Précédent</button>
+            >
+              Précédent
+            </button>
             <button
               type="button"
               class="btn btn-primary"
               id="update_next"
               v-on:click="modal_next_click(true)"
-            >suivant</button>
+            >
+              suivant
+            </button>
             <button
               type="button"
               class="btn btn-primary"
               id="update_submit"
               style="display:none;"
               v-on:click="submit_node_update()"
-            >Confirmer Les Modifications</button>
+            >
+              Confirmer Les Modifications
+            </button>
           </div>
         </div>
       </div>
@@ -190,8 +209,15 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title text-center" style="width:100%;">Ajouter un nouveau nœud</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <h5 class="modal-title text-center" style="width:100%;">
+              Ajouter un nouveau nœud
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -199,13 +225,22 @@
             <div id="node_add_1">
               <div class="form-group">
                 <label for="Nom">Nom</label>
-                <input class="form-control" id="Nom" v-model="node_to_add.name" />
+                <input
+                  class="form-control"
+                  id="Nom"
+                  v-model="node_to_add.name"
+                />
               </div>
 
               <div class="form-group">
                 <label for="Nom">Description</label>
 
-                <textarea cols="30" class="form-control" rows="4" v-model="node_to_add.description"></textarea>
+                <textarea
+                  cols="30"
+                  class="form-control"
+                  rows="4"
+                  v-model="node_to_add.description"
+                ></textarea>
               </div>
             </div>
 
@@ -234,14 +269,14 @@
                       node_to_add.Conseils_instructions.splice(key, 1)
                     "
                     title="double-cliquez pour supprimer cet élément"
-                  >{{ instruction }}</option>
+                    >{{ instruction }}</option
+                  >
                 </select>
               </div>
 
               <div class="form-group">
                 <label for="Nom">
-                  Définir les moyens (Engins) pour cet cas
-                  d'intervention
+                  Définir les moyens (Engins) pour cet cas d'intervention
                 </label>
 
                 <select
@@ -258,7 +293,8 @@
                     v-for="(engin, key) in Engins"
                     :key="key"
                     :value="engin.name"
-                  >{{ engin.name }}</option>
+                    >{{ engin.name }}</option
+                  >
                 </select>
 
                 <select class="form-control" multiple>
@@ -269,14 +305,14 @@
                     style="cursor: no-drop;"
                     v-on:dblclick="node_to_add.decision.intern.splice(key, 1)"
                     title="double-cliquez pour supprimer cet élément"
-                  >{{ engin }}</option>
+                    >{{ engin }}</option
+                  >
                 </select>
               </div>
 
               <div class="form-group">
                 <label for="Nom">
-                  Les établissements extern nécéssaire pour cette
-                  intervention
+                  Les établissements extern nécéssaire pour cette intervention
                 </label>
 
                 <select
@@ -293,7 +329,8 @@
                     v-for="(etablissement, key) in etablissement_extern"
                     :key="key"
                     :value="etablissement.name"
-                  >{{ etablissement.name }}</option>
+                    >{{ etablissement.name }}</option
+                  >
                 </select>
 
                 <select class="form-control" multiple>
@@ -319,27 +356,37 @@
               id="add_back"
               style="display:none;"
               v-on:click="add_modal_next_click(false)"
-            >Précédent</button>
+            >
+              Précédent
+            </button>
             <button
               type="button"
               class="btn btn-primary"
               id="add_next"
               v-on:click="add_modal_next_click(true)"
-            >suivant</button>
+            >
+              suivant
+            </button>
             <button
               type="button"
               class="btn btn-primary"
               id="add_submit"
               style="display:none;"
               v-on:click="submit_node()"
-            >Ajouter</button>
+            >
+              Ajouter
+            </button>
           </div>
         </div>
       </div>
     </div>
 
     <div class="d-flex justify-content-center">
-      <div class="search-wrapper" v-bind:class="{ active: searchOpen }" style="width: auto;">
+      <div
+        class="search-wrapper"
+        v-bind:class="{ active: searchOpen }"
+        style="width: auto;"
+      >
         <div class="input-holder" style="width: 500px;">
           <input
             v-model="numTelInput"
@@ -374,7 +421,11 @@
                 label-align-sm="right"
                 label-for="nested-street"
               >
-                <b-form-input id="nested-street" v-model="numTel" readonly></b-form-input>
+                <b-form-input
+                  id="nested-street"
+                  v-model="numTel"
+                  readonly
+                ></b-form-input>
               </b-form-group>
 
               <b-form-group
@@ -383,7 +434,11 @@
                 label-align-sm="right"
                 label-for="nested-city"
               >
-                <b-form-input id="nested-city" v-model="GpsAdresse" readonly></b-form-input>
+                <b-form-input
+                  id="nested-city"
+                  v-model="GpsAdresse"
+                  readonly
+                ></b-form-input>
               </b-form-group>
 
               <b-form-group
@@ -412,8 +467,15 @@
                 <b-form-input id="nested-state" v-model="lieu"></b-form-input>
               </b-form-group>
 
-              <b-form-group label-cols-sm="3" label-align-sm="right" class="mb-0">
-                <b-form-radio-group class="pt-2" :options="['En Ville', 'Hors Ville']"></b-form-radio-group>
+              <b-form-group
+                label-cols-sm="3"
+                label-align-sm="right"
+                class="mb-0"
+              >
+                <b-form-radio-group
+                  class="pt-2"
+                  :options="['En Ville', 'Hors Ville']"
+                ></b-form-radio-group>
               </b-form-group>
             </b-form-group>
           </b-card>
@@ -445,7 +507,8 @@
                       style="cursor:pointer"
                       class="text-primary"
                       v-on:click="selecteNodeFromPath(selected_node._id)"
-                    >{{ selected_node.name }}</span>
+                      >{{ selected_node.name }}</span
+                    >
                   </li>
 
                   <img
@@ -499,7 +562,9 @@
                                   <div
                                     class="widget-heading"
                                     style="padding-left:25px;"
-                                  >{{ node.name }}</div>
+                                  >
+                                    {{ node.name }}
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -519,7 +584,10 @@
                 <div v-if="selected_node_display != null">
                   <div id="description">
                     <ol class="breadcrumb" style="padding:5px;">
-                      <span style="cursor:pointer" class="text-success text-capitalize">
+                      <span
+                        style="cursor:pointer"
+                        class="text-success text-capitalize"
+                      >
                         <b>Description :</b>
                       </span>
                       <img
@@ -540,13 +608,18 @@
                     </ol>
 
                     <div class="row">
-                      <p class="col-12 pl-4">{{ selected_node_display.description }}</p>
+                      <p class="col-12 pl-4">
+                        {{ selected_node_display.description }}
+                      </p>
                     </div>
                   </div>
 
                   <div id="Conseils_instructions">
                     <ol class="breadcrumb" style="padding:5px;">
-                      <span style="cursor:pointer" class="text-success text-capitalize">
+                      <span
+                        style="cursor:pointer"
+                        class="text-success text-capitalize"
+                      >
                         <b>Conseils et instructions :</b>
                       </span>
                     </ol>
@@ -558,7 +631,9 @@
                           key) in selected_node_display.Conseils_instructions"
                           :key="key"
                           style="margin-bottom:3px;"
-                        >- {{ instruction }}</p>
+                        >
+                          - {{ instruction }}
+                        </p>
                       </div>
 
                       <div class="col-4">
@@ -569,7 +644,10 @@
 
                   <div id="intern_decision">
                     <ol class="breadcrumb" style="padding:5px;">
-                      <span style="cursor:pointer" class="text-success text-capitalize">
+                      <span
+                        style="cursor:pointer"
+                        class="text-success text-capitalize"
+                      >
                         <b>Moyen D'intervention Recommandée</b>
                       </span>
                     </ol>
@@ -591,7 +669,10 @@
 
                   <div id="extern_decision">
                     <ol class="breadcrumb" style="padding:5px;">
-                      <span style="cursor:pointer" class="text-success text-capitalize">
+                      <span
+                        style="cursor:pointer"
+                        class="text-success text-capitalize"
+                      >
                         <b>Intervention Externe Recommandée</b>
                       </span>
                     </ol>
@@ -629,11 +710,10 @@ import {
   faCalendarAlt,
   faAngleDown,
   faAngleUp,
-  faTh
+  faTh,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(faTrashAlt, faCheck, faAngleDown, faAngleUp, faTh, faCalendarAlt);
-const axios = require("axios");
 
 export default {
   components: {},
@@ -664,20 +744,20 @@ export default {
       { name: "Police" },
       { name: "Gendarmerie" },
       { name: "Conservation des forêts" },
-      { name: "Hopital" }
+      { name: "Hopital" },
     ],
     node_to_add: {
       decision: {
         intern: [],
-        extern: []
+        extern: [],
       },
       icon: "",
       Conseils_instructions: [],
 
       name: "",
       description: "",
-      parent_id: null
-    }
+      parent_id: null,
+    },
   }),
 
   methods: {
@@ -685,17 +765,17 @@ export default {
       console.log(engin);
     },
     getAllEngins() {
-      axios
+      this.$http
         .get("http://localhost:8000/api/engin/")
-        .then(res => {
+        .then((res) => {
           this.Engins = res.data.data;
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error.message);
           this.$swal.fire({
             icon: "error",
             title: "Oops...",
-            text: error.response.data.message
+            text: error.response.data.message,
           });
         });
     },
@@ -753,25 +833,25 @@ export default {
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
             confirmButtonText: "Oui!",
-            cancelButtonText: "Annuler"
+            cancelButtonText: "Annuler",
           })
-          .then(result => {
+          .then((result) => {
             if (result.value) {
-              axios
+              this.$http
                 .post("http://localhost:8000/API/getAppel", {
-                  numTel: this.numTelInput
+                  numTel: this.numTelInput,
                 })
-                .then(res => {
+                .then((res) => {
                   this.numTel = this.numTelInput;
                   this.numTelInput = "";
                   console.log(res);
                 })
-                .catch(error => {
+                .catch((error) => {
                   console.log(error.message);
                   this.$swal.fire({
                     icon: "error",
                     title: "Oops...",
-                    text: error.response.data.message
+                    text: error.response.data.message,
                   });
                 });
             }
@@ -779,17 +859,17 @@ export default {
       }
     },
     getCurrentLevel() {
-      axios
+      this.$http
         .get("http://localhost:8000/api/tree/nodes/" + this.parent_node_id)
-        .then(res => {
+        .then((res) => {
           this.current_level = res.data.data;
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error.message);
           this.$swal.fire({
             icon: "error",
             title: "Oops...",
-            text: error.response.data.message
+            text: error.response.data.message,
           });
         });
     },
@@ -803,17 +883,17 @@ export default {
       this.selected_node = node;
     },
     getNodePath() {
-      axios
+      this.$http
         .get("http://localhost:8000/api/tree/path/" + this.parent_node_id)
-        .then(res => {
+        .then((res) => {
           this.selected_path = res.data.data.reverse();
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error.message);
           this.$swal.fire({
             icon: "error",
             title: "Oops...",
-            text: error.response.data.message
+            text: error.response.data.message,
           });
         });
     },
@@ -831,53 +911,53 @@ export default {
       }
     },
     submit_node_update() {
-      axios
+      this.$http
         .put(
           "http://localhost:8000/api/tree/" + this.parent_node_id,
           this.node_to_update
         )
-        .then(res => {
+        .then((res) => {
           this.selected_node = res.data.data;
           this.selected_node_display = this.selected_node;
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error.message);
           this.$swal.fire({
             icon: "error",
             title: "Oops...",
-            text: error.response.data.message
+            text: error.response.data.message,
           });
         });
     },
     submit_node() {
       this.node_to_add.parent_id = this.parent_node_id;
-      axios
+      this.$http
         .post("http://localhost:8000/api/tree/", this.node_to_add)
-        .then(res => {
+        .then((res) => {
           this.parent_node_id = res.data.data._id;
 
           this.node_to_add = {
             decision: {
               intern: [],
-              extern: []
+              extern: [],
             },
             icon: "",
             Conseils_instructions: [],
 
             name: "",
             description: "",
-            parent_id: null
+            parent_id: null,
           };
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error.message);
           this.$swal.fire({
             icon: "error",
             title: "Oops...",
-            text: error.response.data.message
+            text: error.response.data.message,
           });
         });
-    }
+    },
   },
 
   watch: {
@@ -914,19 +994,19 @@ export default {
       var tmp = [...new Set(this.node_to_update.decision.extern)];
       if (tmp.length != this.node_to_update.decision.extern.length)
         this.node_to_update.decision.extern = tmp;
-    }
+    },
   },
   computed: {
     randomKey: function() {
       return Math.ceil(Math.random() * 10);
-    }
+    },
   },
   created() {
     this.getAllEngins();
     this.getCurrentLevel();
 
     //this.current_level =
-  }
+  },
 };
 </script>
 <style scoped>

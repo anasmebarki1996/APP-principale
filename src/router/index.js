@@ -1,13 +1,11 @@
 import Vue from "vue";
+import axios from "axios";
 import VueRouter from "vue-router";
-// import Dashboard from "./../App.vue";
 import VueCookies from "vue-cookies";
 
 Vue.use(VueCookies);
 
 Vue.use(VueRouter);
-
-const axios = require("axios");
 
 const routes = [
   // Dashboards
@@ -47,6 +45,11 @@ const routes = [
     path: "/nouveau-agent",
     name: "Nouveau Agent",
     component: () => import("../views/Dashboards/Agent/Nouveau-Agent.vue"),
+  },
+  {
+    path: "/modifier-agent",
+    name: "Modifier Agent",
+    component: () => import("../views/Dashboards/Agent/Modifier-Agent.vue"),
   },
 
   // Engin

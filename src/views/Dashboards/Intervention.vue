@@ -80,8 +80,6 @@
 
 <script>
 import PageTitle from "../../Layout/Components/PageTitle";
-const axios = require("axios");
-
 export default {
   components: {
     PageTitle,
@@ -133,7 +131,7 @@ export default {
       if (this.sortBy != "") {
         link = link + "&sort=" + this.sortBy;
       }
-      axios
+      this.$http
         .post(link, {})
         .then((res) => {
           this.items = res.data.interventions;

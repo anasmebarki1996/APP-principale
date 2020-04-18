@@ -35,7 +35,15 @@
       @sort-changed="foo"
       show-empty
     >
-      <template v-slot:empty="">
+      <template v-slot:cell(show_details)="data">
+        <b-button variant="success" v-on:click="updateAgent(data.item._id)">
+          <font-awesome-icon icon="edit" />
+        </b-button>
+        <b-button variant="danger" v-on:click="deleteAgent(data.item._id)">
+          <font-awesome-icon icon="trash" />
+        </b-button>
+      </template>
+      <template v-slot:empty>
         <h4 class="d-flex justify-content-center">table vide</h4>
       </template>
       <template v-slot:table-busy>
@@ -57,7 +65,6 @@
 
 <script>
 import PageTitle from "../../../Layout/Components/PageTitle";
-const axios = require("axios");
 
 export default {
   components: {
@@ -68,7 +75,7 @@ export default {
       heading: "Les agents",
       subheading:
         "This is an example dashboard created using build-in elements and components.",
-      icon: "pe-7s-plane icon-gradient bg-tempting-azure",
+      icon: "pe-7s-users icon-gradient bg-tempting-azure",
       fields: [
         {
           key: "nom",
@@ -99,6 +106,11 @@ export default {
           label: "numTel",
           tdClass: "nameOfTheClass",
         },
+        {
+          key: "show_details",
+          label: "",
+          tdClass: "nameOfTheClass",
+        },
       ],
       isBusy: false,
       items: [],
@@ -124,7 +136,7 @@ export default {
       if (this.sortBy != "") {
         link = link + "&sort=" + this.sortBy;
       }
-      axios
+      this.$http
         .post(link, {})
         .then((res) => {
           this.items = res.data.agents;
@@ -140,6 +152,12 @@ export default {
         this.sortBy = "-" + e.sortBy;
       } else this.sortBy = e.sortBy;
       this.getAllIntervention();
+    },
+    updateAgent(idAgent) {
+      this.$router.push({
+        path: "/modifier-agent",
+        query: { idAgent: idAgent },
+      });
     },
   },
   created() {
