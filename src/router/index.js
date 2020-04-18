@@ -57,7 +57,6 @@ const routes = [
     component: () => import("../views/Dashboards/Nouvelle-Equipe.vue")
   },
   // Pages
-
   {
     path: "/login",
     name: "login",
