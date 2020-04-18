@@ -80,11 +80,9 @@
 
 <script>
 import PageTitle from "../../Layout/Components/PageTitle";
-const axios = require("axios");
-
 export default {
   components: {
-    PageTitle
+    PageTitle,
   },
   data() {
     return {
@@ -99,15 +97,15 @@ export default {
           key: "num",
           label: "num",
           tdClass: "nameOfTheClass",
-          sortable: true
+          sortable: true,
         },
         {
           key: "numTel",
           label: "numero de telephone",
           tdClass: "nameOfTheClass",
-          sortable: true
+          sortable: true,
         },
-        { key: "show_details", label: "Role", tdClass: "nameOfTheClass" }
+        { key: "show_details", label: "Role", tdClass: "nameOfTheClass" },
       ],
       isBusy: false,
       items: [],
@@ -116,7 +114,7 @@ export default {
       currentPage: 1,
       sort: "dateTimeAppel",
       sortBy: "",
-      search: ""
+      search: "",
     };
   },
   methods: {
@@ -133,14 +131,14 @@ export default {
       if (this.sortBy != "") {
         link = link + "&sort=" + this.sortBy;
       }
-      axios
+      this.$http
         .post(link, {})
-        .then(res => {
-          this.items = res.data.data.interventions;
-          this.rows = res.data.data.interventions_total;
+        .then((res) => {
+          this.items = res.data.interventions;
+          this.rows = res.data.interventions_total;
           this.isBusy = false;
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     },
@@ -153,10 +151,10 @@ export default {
 
     hello() {
       alert(this.currentPage);
-    }
+    },
   },
   created() {
     this.getAllIntervention();
-  }
+  },
 };
 </script>

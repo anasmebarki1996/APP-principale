@@ -32,9 +32,9 @@
                 v-on:change="stateChauffeur = null"
               ></b-form-input>
               <datalist id="listChauffeur">
-                <option v-for="agent in listAgents" :key="agent">{{
-                  agent
-                }}</option>
+                <option v-for="agent in listAgents" :key="agent">
+                  {{ agent }}
+                </option>
               </datalist>
             </b-form-group>
 
@@ -52,9 +52,9 @@
                 list="listEngin"
               ></b-form-input>
               <datalist id="listEngin">
-                <option v-for="agent in listAgents" :key="agent">{{
-                  agent
-                }}</option>
+                <option v-for="engin in listEngins" :key="engin">
+                  {{ engin }}
+                </option>
               </datalist>
             </b-form-group>
           </b-form-group>
@@ -80,9 +80,9 @@
                 list="listChef"
               ></b-form-input>
               <datalist id="listChef">
-                <option v-for="agent in listAgents" :key="agent">{{
-                  agent
-                }}</option>
+                <option v-for="agent in listAgents" :key="agent">
+                  {{ agent }}
+                </option>
               </datalist>
             </b-form-group>
           </b-form-group>
@@ -115,9 +115,9 @@
                     :list="`listNomAgent${index}`"
                   ></b-form-input>
                   <datalist :id="`listNomAgent${index}`">
-                    <option v-for="agent in listAgents" :key="agent">{{
-                      agent
-                    }}</option>
+                    <option v-for="agent in listAgents" :key="agent">
+                      {{ agent }}
+                    </option>
                   </datalist>
                 </div>
                 <div class="col-md-1">
@@ -141,7 +141,7 @@
       </div>
 
       <b-card bg-variant="light" class="col-md-5">
-        <b-calendar v-model="date" locale="fr" block> </b-calendar>
+        <b-calendar v-model="date" locale="fr" block></b-calendar>
       </b-card>
     </div>
 
@@ -158,12 +158,12 @@
 <style scoped></style>
 
 <script>
-import PageTitle from "../../Layout/Components/PageTitle";
-const axios = require("axios");
+import PageTitle from "../../../Layout/Components/PageTitle";
+
 const dialog = require("electron").remote.dialog;
 export default {
   components: {
-    PageTitle
+    PageTitle,
   },
   data() {
     return {
@@ -190,7 +190,8 @@ export default {
       numberOfDiv: 0,
       numberInput: 3,
       //##########
-      listAgents: []
+      listAgents: [],
+      listEngins: [],
     };
   },
   methods: {
@@ -298,26 +299,29 @@ export default {
             agents.push({ agent: this.nomAgent[i], type: "secours" });
           }
         }
-        axios
+        this.$http
           .post("http://localhost:8000/API/addTeam", {
             agents: agents,
             engin: this.engin,
-            date: this.date
+            date: this.date,
           })
-          .then(res => {
+          .then((res) => {
             console.log(res);
             this.$bvToast.toast("Toast body content", {
               title: `Variant`,
               variant: "success",
-              solid: true
+              solid: true,
             });
             this.reset();
           });
       }
     },
     getAgents() {
-      axios.post("http://localhost:8000/API/searchAgent").then(res => {
-        this.listAgents = res.data.agents.map(el => el.result);
+      this.$http.post("http://localhost:8000/API/searchAgent").then((res) => {
+        this.listAgents = res.data.agents.map((el) => el.result);
+      });
+      this.$http.post("http://localhost:8000/API/searchEngin").then((res) => {
+        this.listEngins = res.data.engins.map((el) => el.result);
       });
     },
     reset() {
@@ -331,12 +335,12 @@ export default {
       for (var i = 1; i <= this.numberOfDiv; i++) {
         this.nomAgent[i] = "";
       }
-    }
+    },
   },
   created() {},
   mounted() {
     this.getLastElementChild();
     this.getAgents();
-  }
+  },
 };
 </script>

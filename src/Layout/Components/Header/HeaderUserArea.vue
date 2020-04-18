@@ -73,7 +73,6 @@
 //   faFileArchive,
 //   faEllipsisH
 // );
-const axios = require("axios");
 
 export default {
   components: {},
@@ -85,7 +84,7 @@ export default {
 
   methods: {
     logout() {
-      axios
+      this.$http
         .post("http://localhost:8000/API/logout", {})
         .then(() => {
           this.$store.commit("delete_agent");

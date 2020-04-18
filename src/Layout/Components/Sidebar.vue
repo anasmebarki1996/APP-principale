@@ -11,7 +11,7 @@
         style="width:50px"
         alt="meeeeee"
       />
-      protection civil -->
+      protection civil-->
 
       <div class="header__pane ml-auto">
         <button
@@ -88,20 +88,8 @@ export default {
               title: "Les agents"
             },
             {
-              href: "/nouvelle-agent",
-              title: "Nouveau agent"
-            },
-            {
-              href: "/modifier-agent",
-              title: "Modifier Agent"
-            },
-            {
-              href: "/test",
-              title: "test"
-            },
-            {
-              href: "/statistque-agent",
-              title: "Statistique agent"
+              href: "/nouveau-agent",
+              title: "Nouveau Agent"
             }
           ]
         },
@@ -110,24 +98,8 @@ export default {
           icon: "pe-7s-car",
           child: [
             {
-              href: "/engins",
-              title: "Les engins"
-            },
-            {
-              href: "/nouvelle-agent",
-              title: "Nouveau agent"
-            },
-            {
-              href: "/modifier-agent",
-              title: "Modifier Agent"
-            },
-            {
-              href: "/test",
-              title: "test"
-            },
-            {
-              href: "/statistque-agent",
-              title: "Statistique agent"
+              href: "/engin",
+              title: "Engin"
             }
           ]
         },

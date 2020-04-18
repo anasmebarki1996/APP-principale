@@ -4,12 +4,14 @@
       :heading="heading"
       :subheading="subheading"
       :icon="icon"
+      :title="title"
+      :link="link"
     ></page-title>
     <div class="row">
       <div class="col-md-6">
         <b-form-datepicker
           id="example-datepicker"
-          v-model="value"
+          v-model="date"
           class="mb-2"
         ></b-form-datepicker>
       </div>
@@ -21,17 +23,12 @@
           v-model="search"
         />
         <div class="input-group-append">
-          <button
-            class="btn btn-secondary"
-            type="button"
-            v-on:click="getAllIntervention"
-          >
+          <button class="btn btn-secondary" type="button" v-on:click="getTeams">
             <b-icon icon="search"></b-icon>
           </button>
         </div>
       </div>
     </div>
-
     <b-table
       :items="items"
       :fields="fields"
@@ -80,14 +77,13 @@
       :total-rows="rows"
       :per-page="limit"
       aria-controls="my-table"
-      v-on:click.native="getAllIntervention"
+      v-on:click.native="getTeams"
     ></b-pagination>
   </div>
 </template>
 
 <script>
-import PageTitle from "../../Layout/Components/PageTitle";
-const axios = require("axios");
+import PageTitle from "../../../Layout/Components/PageTitle";
 
 export default {
   components: {
@@ -95,14 +91,23 @@ export default {
   },
   data() {
     return {
+      value: "",
       heading: "Les agents",
       subheading:
         "This is an example dashboard created using build-in elements and components.",
       icon: "pe-7s-plane icon-gradient bg-tempting-azure",
+      title: "Nouvelle équipe",
+      link: "/nouvelle-equipe",
       fields: [
         {
-          key: "num",
-          label: "num",
+          key: "engin",
+          label: "Engin Type",
+          tdClass: "nameOfTheClass",
+          sortable: true,
+        },
+        {
+          key: "chef",
+          label: "chef d'agrée",
           tdClass: "nameOfTheClass",
           sortable: true,
         },
@@ -122,13 +127,15 @@ export default {
       sort: "dateTimeAppel",
       sortBy: "",
       search: "",
+      // #######################
+      date: "2020-04-02",
     };
   },
   methods: {
-    getAllIntervention() {
+    getTeams() {
       this.isBusy = true;
       var link =
-        "http://localhost:8000/API/getAllIntervention?limit=" +
+        "http://localhost:8000/API/getTeams?limit=" +
         this.limit +
         "&page=" +
         this.currentPage;
@@ -138,11 +145,14 @@ export default {
       if (this.sortBy != "") {
         link = link + "&sort=" + this.sortBy;
       }
-      axios
-        .post(link, {})
+      this.$http
+        .post(link, {
+          date: this.date,
+        })
         .then((res) => {
-          this.items = res.data.data.interventions;
-          this.rows = res.data.data.interventions_total;
+          console.log(res.data.teams.team);
+          this.items = res.data.teams.team;
+          this.rows = res.data.teams_total;
           this.isBusy = false;
         })
         .catch((err) => {
@@ -153,7 +163,7 @@ export default {
       if (e.sortDesc) {
         this.sortBy = "-" + e.sortBy;
       } else this.sortBy = e.sortBy;
-      this.getAllIntervention();
+      this.getTeams();
     },
 
     hello() {
@@ -161,7 +171,7 @@ export default {
     },
   },
   created() {
-    this.getAllIntervention();
+    this.getTeams();
   },
 };
 </script>

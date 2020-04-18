@@ -72,7 +72,6 @@
 </style>
 <script>
 // @ is an alias to /src
-const axios = require("axios");
 
 export default {
   name: "Login",
@@ -93,7 +92,7 @@ export default {
     onSubmit() {
       this.checkInput();
       if (this.stateUsername != false && this.statePassword != false) {
-        axios
+        this.$http
           .post("http://localhost:8000/API/login", {
             username: this.username,
             password: this.password,
@@ -124,7 +123,7 @@ export default {
       }
     },
     getMessage() {
-      axios.get("http://localhost:8000/API/conversation").then((res) => {
+      this.$http.get("http://localhost:8000/API/conversation").then((res) => {
         this.messages = res.data.data.conversations[0].message;
       });
     },

@@ -31,33 +31,33 @@
 import Header from "../Components/Header";
 import Sidebar from "../Components/Sidebar";
 import Footer from "../Components/Footer";
-const axios = require("axios");
+
 export default {
   name: "app",
   components: {
     Header,
     Sidebar,
-    Footer
+    Footer,
   },
   data() {
     return {
       agent: {},
       nom: "anas",
-      role: "agent"
+      role: "agent",
     };
   },
   methods: {
     logout() {
-      axios
+      this.$http
         .post("http://localhost:8000/API/logout", {})
         .then(() => {
           this.$store.commit("delete_agent");
           this.$router.push({ path: "/login" });
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
-    }
+    },
   },
   mounted() {
     this.agent = this.$store.getters;
@@ -65,6 +65,6 @@ export default {
       this.nom = this.agent.get_agent_nom;
       this.role = this.agent.get_agent_role;
     } else this.logout();
-  }
+  },
 };
 </script>

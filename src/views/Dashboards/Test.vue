@@ -43,11 +43,10 @@ import {
   faCalendarAlt,
   faAngleDown,
   faAngleUp,
-  faTh
+  faTh,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(faTrashAlt, faCheck, faAngleDown, faAngleUp, faTh, faCalendarAlt);
-const axios = require("axios");
 
 export default {
   components: {},
@@ -62,21 +61,21 @@ export default {
         key: "dateTimeAppel",
         label: "Email",
         tdClass: "nameOfTheClass",
-        sortable: true
+        sortable: true,
       },
       {
         key: "gps_coordonnee",
         label: "Name",
         tdClass: "nameOfTheClass",
-        sortable: true
+        sortable: true,
       },
-      { key: "show_details", label: "Role", tdClass: "nameOfTheClass" }
+      { key: "show_details", label: "Role", tdClass: "nameOfTheClass" },
     ],
 
     heading: "Analytics Dashboard",
     subheading:
       "This is an example dashboard created using build-in elements and components.",
-    icon: "pe-7s-plane icon-gradient bg-tempting-azure"
+    icon: "pe-7s-plane icon-gradient bg-tempting-azure",
   }),
 
   methods: {
@@ -90,18 +89,18 @@ export default {
           ctx.sortDesc ? "desc" : "asc"
         }`;
       }
-      return axios
+      return this.$http
         .post(url, {})
-        .then(res => {
+        .then((res) => {
           // console.log(res.data.data.interventions);
           this.isBusy = false;
           return res.data.data.interventions;
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
-    }
+    },
   },
-  created() {}
+  created() {},
 };
 </script>
