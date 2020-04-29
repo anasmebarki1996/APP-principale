@@ -300,7 +300,7 @@ export default {
           }
         }
         this.$http
-          .post("http://localhost:8000/API/addTeam", {
+          .post("http://localhost:8000/API/planning/addTeam", {
             agents: agents,
             engin: this.engin,
             date: this.date,
