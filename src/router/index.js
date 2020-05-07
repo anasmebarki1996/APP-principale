@@ -82,6 +82,11 @@ const routes = [
     name: "Nouvelle équipe",
     component: () => import("../views/Dashboards/Planning/Nouvelle-Equipe.vue"),
   },
+  {
+    path: "/modifier-equipe",
+    name: "Modifier équipe",
+    component: () => import("../views/Dashboards/Planning/Modifier-Equipe.vue"),
+  },
   // Pages
   /*{
     path: "/login",

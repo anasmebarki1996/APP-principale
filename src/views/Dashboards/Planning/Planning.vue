@@ -23,7 +23,11 @@
           v-model="search"
         />
         <div class="input-group-append">
-          <button class="btn btn-secondary" type="button" v-on:click="getTeams">
+          <button
+            class="btn btn-secondary"
+            type="button"
+            v-on:click="getPlanning"
+          >
             <b-icon icon="search"></b-icon>
           </button>
         </div>
@@ -48,26 +52,87 @@
           <strong>Loading...</strong>
         </div>
       </template>
-      <template v-slot:cell(show_details)="row">
-        <b-button size="sm" @click="row.toggleDetails" class="mr-2"
-          >{{ row.detailsShowing ? "Hide" : "Show" }} Details</b-button
-        >
+
+      <template v-slot:cell(engin.code_name)="data">
+        {{ data.item.engin.code_name }}
       </template>
 
-      <template v-slot:row-details="row">
+      <template v-slot:cell(chef)="data">
+        <div v-for="agents in data.item.agents" :key="agents._id">
+          <div v-if="agents.type == 'chef'">
+            {{ agents.nom }} {{ agents.prenom }}
+          </div>
+        </div>
+      </template>
+
+      <template v-slot:cell(numTel)="data">
+        <div v-for="agents in data.item.agents" :key="agents._id">
+          <div v-if="agents.type == 'chef'">{{ agents.numTel }}</div>
+        </div>
+      </template>
+
+      <template v-slot:cell(show_details)="data">
+        <b-button variant="danger" v-on:click="deleteTeam(data.item._id)"
+          ><font-awesome-icon icon="trash" />
+        </b-button>
+        <b-button variant="success" v-on:click="openUpdateEquipe(data.item._id)"
+          ><font-awesome-icon icon="edit"
+        /></b-button>
+        <b-button @click="data.toggleDetails" class="mr-2"
+          >{{ data.detailsShowing ? "Moins" : "Plus" }}
+        </b-button>
+      </template>
+
+      <template v-slot:row-details="data">
         <b-card>
           <b-row class="mb-2">
             <b-col sm="3" class="text-sm-right">
-              <b>numTel:</b>
+              <b>Chef d'agrée :</b>
             </b-col>
-            <b-col>{{ row.item.numTel }}</b-col>
-          </b-row>
 
+            <b-col>
+              <div v-for="agents in data.item.agents" :key="agents._id">
+                <div v-if="agents.type == 'chef'">
+                  {{ agents.nom }} {{ agents.prenom }} --- {{ agents.numTel }}
+                </div>
+              </div>
+            </b-col>
+          </b-row>
           <b-row class="mb-2">
             <b-col sm="3" class="text-sm-right">
-              <b>gps_coordonnee:</b>
+              <b>Chauffeur :</b>
             </b-col>
-            <b-col>{{ row.item.gps_coordonnee }}</b-col>
+
+            <b-col>
+              <div v-for="agents in data.item.agents" :key="agents._id">
+                <div v-if="agents.type == 'chauffeur'">
+                  {{ agents.nom }} {{ agents.prenom }} --- {{ agents.numTel }}
+                </div>
+              </div>
+            </b-col>
+          </b-row>
+          <b-row class="mb-2">
+            <b-col sm="3" class="text-sm-right">
+              <b>Engin :</b>
+            </b-col>
+
+            <b-col>
+              {{ data.item.engin.code_name }} ---
+              {{ data.item.engin.matricule }}
+            </b-col>
+          </b-row>
+          <b-row class="mb-2">
+            <b-col sm="3" class="text-sm-right">
+              <b>Secours :</b>
+            </b-col>
+
+            <b-col>
+              <div v-for="agents in data.item.agents" :key="agents._id">
+                <div v-if="agents.type == 'secours'">
+                  {{ agents.nom }} {{ agents.prenom }} --- {{ agents.numTel }}
+                </div>
+              </div>
+            </b-col>
           </b-row>
         </b-card>
       </template>
@@ -77,13 +142,14 @@
       :total-rows="rows"
       :per-page="limit"
       aria-controls="my-table"
-      v-on:click.native="getTeams"
+      v-on:click.native="getPlanning"
     ></b-pagination>
   </div>
 </template>
 
 <script>
 import PageTitle from "../../../Layout/Components/PageTitle";
+const dialog = require("electron").remote.dialog;
 
 export default {
   components: {
@@ -100,7 +166,7 @@ export default {
       link: "/nouvelle-equipe",
       fields: [
         {
-          key: "engin",
+          key: "engin.code_name",
           label: "Engin Type",
           tdClass: "nameOfTheClass",
           sortable: true,
@@ -109,15 +175,13 @@ export default {
           key: "chef",
           label: "chef d'agrée",
           tdClass: "nameOfTheClass",
-          sortable: true,
         },
         {
           key: "numTel",
           label: "numero de telephone",
           tdClass: "nameOfTheClass",
-          sortable: true,
         },
-        { key: "show_details", label: "Role", tdClass: "nameOfTheClass" },
+        { key: "show_details", label: "", tdClass: "nameOfTheClass" },
       ],
       isBusy: false,
       items: [],
@@ -132,10 +196,10 @@ export default {
     };
   },
   methods: {
-    getTeams() {
+    getPlanning() {
       this.isBusy = true;
       var link =
-        "http://localhost:8000/API/getTeams?limit=" +
+        "http://localhost:8000/API/planning/getPlanning?limit=" +
         this.limit +
         "&page=" +
         this.currentPage;
@@ -150,8 +214,7 @@ export default {
           date: this.date,
         })
         .then((res) => {
-          console.log(res.data.teams.team);
-          this.items = res.data.teams.team;
+          this.items = res.data.teams;
           this.rows = res.data.teams_total;
           this.isBusy = false;
         })
@@ -163,15 +226,41 @@ export default {
       if (e.sortDesc) {
         this.sortBy = "-" + e.sortBy;
       } else this.sortBy = e.sortBy;
-      this.getTeams();
+      this.getPlanning();
     },
 
-    hello() {
-      alert(this.currentPage);
+    deleteTeam(idTeam) {
+      dialog.showMessageBox(
+        {
+          title: "Supprimer un engin",
+          buttons: ["&Yes", "&No", "&Cancel"],
+          message: "Vous etes sur?",
+        },
+        (response) => {
+          if (response == 0) {
+            this.$http
+              .post("http://localhost:8000/API/planning/deleteTeam", {
+                idTeam: idTeam,
+              })
+              .then(() => {
+                this.getPlanning();
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          }
+        }
+      );
+    },
+    openUpdateEquipe(idTeam) {
+      this.$router.push({
+        path: "/modifier-equipe",
+        query: { idTeam: idTeam },
+      });
     },
   },
   created() {
-    this.getTeams();
+    this.getPlanning();
   },
 };
 </script>
