@@ -1,5 +1,5 @@
 import Vue from "vue";
-import axios from "axios";
+//import axios from "axios";
 import VueRouter from "vue-router";
 import VueCookies from "vue-cookies";
 
@@ -9,6 +9,17 @@ Vue.use(VueRouter);
 
 const routes = [
   // Dashboards
+  {
+    path: "/intervention/addnode",
+    name: "addNode",
+    component: () => import("../views/Dashboards/Intervention/addNode.vue"),
+    props:true
+  },
+  {
+    path: "/intervention/updatenode",
+    name: "updateNode",
+    component: () => import("../views/Dashboards/Intervention/updateNode.vue"),
+  },
   {
     path: "/intervention",
     name: "intervention",
@@ -72,7 +83,7 @@ const routes = [
     component: () => import("../views/Dashboards/Planning/Nouvelle-Equipe.vue"),
   },
   // Pages
-  {
+  /*{
     path: "/login",
     name: "login",
     meta: {
@@ -87,7 +98,7 @@ const routes = [
       layout: "userpages",
     },
     component: () => import("../views/auth/RegisterBoxed.vue"),
-  },
+  },*/
 
   // Elements
 
@@ -227,7 +238,7 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes,
 });
-
+/*
 router.beforeEach(async (to, from, next) => {
   let resp = await axios
     .post("http://localhost:8000/API/checkToken")
@@ -249,6 +260,6 @@ router.beforeEach(async (to, from, next) => {
       next();
     }
   }
-});
+});*/
 
 export default router;
