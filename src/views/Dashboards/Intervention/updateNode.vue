@@ -227,36 +227,7 @@
               text: error.response.data.message,
             });
           });
-      },
-      submit_node() {
-        this.node_to_add.parent_id = this.parent_node_id;
-        this.$http
-          .post("http://localhost:8000/api/tree/", this.node_to_add)
-          .then((res) => {
-            this.parent_node_id = res.data.data._id;
-
-            this.node_to_add = {
-              decision: {
-                intern: [],
-                extern: [],
-              },
-              icon: "",
-              Conseils_instructions: [],
-
-              name: "",
-              description: "",
-              parent_id: null,
-            };
-          })
-          .catch((error) => {
-            console.log(error.message);
-            this.$swal.fire({
-              icon: "error",
-              title: "Oops...",
-              text: error.response.data.message,
-            });
-          });
-      },
+      }
     },
 
     watch: {
@@ -274,19 +245,7 @@
           if (tmp.length != this.node_to_update.decision.extern.length)
             this.node_to_update.decision.extern = tmp;
         }
-      },
-      "node_to_add.decision.intern": function () {
-        if (this.node_to_add != null) {
-          var tmp = [...new Set(this.node_to_update.decision.intern)];
-          if (tmp.length != this.node_to_update.decision.intern.length)
-            this.node_to_update.decision.intern = tmp;
-        }
-      },
-      "node_to_add.decision.extern": function () {
-        var tmp = [...new Set(this.node_to_update.decision.extern)];
-        if (tmp.length != this.node_to_update.decision.extern.length)
-          this.node_to_update.decision.extern = tmp;
-      },
+      }
     },
     computed: {
       randomKey: function () {
@@ -297,6 +256,7 @@
       this.getAllEngins();
       this.parent_node_id = this.$route.params.parent_node_id
       this.node_to_update = this.$route.params.selected_node
+      
 
 
       //this.current_level =

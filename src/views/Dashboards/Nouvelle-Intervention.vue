@@ -58,21 +58,46 @@
               <ol class="breadcrumb" style="back" id="nodes_path">
                 <div class="row">
                   <li class="breadcrumb-item">
-                    <span style="cursor:pointer" class="text-primary" v-on:click="selecteNodeFromPath(null)">
+                    <span style="cursor:pointer" class="badge badge-primary" v-on:click="selecteNodeFromPath(null)">
                       <b>Niveau Principal</b>
+                      <span v-if="selected_path.length == 0">
+                        <router-link :to="{ name: 'addNode', params: { parent_node_id } }">
+                          <img style="margin-left:20px;margin-top:-7px;" src="@/assets/images/add.png" width="15"
+                          title="Ajouter Un nœud "  /> 
+                        </router-link>
+
+                      </span>
                     </span>
                   </li>
 
-                  <li class="breadcrumb-item" v-for="selected_node in selected_path" :key="selected_node._id">
-                    <span style="cursor:pointer" class="text-primary"
-                      v-on:click="selecteNodeFromPath(selected_node._id)">{{ selected_node.name }}</span>
-                  </li>
-                  <router-link :to="{ name: 'addNode', params: { parent_node_id } }">
-                     <img style="position:absolute;margin-left:50%;" src="@/assets/images/add.png" width="20"
-                    title="Ajouter Un nœud " v-on:click="node_to_update = selected_node" data-toggle="modal"
-                    data-target="#addNode" /> 
+                  <li class="breadcrumb-item" v-for="(path_item,key) in selected_path" :key="key">
+
+                    <span style="cursor:pointer"  
+                      :class="(path_item._id == selected_path[selected_path.length-1]._id)? 'badge badge-success':'badge badge-primary'"
+                    
+                      v-on:click="selecteNodeFromPath(path_item._id)">{{ path_item.name }}
+
+                      <span style="margin-left:20px;" v-if="(path_item._id == selected_path[selected_path.length-1]._id)">
+                        <router-link :to="{ name: 'addNode', params: { parent_node_id } }">
+                        <img style="margin-top:-7px;" src="@/assets/images/add.png" width="15"
+                        title="Ajouter Un nœud "   /> 
+
+                      </router-link>
+
+                      <router-link :to="{ name: 'updateNode', params: { selected_node,parent_node_id } }">
+                     <img style="margin-left:5px;margin-top:-7px;" src="@/assets/images/edit.png" width="15"
+                    title="modifier cet nœud  " /> 
 
                   </router-link>
+
+                  <img style="margin-left:5px;cursor:pointer;margin-top:-7px;" src="@/assets/images/remove.png" width="15"
+                        title="Supprimer cet nœud sélectionné" v-on:click="removeNode()"  />
+
+                      </span>
+                      
+                      </span>
+                  </li>
+                  
 
                    
 
@@ -127,13 +152,7 @@
                       </span>
                       
 
-                        <router-link :to="{ name: 'updateNode', params: { selected_node,parent_node_id } }">
-                     <img style="position:absolute;margin-left:50%;" src="@/assets/images/edit.png" width="20"
-                    title="modifier cet nœud  " /> 
-
-                  </router-link>
-                      <img style="margin-left:5px;" src="@/assets/images/remove.png" width="20"
-                        title="Supprimer ce nœud sélectionné" v-on:click="removeNode()" />
+                        
                     </ol>
 
                     <div class="row">
@@ -231,7 +250,7 @@
       parent_node_id: "",
       selected_node: null,
       selected_node_display: null,
-      node_to_update: null,
+      
       selected_path: [],
       current_level: {},
       numTelInput: "",
@@ -426,43 +445,46 @@
           this.parent_node_id = id;
         }
       },
-      submit_node_update() {
-        this.$http
-          .put(
-            "http://localhost:8000/api/tree/" + this.parent_node_id,
-            this.node_to_update
-          )
-          .then((res) => {
-            this.selected_node = res.data.data;
-            this.selected_node_display = this.selected_node;
-          })
-          .catch((error) => {
-            console.log(error.message);
-            this.$swal.fire({
-              icon: "error",
-              title: "Oops...",
-              text: error.response.data.message,
-            });
-          });
-      },
+      
       removeNode(){
-         /*this.$http
-          .put(
-            "http://localhost:8000/api/tree/" + this.parent_node_id,
-            this.node_to_update
-          )
-          .then((res) => {
-            this.selected_node = res.data.data;
-            this.selected_node_display = this.selected_node;
+       
+
+          this.$swal.fire({
+            title: 'Êtes-vous sûr?',
+            text: "Vous ne pourrez pas revenir en arrière !",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Oui, supprimez-le !'
+          }).then((result) => {
+            if (result.value) {
+                this.$http
+                    .delete(
+                      "http://localhost:8000/api/tree/" + this.parent_node_id,
+                    )
+                    .then(() => {
+                      this.$swal.fire(
+                        'Supprimé!',
+                        'le nœud a été supprimé.',
+                        'success'
+                      ).then(()=>{
+                        
+                        this.selected_path.pop()
+                      })
+                      
+                    })
+                    .catch((error) => {
+                      
+                      this.$swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: error.response.data.message,
+                      });
+                    });
+              
+            }
           })
-          .catch((error) => {
-            console.log(error.message);
-            this.$swal.fire({
-              icon: "error",
-              title: "Oops...",
-              text: error.response.data.message,
-            });
-          });*/
       }
      
     },
@@ -476,32 +498,7 @@
         this.selected_node_display = this.selected_node;
         this.node_to_update = this.selected_node;
       },
-      "node_to_update.decision.intern": function () {
-        if (this.node_to_update != null) {
-          var tmp = [...new Set(this.node_to_update.decision.intern)];
-          if (tmp.length != this.node_to_update.decision.intern.length)
-            this.node_to_update.decision.intern = tmp;
-        }
-      },
-      "node_to_update.decision.extern": function () {
-        if (this.node_to_update != null) {
-          var tmp = [...new Set(this.node_to_update.decision.extern)];
-          if (tmp.length != this.node_to_update.decision.extern.length)
-            this.node_to_update.decision.extern = tmp;
-        }
-      },
-      "node_to_add.decision.intern": function () {
-        if (this.node_to_add != null) {
-          var tmp = [...new Set(this.node_to_update.decision.intern)];
-          if (tmp.length != this.node_to_update.decision.intern.length)
-            this.node_to_update.decision.intern = tmp;
-        }
-      },
-      "node_to_add.decision.extern": function () {
-        var tmp = [...new Set(this.node_to_update.decision.extern)];
-        if (tmp.length != this.node_to_update.decision.extern.length)
-          this.node_to_update.decision.extern = tmp;
-      },
+      
     },
     computed: {
       randomKey: function () {
