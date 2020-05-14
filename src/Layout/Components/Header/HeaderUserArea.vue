@@ -14,9 +14,14 @@
               variant="link"
               right
             >
-              <span slot="button-content">
+              <span slot="button-content" v-if="role">
                 <div class="icon-wrapper icon-wrapper-alt rounded-circle">
-                  <img width="42" class="rounded-circle" src="" alt="zzzz" />
+                  <img
+                    width="42"
+                    class="rounded-circle"
+                    :src="getIconPath()"
+                    alt=""
+                  />
                 </div>
               </span>
               <button type="button" tabindex="0" class="dropdown-item">
@@ -93,6 +98,11 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+    },
+    getIconPath() {
+      return this.role
+        ? require(`../../../assets/images/avatars/${this.role}.png`)
+        : "";
     },
   },
 };

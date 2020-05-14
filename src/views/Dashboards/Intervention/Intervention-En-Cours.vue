@@ -195,7 +195,7 @@
 
 <script>
 import { library } from "@fortawesome/fontawesome-svg-core";
-import PageTitle from "../../Layout/Components/PageTitle";
+import PageTitle from "../../../Layout/Components/PageTitle";
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
 import Vue from "vue";
 import * as VueGoogleMaps from "vue2-google-maps";
@@ -205,17 +205,17 @@ import {
   faCalendarAlt,
   faAngleDown,
   faAngleUp,
-  faTh
+  faTh,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(faTrashAlt, faCheck, faAngleDown, faAngleUp, faTh, faCalendarAlt);
 
 Vue.use(VueGoogleMaps, {
   load: {
-    key: "AIzaSyDf43lPdwlF98RCBsJOFNKOkoEjkwxb5Sc"
+    key: "AIzaSyDf43lPdwlF98RCBsJOFNKOkoEjkwxb5Sc",
   },
   // Demonstrating how we can customize the name of the components
-  installComponents: false
+  installComponents: false,
 });
 
 export default {
@@ -223,7 +223,7 @@ export default {
     PageTitle,
     VuePerfectScrollbar,
     "google-map": VueGoogleMaps.Map,
-    "google-marker": VueGoogleMaps.Marker
+    "google-marker": VueGoogleMaps.Marker,
   },
   data: () => ({
     heading: "Intervention en cours",
@@ -231,7 +231,7 @@ export default {
     icon: "pe-7s-map icon-gradient bg-premium-dark",
     type: {
       accident: ["bus", "voiture"],
-      feux: ["maison", "foret"]
+      feux: ["maison", "foret"],
     },
 
     url: "http://{s}.tile.osm.org/{z}/{x}/{y}.png",
@@ -241,22 +241,22 @@ export default {
 
     center: {
       lat: 4.0,
-      lng: 4.0
+      lng: 4.0,
     },
     markers: [
       {
         position: {
           lat: 3.0,
-          lng: 3.0
-        }
+          lng: 3.0,
+        },
       },
       {
         position: {
           lat: 18.0,
-          lng: 18.0
-        }
-      }
-    ]
+          lng: 18.0,
+        },
+      },
+    ],
   }),
 
   methods: {},
@@ -268,117 +268,117 @@ export default {
 
         Accident: {
           name: "Accident de route",
-          children: ["Mortelle", "Blessure", "Rien"]
+          children: ["Mortelle", "Blessure", "Rien"],
         },
 
         Feux: {
           name: "Feux",
-          children: ["maison", "foret", "ville"]
+          children: ["maison", "foret", "ville"],
         },
 
         Maladie: {
           name: "Maladie",
-          children: ["Chronique", "foret", "ville"]
+          children: ["Chronique", "foret", "ville"],
         },
         Crime: {
           name: "Crime",
-          children: ["Chronique", "foret", "ville"]
+          children: ["Chronique", "foret", "ville"],
         },
 
         // STAY IN
 
         "watch-movie": {
           name: "Watch a movie",
-          children: ["romantic", "scary", "action", "comedy"]
+          children: ["romantic", "scary", "action", "comedy"],
         },
         "watch-tv": {
           name: "Watch a TV show",
-          children: ["drama", "sport", "comedy-tv"]
+          children: ["drama", "sport", "comedy-tv"],
         },
         cook: {
           name: "Cook a meal",
-          children: ["spicy", "traditional"]
+          children: ["spicy", "traditional"],
         },
 
         // GO OUT
 
         cinema: {
           name: "Go to the cinema",
-          children: ["romantic-cine", "scary-cine"]
+          children: ["romantic-cine", "scary-cine"],
         },
         drink: {
           name: "Have a drink",
-          children: ["beer", "whiskey"]
+          children: ["beer", "whiskey"],
         },
         restaurant: {
           name: "Visit a restaurant",
-          children: ["italian", "bbq"]
+          children: ["italian", "bbq"],
         },
 
         // WATCH MOVIE
 
         romantic: {
-          name: "Holding hands"
+          name: "Holding hands",
         },
         scary: {
-          name: "Terrified"
+          name: "Terrified",
         },
         action: {
-          name: "On the edge of our seats"
+          name: "On the edge of our seats",
         },
         comedy: {
-          name: "Spit out our popcorn"
+          name: "Spit out our popcorn",
         },
 
         // WATCH TV
 
         drama: {
-          name: "Nail-biting suspense"
+          name: "Nail-biting suspense",
         },
         sport: {
-          name: "Cheer for the winner"
+          name: "Cheer for the winner",
         },
         "comedy-tv": {
-          name: "Cry with laughter"
+          name: "Cry with laughter",
         },
 
         // COOK
         spicy: {
-          name: "Hot and spicy"
+          name: "Hot and spicy",
         },
         traditional: {
-          name: "Like Mum used to make"
+          name: "Like Mum used to make",
         },
 
         // CINEMA
         "romantic-cine": {
-          name: "Make out at the back"
+          name: "Make out at the back",
         },
         "scary-cine": {
-          name: "Covering our faces"
+          name: "Covering our faces",
         },
 
         // DRINK
         beer: {
-          name: "Pisswasser"
+          name: "Pisswasser",
         },
         whiskey: {
-          name: "Black Bush"
+          name: "Black Bush",
         },
 
         // RESTAURANT
         italian: {
-          name: "Spag bol"
+          name: "Spag bol",
         },
         bbq: {
-          name: "Meat in a bap"
-        }
-      }
+          name: "Meat in a bap",
+        },
+      },
     };
     console.log(data);
     console.log("############################");
     console.log(data.initial);
     console.log(data.choices["bbq"]);
-  }
+  },
 };
 </script>

@@ -42,8 +42,8 @@ export default {
   data() {
     return {
       agent: {},
-      nom: "anas",
-      role: "agent",
+      nom: "",
+      role: "",
     };
   },
   methods: {

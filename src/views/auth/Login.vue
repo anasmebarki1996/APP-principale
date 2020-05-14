@@ -100,19 +100,6 @@ export default {
           .then((res) => {
             this.$store.commit("init_agent", res.data);
             this.$router.push({ path: "/" });
-
-            // axios
-            //   .post("http://localhost:8000/API/getAllTree")
-            //   .then((result) => {
-            //     this.$store.commit("init_tree", result.data.data.tree);
-            //     this.$router.push({ path: "/" });
-            //   })
-            //   .catch((error) => {
-            //     this.stateUsername = false;
-            //     this.statePassword = false;
-            //     this.invalidFeedbackUsername = "";
-            //     this.invalidFeedbackPassword = error.response.data.message;
-            //   });
           })
           .catch((error) => {
             this.stateUsername = false;
@@ -122,11 +109,7 @@ export default {
           });
       }
     },
-    getMessage() {
-      this.$http.get("http://localhost:8000/API/conversation").then((res) => {
-        this.messages = res.data.data.conversations[0].message;
-      });
-    },
+
     checkInput() {
       this.stateUsername = this.username.length >= 4 ? true : false;
       if (this.username.length >= 4) {

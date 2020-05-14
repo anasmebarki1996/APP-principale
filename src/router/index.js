@@ -1,5 +1,5 @@
 import Vue from "vue";
-//import axios from "axios";
+import axios from "axios";
 import VueRouter from "vue-router";
 import VueCookies from "vue-cookies";
 
@@ -8,12 +8,12 @@ Vue.use(VueCookies);
 Vue.use(VueRouter);
 
 const routes = [
-  // Dashboards
+  // ########################### Intervention ###########################
   {
     path: "/intervention/addnode",
     name: "addNode",
     component: () => import("../views/Dashboards/Intervention/addNode.vue"),
-    props:true
+    props: true
   },
   {
     path: "/intervention/updatenode",
@@ -23,23 +23,26 @@ const routes = [
   {
     path: "/intervention",
     name: "intervention",
-    component: () => import("../views/Dashboards/Intervention.vue"),
+    component: () => import("../views/Dashboards/Intervention/Intervention.vue"),
   },
   {
     path: "/nouvelle-intervention",
     name: "Nouvelle Intervention",
-    component: () => import("../views/Dashboards/Nouvelle-Intervention.vue"),
+    component: () => import("../views/Dashboards/Intervention/Nouvelle-Intervention.vue"),
   },
+  {
+    path: "/intervention-en-cours",
+    name: "Intervention_En_Cours",
+    component: () => import("../views/Dashboards/Intervention/Intervention-En-Cours.vue"),
+  },
+  // ########################### Intervention ###########################
+
   {
     path: "/test",
     name: "Test",
     component: () => import("../views/Dashboards/Test.vue"),
   },
-  {
-    path: "/intervention-en-cours",
-    name: "Intervention_En_Cours",
-    component: () => import("../views/Dashboards/Intervention-En-Cours.vue"),
-  },
+
   {
     path: "/",
     name: "analytics",
@@ -88,7 +91,7 @@ const routes = [
     component: () => import("../views/Dashboards/Planning/Modifier-Equipe.vue"),
   },
   // Pages
-  /*{
+  {
     path: "/login",
     name: "login",
     meta: {
@@ -103,7 +106,7 @@ const routes = [
       layout: "userpages",
     },
     component: () => import("../views/auth/RegisterBoxed.vue"),
-  },*/
+  },
 
   // Elements
 
@@ -243,7 +246,6 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes,
 });
-/*
 router.beforeEach(async (to, from, next) => {
   let resp = await axios
     .post("http://localhost:8000/API/checkToken")
@@ -265,6 +267,6 @@ router.beforeEach(async (to, from, next) => {
       next();
     }
   }
-});*/
+});
 
 export default router;

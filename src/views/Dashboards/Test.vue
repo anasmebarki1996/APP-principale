@@ -1,106 +1,33 @@
 <template>
-  <div>
-    <!-- ##################################################### -->
-    <div class="row" style="margin-top:100px">
-      <div class="col-lg-12">
-        <div class="mb-3 card">
-          <div class="card-header-tab card-header">
-            <div
-              class="card-header-title font-size-lg text-capitalize font-weight-normal"
-            >
-              <i
-                class="header-icon lnr-cloud-download icon-gradient bg-happy-itmeo"
-              ></i>
-              Technical Support
-            </div>
-          </div>
-          <div>
-            <b-pagination
-              :total-rows="totalPhotos"
-              :per-page="perPage"
-              v-model="currentPage"
-            ></b-pagination>
-            <br />
-            <b-table
-              :items="myProvider"
-              :fields="fields"
-              :current-page="currentPage"
-              :per-page="perPage"
-              :busy="isBusy"
-            ></b-table>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <heat-map :points="data" :width="600" :height="500" />
 </template>
 
 <script>
-import { library } from "@fortawesome/fontawesome-svg-core";
-import {
-  faTrashAlt,
-  faCheck,
-  faCalendarAlt,
-  faAngleDown,
-  faAngleUp,
-  faTh,
-} from "@fortawesome/free-solid-svg-icons";
-
-library.add(faTrashAlt, faCheck, faAngleDown, faAngleUp, faTh, faCalendarAlt);
+import HeatMap from "./HeatMap";
 
 export default {
-  components: {},
-  data: () => ({
-    totalPhotos: 0,
-    perPage: 5,
-    currentPage: 1,
-    isBusy: false,
-
-    fields: [
-      {
-        key: "dateTimeAppel",
-        label: "Email",
-        tdClass: "nameOfTheClass",
-        sortable: true,
-      },
-      {
-        key: "gps_coordonnee",
-        label: "Name",
-        tdClass: "nameOfTheClass",
-        sortable: true,
-      },
-      { key: "show_details", label: "Role", tdClass: "nameOfTheClass" },
-    ],
-
-    heading: "Analytics Dashboard",
-    subheading:
-      "This is an example dashboard created using build-in elements and components.",
-    icon: "pe-7s-plane icon-gradient bg-tempting-azure",
-  }),
-
-  methods: {
-    myProvider(ctx) {
-      this.isBusy = true;
-      let url = `http://localhost:8000/API/getAllIntervention?limit=${ctx.perPage}`;
-      // let url = `http://localhost:8000/API/getAllIntervention?page=${ctx.currentPage}&limit=${ctx.perPage}`;
-
-      if (ctx.sortBy) {
-        url = `${url}&_sort=${ctx.sortBy}&_order=${
-          ctx.sortDesc ? "desc" : "asc"
-        }`;
-      }
-      return this.$http
-        .post(url, {})
-        .then((res) => {
-          // console.log(res.data.data.interventions);
-          this.isBusy = false;
-          return res.data.data.interventions;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
+  name: "view-page",
+  components: { HeatMap },
+  data: () => {
+    return {
+      data: [
+        { lat: 37.786117, lng: -122.440119 },
+        { lat: 37.786564, lng: -122.440209 },
+        { lat: 37.786905, lng: -122.44027 },
+        { lat: 37.786956, lng: -122.440279 },
+        { lat: 37.800224, lng: -122.43352 },
+        { lat: 37.800155, lng: -122.434101 },
+        { lat: 37.80016, lng: -122.43443 },
+        { lat: 37.800378, lng: -122.434527 },
+        { lat: 37.800738, lng: -122.434598 },
+        { lat: 37.800938, lng: -122.43465 },
+        { lat: 37.801024, lng: -122.434889 },
+        { lat: 37.800955, lng: -122.435392 },
+        { lat: 37.800886, lng: -122.435959 },
+      ],
+    };
   },
-  created() {},
+  methods: {},
+  mounted() {},
 };
 </script>

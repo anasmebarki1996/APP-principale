@@ -1,19 +1,11 @@
 <template>
   <div>
-    <page-title
-      :heading="heading"
-      :subheading="subheading"
-      :icon="icon"
-    ></page-title>
+    <page-title :heading="heading" :subheading="subheading" :icon="icon"></page-title>
 
     <div class="content">
       <b-card class="main-card mb-4">
         <div id="maps-root">
-          <google-map
-            :center="center"
-            :zoom="7"
-            style="width: 100%; height: 500px"
-          >
+          <google-map :center="center" :zoom="7" style="width: 100%; height: 500px">
             <google-marker
               v-for="(m, i) in markers"
               :key="`marker-${i}`"
@@ -37,7 +29,7 @@ import * as VueGoogleMaps from "vue2-google-maps";
 
 Vue.use(VueGoogleMaps, {
   load: {
-    key: "AIzaSyDf43lPdwlF98RCBsJOFNKOkoEjkwxb5Sc"
+    key: "AIzaSyDh-wrSH71HVGsYWw9RcFgCBstOOyeHKqo"
   },
   // Demonstrating how we can customize the name of the components
   installComponents: false
