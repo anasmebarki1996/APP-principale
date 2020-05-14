@@ -1,11 +1,7 @@
 <template>
   <div>
     <div class="d-flex justify-content-center">
-      <div
-        class="search-wrapper"
-        v-bind:class="{ active: searchOpen }"
-        style="width: auto;"
-      >
+      <div class="search-wrapper" v-bind:class="{ active: searchOpen }" style="width: auto;">
         <div class="input-holder" style="width: 500px;">
           <input
             v-model="numTelInput"
@@ -40,11 +36,7 @@
                 label-align-sm="right"
                 label-for="nested-street"
               >
-                <b-form-input
-                  id="nested-street"
-                  v-model="numTel"
-                  readonly
-                ></b-form-input>
+                <b-form-input id="nested-street" v-model="numTel" readonly></b-form-input>
               </b-form-group>
 
               <b-form-group
@@ -53,11 +45,7 @@
                 label-align-sm="right"
                 label-for="nested-city"
               >
-                <b-form-input
-                  id="nested-city"
-                  v-model="gpsAdresse"
-                  readonly
-                ></b-form-input>
+                <b-form-input id="nested-city" v-model="gpsAdresse" readonly></b-form-input>
               </b-form-group>
 
               <b-form-group
@@ -86,15 +74,8 @@
                 <b-form-input id="nested-state" v-model="lieu"></b-form-input>
               </b-form-group>
 
-              <b-form-group
-                label-cols-sm="3"
-                label-align-sm="right"
-                class="mb-0"
-              >
-                <b-form-radio-group
-                  class="pt-2"
-                  :options="['En Ville', 'Hors Ville']"
-                ></b-form-radio-group>
+              <b-form-group label-cols-sm="3" label-align-sm="right" class="mb-0">
+                <b-form-radio-group class="pt-2" :options="['En Ville', 'Hors Ville']"></b-form-radio-group>
               </b-form-group>
             </b-form-group>
           </b-card>
@@ -102,58 +83,92 @@
           <br />
           <!-- ##################################################### -->
         </div>
+
         <div class="row">
-          <div class="col-9">
-            <div class="mb-3 card">
+          <div class="col-lg-9">
+            <div class="mb-3 card" style="min-height:400px">
               <ol class="breadcrumb" style="back" id="nodes_path">
                 <div class="row">
                   <li class="breadcrumb-item">
                     <span
                       style="cursor:pointer"
-                      class="text-primary"
+                      class="badge badge-primary"
                       v-on:click="selecteNodeFromPath(null)"
                     >
                       <b>Niveau Principal</b>
+                      <span v-if="selected_path.length == 0">
+                        <router-link :to="{ name: 'addNode', params: { parent_node_id } }">
+                          <img
+                            style="margin-left:20px;margin-top:-7px;"
+                            src="@/assets/images/add.png"
+                            width="15"
+                            title="Ajouter Un nœud "
+                          />
+                        </router-link>
+                      </span>
                     </span>
                   </li>
-
-                  <li
-                    class="breadcrumb-item"
-                    v-for="selected_node in selected_path"
-                    :key="selected_node._id"
-                  >
+                  <li class="breadcrumb-item" v-for="(path_item, key) in selected_path" :key="key">
                     <span
                       style="cursor:pointer"
-                      class="text-primary"
-                      v-on:click="selecteNodeFromPath(selected_node._id)"
-                      >{{ selected_node.name }}</span
+                      :class="
+                        path_item._id ==
+                        selected_path[selected_path.length - 1]._id
+                          ? 'badge badge-success'
+                          : 'badge badge-primary'
+                      "
+                      v-on:click="selecteNodeFromPath(path_item._id)"
                     >
+                      {{ path_item.name }}
+                      <span
+                        style="margin-left:20px;"
+                        v-if="
+                          path_item._id ==
+                            selected_path[selected_path.length - 1]._id
+                        "
+                      >
+                        <router-link :to="{ name: 'addNode', params: { parent_node_id } }">
+                          <img
+                            style="margin-top:-7px;"
+                            src="@/assets/images/add.png"
+                            width="15"
+                            title="Ajouter Un nœud "
+                          />
+                        </router-link>
+                        <router-link
+                          :to="{
+                            name: 'updateNode',
+                            params: { selected_node, parent_node_id },
+                          }"
+                        >
+                          <img
+                            style="margin-left:5px;margin-top:-7px;"
+                            src="@/assets/images/edit.png"
+                            width="15"
+                            title="modifier cet nœud  "
+                          />
+                        </router-link>
+                        <img
+                          style="margin-left:5px;cursor:pointer;margin-top:-7px;"
+                          src="@/assets/images/remove.png"
+                          width="15"
+                          title="Supprimer cet nœud sélectionné"
+                          v-on:click="removeNode()"
+                        />
+                      </span>
+                    </span>
                   </li>
-                  <router-link
-                    :to="{ name: 'addNode', params: { parent_node_id } }"
-                  >
-                    <img
-                      style="position:absolute;margin-left:50%;"
-                      src="@/assets/images/add.png"
-                      width="20"
-                      title="Ajouter Un nœud "
-                      v-on:click="node_to_update = selected_node"
-                      data-toggle="modal"
-                      data-target="#addNode"
-                    />
-                  </router-link>
                 </div>
               </ol>
-
               <div class="p-0 card-body">
                 <div class="p-1 slick-slider-sm mx-auto">
                   <div class="widget-chart widget-chart2 text-left p-0">
                     <div class="widget-chat-wrapper-outer">
                       <div class="row" style="margin: 10px;">
+                        <!-- v-on:mouseover="nodeInfoDisplay(node)"
+                        v-on:mouseleave="nodeInfoDisplay(null)"-->
                         <div
                           class="col-4 col-4"
-                          v-on:mouseover="nodeInfoDisplay(node)"
-                          v-on:mouseleave="nodeInfoDisplay(null)"
                           v-for="node in current_level"
                           :key="node._id"
                           style="margin-bottom:10px;"
@@ -184,9 +199,7 @@
                                   <div
                                     class="widget-heading"
                                     style="padding-left:25px;"
-                                  >
-                                    {{ node.name }}
-                                  </div>
+                                  >{{ node.name }}</div>
                                 </div>
                               </div>
                             </div>
@@ -199,84 +212,26 @@
               </div>
             </div>
           </div>
-          <!-- // ########################## -->
-          <div class="row col-md-12">
-            <div
-              v-for="unite in unites"
-              :key="unite._id"
-              class="col-lg-6 col-xl-4"
-            >
-              <div class="card mb-3 widget-content">
-                <div class="widget-content-wrapper">
-                  <div class="widget-content-left">
-                    <div class="widget-heading">{{ unite.nom_unite }}</div>
-                    <div v-for="engin in unite.engins" :key="engin._id">
-                      <div class="widget-subheading">
-                        {{ engin.code_name }} {{ engin.nombre }}
-                      </div>
-                    </div>
-                  </div>
-                  <div class="widget-content-right">
-                    <div class="widget-numbers text-success">
-                      <span>{{ unite.duration }}</span>
-                      <br />
-                      <span>{{ unite.distanceEnKM }}</span>
-                      <br />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- // ########################## -->
-          <div class="col-3 p-0">
+
+          <div class="col-lg-3">
             <div class="mb-3 card">
               <div class="p-0 card-body">
                 <div v-if="selected_node_display != null">
                   <div id="description">
                     <ol class="breadcrumb" style="padding:5px;">
-                      <span
-                        style="cursor:pointer"
-                        class="text-success text-capitalize"
-                      >
+                      <span style="cursor:pointer" class="text-success text-capitalize">
                         <b>Description :</b>
                       </span>
-
-                      <router-link
-                        :to="{
-                          name: 'updateNode',
-                          params: { selected_node, parent_node_id },
-                        }"
-                      >
-                        <img
-                          style="position:absolute;margin-left:50%;"
-                          src="@/assets/images/edit.png"
-                          width="20"
-                          title="modifier cet nœud  "
-                        />
-                      </router-link>
-                      <img
-                        style="margin-left:5px;"
-                        src="@/assets/images/remove.png"
-                        width="20"
-                        title="Supprimer ce nœud sélectionné"
-                        v-on:click="removeNode()"
-                      />
                     </ol>
 
                     <div class="row">
-                      <p class="col-12 pl-4">
-                        {{ selected_node_display.description }}
-                      </p>
+                      <p class="col-12 pl-4">{{ selected_node_display.description }}</p>
                     </div>
                   </div>
 
                   <div id="Conseils_instructions">
                     <ol class="breadcrumb" style="padding:5px;">
-                      <span
-                        style="cursor:pointer"
-                        class="text-success text-capitalize"
-                      >
+                      <span style="cursor:pointer" class="text-success text-capitalize">
                         <b>Conseils et instructions :</b>
                       </span>
                     </ol>
@@ -288,9 +243,7 @@
                           key) in selected_node_display.Conseils_instructions"
                           :key="key"
                           style="margin-bottom:3px;"
-                        >
-                          - {{ instruction }}
-                        </p>
+                        >- {{ instruction }}</p>
                       </div>
 
                       <div class="col-4">
@@ -301,10 +254,7 @@
 
                   <div id="intern_decision">
                     <ol class="breadcrumb" style="padding:5px;">
-                      <span
-                        style="cursor:pointer"
-                        class="text-success text-capitalize"
-                      >
+                      <span style="cursor:pointer" class="text-success text-capitalize">
                         <b>Moyen D'intervention Recommandée</b>
                       </span>
                     </ol>
@@ -326,10 +276,7 @@
 
                   <div id="extern_decision">
                     <ol class="breadcrumb" style="padding:5px;">
-                      <span
-                        style="cursor:pointer"
-                        class="text-success text-capitalize"
-                      >
+                      <span style="cursor:pointer" class="text-success text-capitalize">
                         <b>Intervention Externe Recommandée</b>
                       </span>
                     </ol>
@@ -354,6 +301,31 @@
             </div>
           </div>
         </div>
+
+        <!-- // ########################## -->
+        <div class="row col-md-12">
+          <div v-for="unite in unites" :key="unite._id" class="col-lg-6 col-xl-4">
+            <div class="card mb-3 widget-content">
+              <div class="widget-content-wrapper">
+                <div class="widget-content-left">
+                  <div class="widget-heading">{{ unite.nom_unite }}</div>
+                  <div v-for="engin in unite.engins" :key="engin._id">
+                    <div class="widget-subheading">{{ engin.code_name }} {{ engin.nombre }}</div>
+                  </div>
+                </div>
+                <div class="widget-content-right">
+                  <div class="widget-numbers text-success">
+                    <span>{{ unite.duration }}</span>
+                    <br />
+                    <span>{{ unite.distanceEnKM }}</span>
+                    <br />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- // ########################## -->
       </div>
     </div>
   </div>
@@ -367,7 +339,7 @@ import {
   faCalendarAlt,
   faAngleDown,
   faAngleUp,
-  faTh,
+  faTh
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(faTrashAlt, faCheck, faAngleDown, faAngleUp, faTh, faCalendarAlt);
@@ -378,7 +350,6 @@ export default {
     parent_node_id: "",
     selected_node: null,
     selected_node_display: null,
-    node_to_update: null,
     selected_path: [],
     current_level: {},
     numTelInput: "",
@@ -400,29 +371,29 @@ export default {
     Engins: [],
     etablissement_extern: [
       {
-        name: "Police",
+        name: "Police"
       },
       {
-        name: "Gendarmerie",
+        name: "Gendarmerie"
       },
       {
-        name: "Conservation des forêts",
+        name: "Conservation des forêts"
       },
       {
-        name: "Hopital",
-      },
+        name: "Hopital"
+      }
     ],
     node_to_add: {
       decision: {
         intern: [],
-        extern: [],
+        extern: []
       },
       icon: "",
       Conseils_instructions: [],
 
       name: "",
       description: "",
-      parent_id: null,
+      parent_id: null
     },
     // ################# partie unites #################
 
@@ -430,25 +401,25 @@ export default {
     items: [
       {
         title: "Jerry",
-        position: 5,
+        position: 5
       },
       {
         title: "Bucks Bunny",
-        position: 1,
+        position: 1
       },
       {
         title: "Mickey Mouse",
-        position: 3,
+        position: 3
       },
       {
         title: "Sora",
-        position: 2,
+        position: 2
       },
       {
         title: "Noctis",
-        position: 4,
-      },
-    ],
+        position: 4
+      }
+    ]
   }),
 
   methods: {
@@ -458,15 +429,15 @@ export default {
     getAllEngins() {
       this.$http
         .get("http://localhost:8000/api/engin/")
-        .then((res) => {
+        .then(res => {
           this.Engins = res.data.data;
         })
-        .catch((error) => {
+        .catch(error => {
           console.log(error.message);
           this.$swal.fire({
             icon: "error",
             title: "Oops...",
-            text: error.response.data.message,
+            text: error.response.data.message
           });
         });
     },
@@ -516,15 +487,15 @@ export default {
           {
             title: "Vous confirmez ce numero ?",
             buttons: ["Yes", "No", "Cancel"],
-            message: "Vous etes sur?",
+            message: "Vous etes sur?"
           },
-          (response) => {
+          response => {
             if (response == 0) {
               this.$http
                 .post("http://localhost:8000/API/getAppel", {
-                  numTel: this.numTelInput,
+                  numTel: this.numTelInput
                 })
-                .then(async (res) => {
+                .then(async res => {
                   this.numTel = res.data.appel.numTel;
                   this.numTelInput = "";
                   this.gps_coordonnee = res.data.appel.gps_coordonnee;
@@ -532,7 +503,7 @@ export default {
                     this.gps_coordonnee
                   );
                 })
-                .catch((error) => {
+                .catch(error => {
                   this.$dialog.showErrorBox(
                     "error",
                     error.response.data.message
@@ -543,7 +514,21 @@ export default {
         );
       }
     },
-
+    getCurrentLevel() {
+      this.$http
+        .get("http://localhost:8000/api/tree/nodes/" + this.parent_node_id)
+        .then(res => {
+          this.current_level = res.data.data;
+        })
+        .catch(error => {
+          console.log(error.message);
+          this.$swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: error.response.data.message
+          });
+        });
+    },
     getChildren(node) {
       this.selected_node = node;
 
@@ -556,15 +541,15 @@ export default {
     getNodePath() {
       this.$http
         .get("http://localhost:8000/api/tree/path/" + this.parent_node_id)
-        .then((res) => {
+        .then(res => {
           this.selected_path = res.data.data.reverse();
         })
-        .catch((error) => {
+        .catch(error => {
           console.log(error.message);
           this.$swal.fire({
             icon: "error",
             title: "Oops...",
-            text: error.response.data.message,
+            text: error.response.data.message
           });
         });
     },
@@ -581,102 +566,80 @@ export default {
         this.parent_node_id = id;
       }
     },
-    submit_node_update() {
-      this.$http
-        .put(
-          "http://localhost:8000/api/tree/" + this.parent_node_id,
-          this.node_to_update
-        )
-        .then((res) => {
-          this.selected_node = res.data.data;
-          this.selected_node_display = this.selected_node;
-        })
-        .catch((error) => {
-          console.log(error.message);
-          this.$swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: error.response.data.message,
-          });
-        });
-    },
 
     removeNode() {
-      /*this.$http
-          .put(
-            "http://localhost:8000/api/tree/" + this.parent_node_id,
-            this.node_to_update
-          )
-          .then((res) => {
-            this.selected_node = res.data.data;
-            this.selected_node_display = this.selected_node;
-          })
-          .catch((error) => {
-            console.log(error.message);
-            this.$swal.fire({
-              icon: "error",
-              title: "Oops...",
-              text: error.response.data.message,
-            });
-          });*/
+      this.$swal
+        .fire({
+          title: "Êtes-vous sûr?",
+          text: "Vous ne pourrez pas revenir en arrière !",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Oui, supprimez-le !"
+        })
+        .then(result => {
+          if (result.value) {
+            this.$http
+              .delete("http://localhost:8000/api/tree/" + this.parent_node_id)
+              .then(() => {
+                this.$swal
+                  .fire("Supprimé!", "le nœud a été supprimé.", "success")
+                  .then(() => {
+                    this.selected_path.pop();
+                  });
+              })
+              .catch(error => {
+                this.$swal.fire({
+                  icon: "error",
+                  title: "Oops...",
+                  text: error.response.data.message
+                });
+              });
+          }
+        });
     },
 
     // ########################### maps ##############################
-
-    getCurrentLevel() {
-      this.$http
-        .get("http://localhost:8000/api/tree/nodes/" + this.parent_node_id)
-        .then((res) => {
-          this.current_level = res.data.data;
-        })
-        .catch((error) => {
-          console.log(error.message);
-          this.$swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: error.response.data.message,
-          });
-        });
-    },
 
     async getUnitePlusProche() {
       await this.$http
         .post("http://localhost:8000/API/getUnitePlusProche", {
           lat: 34.6,
-          lng: 0,
+          lng: 0
         })
-        .then(async (res) => {
+        .then(async res => {
           this.unites = await this.gpsTraitement(
             {
               lat: 34.6,
-              lng: 1,
+              lng: 1
             },
             res.data.unites
           );
           await this.order();
         })
-        .catch((error) => {
+        .catch(error => {
           console.log(error.message);
           this.$swal.fire({
             icon: "error",
             title: "Oops...",
-            text: error.response.data.message,
+            text: error.response.data.message
           });
         });
     },
     async gpsTraitement(secoursAdresse, unites) {
-      return new Promise((resolve) => {
+      return new Promise(resolve => {
         let response;
         let distances = [];
         this.$gmapApiPromiseLazy().then(() => {
           // eslint-disable-next-line
           var service = new google.maps.DistanceMatrixService();
-          unites.forEach((e) => {
+          unites.forEach(e => {
             service.getDistanceMatrix(
               {
                 origins: [secoursAdresse],
                 destinations: [e.adresse.gps_coordonnee],
-                travelMode: "DRIVING",
+                travelMode: "DRIVING"
               },
               function(resp) {
                 distances.push({
@@ -687,7 +650,7 @@ export default {
                   uniteAdresse: e.adresse,
                   distanceEnKM: resp.rows[0].elements[0].distance.text,
                   duration: resp.rows[0].elements[0].duration.text,
-                  duration_en_sec: resp.rows[0].elements[0].duration.value,
+                  duration_en_sec: resp.rows[0].elements[0].duration.value
                 });
                 if (unites.length == distances.length) {
                   response = resolve(distances);
@@ -701,7 +664,7 @@ export default {
     },
 
     async getLocationName(adresse) {
-      return new Promise((resolve) => {
+      return new Promise(resolve => {
         let response;
         this.$gmapApiPromiseLazy().then(() => {
           // eslint-disable-next-line
@@ -710,7 +673,7 @@ export default {
             {
               origins: [adresse],
               destinations: [adresse],
-              travelMode: "DRIVING",
+              travelMode: "DRIVING"
             },
             function(resp) {
               response = resolve(resp.originAddresses[0]);
@@ -726,57 +689,29 @@ export default {
         if (a.duration_en_sec > b.duration_en_sec) return 1;
         return 0;
       }
-
       return this.unites.sort(compare);
-    },
+    }
   },
 
   watch: {
     parent_node_id: function() {
       //when ever this prop changes we get current_level nodes from db
-
       this.getCurrentLevel();
       this.getNodePath();
       this.selected_node_display = this.selected_node;
       this.node_to_update = this.selected_node;
-    },
-    "node_to_update.decision.intern": function() {
-      if (this.node_to_update != null) {
-        var tmp = [...new Set(this.node_to_update.decision.intern)];
-        if (tmp.length != this.node_to_update.decision.intern.length)
-          this.node_to_update.decision.intern = tmp;
-      }
-    },
-    "node_to_update.decision.extern": function() {
-      if (this.node_to_update != null) {
-        var tmp = [...new Set(this.node_to_update.decision.extern)];
-        if (tmp.length != this.node_to_update.decision.extern.length)
-          this.node_to_update.decision.extern = tmp;
-      }
-    },
-    "node_to_add.decision.intern": function() {
-      if (this.node_to_add != null) {
-        var tmp = [...new Set(this.node_to_update.decision.intern)];
-        if (tmp.length != this.node_to_update.decision.intern.length)
-          this.node_to_update.decision.intern = tmp;
-      }
-    },
-    "node_to_add.decision.extern": function() {
-      var tmp = [...new Set(this.node_to_update.decision.extern)];
-      if (tmp.length != this.node_to_update.decision.extern.length)
-        this.node_to_update.decision.extern = tmp;
-    },
+    }
   },
   computed: {
     randomKey: function() {
       return Math.ceil(Math.random() * 10);
-    },
+    }
   },
   created() {
     this.getAllEngins();
     this.getCurrentLevel();
     this.getUnitePlusProche();
-  },
+  }
 };
 </script>
 <style scoped>
