@@ -73,6 +73,7 @@ export default {
         center: { lat: this.lat, lng: this.lng },
         mapTypeId: this.mapType,
       });
+
       // eslint-disable-next-line
       this.$heatmap = new google.maps.visualization.HeatmapLayer({
         data: this.heatmapPoints,
@@ -83,8 +84,6 @@ export default {
 
       this.$heatmap.setMap(this.mapObject);
     });
-
-    
   },
 };
 </script>
