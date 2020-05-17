@@ -15,7 +15,9 @@
                   <div class="widget-content-wrapper">
                     <div class="widget-content-left">
                       <div class="widget-heading">Déstination :</div>
-                      <div class="widget-subheading">tlemcen hopital</div>
+                      <div class="widget-subheading">
+                        {{ destination.adresse_rue }} - {{ destination.daira }}
+                      </div>
                     </div>
                     <div class="widget-content-right">
                       <div class="widget-numbers text-success"></div>
@@ -36,7 +38,9 @@
                       <div class="widget-heading">Distance :</div>
                     </div>
                     <div class="widget-content-right">
-                      <div class="widget-numbers text-danger">200 KM</div>
+                      <div class="widget-numbers text-danger">
+                        {{ destination.distance }} KM
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -54,7 +58,9 @@
                       <div class="widget-heading">Temps Restant :</div>
                     </div>
                     <div class="widget-content-right">
-                      <div class="widget-numbers text-success">3h 20min</div>
+                      <div class="widget-numbers text-success">
+                        {{ destination.duree }}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -80,7 +86,7 @@
                         class="vertical-timeline-element-icon bounce-in"
                       ></span>
                       <div class="vertical-timeline-element-content bounce-in">
-                        <h4 class="timeline-title">Nom Unite secondaire</h4>
+                        <h4 class="timeline-title">{{ unite.nom }}</h4>
                       </div>
                     </div>
                   </div>
@@ -91,8 +97,21 @@
                       ></span>
                       <div class="vertical-timeline-element-content bounce-in">
                         <p>
-                          Départ d'équipe à
-                          <span class="text-success">15:00 PM</span>
+                          Appel à
+                          <span class="text-success">{{ dateTimeAppel }}</span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="dot-warning vertical-timeline-element">
+                    <div>
+                      <span
+                        class="vertical-timeline-element-icon bounce-in"
+                      ></span>
+                      <div class="vertical-timeline-element-content bounce-in">
+                        <p>
+                          Départ à
+                          <span class="text-success">{{ dateTimeDepart }}</span>
                         </p>
                       </div>
                     </div>
@@ -257,12 +276,16 @@ export default {
       lng: -1.3852,
     },
     markers: [],
-    distance: null,
-    duree: "",
+
     statut: "",
-    destination: "",
-    destinationGps: null,
-    nomUnite: "",
+    destination: {
+      adresse_rue: "",
+      daira: "",
+      wilaya: "",
+      gps_coordonnee: {},
+      distance: "",
+      duree: "",
+    },
     team: {
       nomChef: "",
       numTel: "",
@@ -271,7 +294,7 @@ export default {
     },
     unite: {
       nom: "",
-      gps_coordonnee: null,
+      gps_coordonnee: {},
       numTel: "",
     },
     intervention: "",
@@ -281,8 +304,7 @@ export default {
     dateTimeDepart: "",
     dateTimeArrive: "",
     transfere: {
-      exist: Boolean,
-      vers: "",
+      lieu: "",
       dateTimeDepart: "",
     },
     dateTimeFin: "",
@@ -294,8 +316,77 @@ export default {
         .post("http://localhost:8000/API/intervention/getIntervention", {
           id_intervention: id_intervention,
         })
+        .then(async (res) => {
+          // ############ Intervention ############
+          this.statut = res.data.intervention.statut;
+          this.numTel = res.data.intervention.numTel;
+          this.description = res.data.intervention.description;
+          this.bilan = res.data.intervention.bilan;
+          // ############ dateTime ############
+          this.dateTimeAppel = res.data.intervention.dateTimeAppel;
+          this.dateTimeDepart = res.data.intervention.dateTimeDepart;
+          this.dateTimeArrive = res.data.intervention.dateTimeArrive;
+          this.dateTimeFin = res.data.intervention.dateTimeFin;
+          // ############ Adresse ############
+          this.destination.adresse_rue =
+            res.data.intervention.adresse.adresse_rue;
+          this.destination.wilaya = res.data.intervention.adresse.wilaya;
+          this.destination.daira = res.data.intervention.adresse.daira;
+          this.destination.gps_coordonnee =
+            res.data.intervention.adresse.gps_coordonnee;
+          let data = await this.gpsTraitement();
+          this.destination.duree = data.duree;
+          this.destination.distance = data.distance;
+          // ############ Team ############
+          this.getAdresseTeam(res.data.intervention.id_team);
+          this.getAgent(res.data.intervention.cco_agent);
+          // ############ Unite ############
+          this.getUnite(res.data.intervention.id_unite);
+        })
+        .catch((error) => {
+          console.log(error);
+          this.$dialog.showErrorBox(
+            "error" + error.response.status,
+            error.response.data.message
+          );
+        });
+    },
+    async gpsTraitement() {
+      return new Promise((resolve) => {
+        let response;
+        let data = {};
+        this.$gmapApiPromiseLazy().then(() => {
+          // eslint-disable-next-line
+          var service = new google.maps.DistanceMatrixService();
+
+          service.getDistanceMatrix(
+            {
+              origins: [{ lat: 50.087, lng: 14.421 }],
+              destinations: [{ lat: 50.087, lng: 14.421 }],
+              travelMode: "DRIVING",
+            },
+            function(res) {
+              console.log(res.rows[0].elements[0].duration.text);
+              if (res.rows[0].elements[0].status == "OK") {
+                data.duree = res.rows[0].elements[0].duration.text;
+                data.distance = res.rows[0].elements[0].distance.text;
+                response = resolve(data);
+              }
+            }
+          );
+        });
+        return response;
+      });
+    },
+    getAgent(id_agent) {
+      this.$http
+        .post("http://localhost:8000/API/getAgent", {
+          id_agent: id_agent,
+        })
         .then((res) => {
-          console.log(res);
+          console.log(res.data);
+          this.team.nomChef = res.data.agent.nom;
+          this.team.numTel = res.data.agent.numTel;
         })
         .catch((error) => {
           this.$dialog.showErrorBox(
@@ -304,27 +395,38 @@ export default {
           );
         });
     },
-    async gpsTraitement(secoursAdresse, engin) {
-      this.$gmapApiPromiseLazy().then(() => {
-        // eslint-disable-next-line
-        var service = new google.maps.DistanceMatrixService();
-        service.getDistanceMatrix(
-          {
-            origins: [secoursAdresse],
-            destinations: [engin],
-            travelMode: "DRIVING",
-          },
-          function() {
-            // distances.push({
-            //   secoursAdresse: resp.originAddresses[0],
-            //   uniteAdresse: e.adresse,
-            //   distanceEnKM: resp.rows[0].elements[0].distance.text,
-            //   duration: resp.rows[0].elements[0].duration.text,
-            //   duration_en_sec: resp.rows[0].elements[0].duration.value,
-            // });
-          }
-        );
-      });
+    getAdresseTeam(id_team) {
+      this.$http
+        .post("http://localhost:8000/API/team/getAdresseTeam", {
+          id_team: id_team,
+        })
+        .then((res) => {
+          console.log(res.data);
+          this.team.gps_coordonnee = res.data.team.gps_coordonnee;
+        })
+        .catch((error) => {
+          this.$dialog.showErrorBox(
+            "error" + error.response.status,
+            error.response.data.message
+          );
+        });
+    },
+    getUnite(id_unite) {
+      this.$http
+        .post("http://localhost:8000/API/getUnite", {
+          id_unite: id_unite,
+        })
+        .then((res) => {
+          this.unite.nom = res.data.unite.nom;
+          this.unite.gps_coordonnee = res.data.unite.adresse.gps_coordonnee;
+          this.unite.numTel = res.data.unite.numTel;
+        })
+        .catch((error) => {
+          this.$dialog.showErrorBox(
+            "error" + error.response.status,
+            error.response.data.message
+          );
+        });
     },
   },
   created() {
@@ -349,8 +451,9 @@ export default {
     this.markers = [car, station];
   },
   mounted() {
+    this.$route.query.id_intervention = "5ebecfd83afd3f29342dadca";
     if (!this.$route.query.id_intervention) {
-      this.annuler();
+      // this.annuler();
     }
     this.getIntervention(this.$route.query.id_intervention);
   },

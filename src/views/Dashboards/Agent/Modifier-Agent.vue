@@ -254,10 +254,10 @@ export default {
     };
   },
   methods: {
-    getAgent(idAgent) {
+    getAgent(id_agent) {
       this.$http
         .post("http://localhost:8000/API/getAgent", {
-          idAgent: idAgent,
+          id_agent: id_agent,
         })
         .then((res) => {
           this.nom = res.data.agent.nom;
@@ -306,7 +306,7 @@ export default {
             if (response == 0) {
               this.$http
                 .post("http://localhost:8000/API/updatePersonnelAgent", {
-                  _id: this.idAgent,
+                  _id: this.id_agent,
                   nom: this.nom,
                   prenom: this.prenom,
                   date_de_naissance: this.date_de_naissance,
@@ -364,7 +364,7 @@ export default {
             if (response == 0) {
               this.$http
                 .post("http://localhost:8000/API/updateCompteAgent", {
-                  idAgent: this.idAgent,
+                  id_agent: this.id_agent,
                   username: this.username,
                   role: this.role,
                 })
@@ -430,7 +430,7 @@ export default {
             if (response == 0) {
               this.$http
                 .post("http://localhost:8000/API/updatePasswordAgent", {
-                  _id: this.idAgent,
+                  _id: this.id_agent,
                   password: this.password,
                 })
                 .then((res) => {
@@ -470,10 +470,10 @@ export default {
   },
   created() {},
   mounted() {
-    if (!this.$route.query.idAgent) {
+    if (!this.$route.query.id_agent) {
       this.annuler();
     }
-    this.getAgent(this.$route.query.idAgent);
+    this.getAgent(this.$route.query.id_agent);
   },
 };
 </script>

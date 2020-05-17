@@ -229,7 +229,7 @@ export default {
       this.getPlanning();
     },
 
-    deleteTeam(idTeam) {
+    deleteTeam(id_team) {
       dialog.showMessageBox(
         {
           title: "Supprimer un engin",
@@ -240,7 +240,7 @@ export default {
           if (response == 0) {
             this.$http
               .post("http://localhost:8000/API/planning/deleteTeam", {
-                idTeam: idTeam,
+                id_team: id_team,
               })
               .then(() => {
                 this.getPlanning();
@@ -252,10 +252,10 @@ export default {
         }
       );
     },
-    openUpdateEquipe(idTeam) {
+    openUpdateEquipe(id_team) {
       this.$router.push({
         path: "/modifier-equipe",
-        query: { idTeam: idTeam },
+        query: { id_team: id_team },
       });
     },
   },

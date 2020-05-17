@@ -153,10 +153,10 @@ export default {
       } else this.sortBy = e.sortBy;
       this.getAllIntervention();
     },
-    updateAgent(idAgent) {
+    updateAgent(id_agent) {
       this.$router.push({
         path: "/modifier-agent",
-        query: { idAgent: idAgent },
+        query: { id_agent: id_agent },
       });
     },
   },

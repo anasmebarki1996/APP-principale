@@ -349,10 +349,10 @@ export default {
       });
     },
 
-    getTeam(idTeam) {
+    getTeam(id_team) {
       this.$http
         .post("http://localhost:8000/API/planning/getTeam", {
-          idTeam: idTeam,
+          id_team: id_team,
         })
         .then((res) => {
           this.engin =
@@ -406,7 +406,7 @@ export default {
         this.$http
           .post("http://localhost:8000/API/planning/addChauffeur", {
             chauffeur: this.chauffeur,
-            idTeam: this.$route.query.idTeam,
+            id_team: this.$route.query.id_team,
           })
           .then(() => {
             document.getElementById("chauffeur").readOnly = true;
@@ -441,7 +441,7 @@ export default {
             this.$http
               .post("http://localhost:8000/API/planning/deleteChauffeur", {
                 chauffeur: this.chauffeur,
-                idTeam: this.$route.query.idTeam,
+                id_team: this.$route.query.id_team,
               })
               .then((res) => {
                 console.log(res);
@@ -479,7 +479,7 @@ export default {
         this.$http
           .post("http://localhost:8000/API/planning/addEngin", {
             engin: this.engin,
-            idTeam: this.$route.query.idTeam,
+            id_team: this.$route.query.id_team,
           })
           .then(() => {
             document.getElementById("engin").readOnly = true;
@@ -514,7 +514,7 @@ export default {
             this.$http
               .post("http://localhost:8000/API/planning/deleteEngin", {
                 engin: this.engin,
-                idTeam: this.$route.query.idTeam,
+                id_team: this.$route.query.id_team,
               })
               .then((res) => {
                 console.log(res);
@@ -552,7 +552,7 @@ export default {
         this.$http
           .post("http://localhost:8000/API/planning/addChef", {
             chef: this.chef,
-            idTeam: this.$route.query.idTeam,
+            id_team: this.$route.query.id_team,
           })
           .then(() => {
             document.getElementById("chef").readOnly = true;
@@ -587,7 +587,7 @@ export default {
             this.$http
               .post("http://localhost:8000/API/planning/deleteChef", {
                 chef: this.chef,
-                idTeam: this.$route.query.idTeam,
+                id_team: this.$route.query.id_team,
               })
               .then((res) => {
                 console.log(res);
@@ -628,7 +628,7 @@ export default {
         this.$http
           .post("http://localhost:8000/API/planning/addSecours", {
             secours: this.nomAgent[index],
-            idTeam: this.$route.query.idTeam,
+            id_team: this.$route.query.id_team,
           })
           .then(() => {
             document.getElementById("nomAgent" + index).readOnly = true;
@@ -663,7 +663,7 @@ export default {
             this.$http
               .post("http://localhost:8000/API/planning/deleteSecours", {
                 secours: this.nomAgent[index],
-                idTeam: this.$route.query.idTeam,
+                id_team: this.$route.query.id_team,
               })
               .then(() => {
                 this.removeDiv(index);
@@ -695,7 +695,7 @@ export default {
       this.$http
         .post("http://localhost:8000/API/planning/updateDate", {
           date: this.date,
-          idTeam: this.$route.query.idTeam,
+          id_team: this.$route.query.id_team,
         })
         .then((res) => {
           console.log(res);
@@ -725,10 +725,10 @@ export default {
   },
   created() {},
   mounted() {
-    if (!this.$route.query.idTeam) {
+    if (!this.$route.query.id_team) {
       this.annuler();
     }
-    this.getTeam(this.$route.query.idTeam);
+    this.getTeam(this.$route.query.id_team);
   },
 };
 </script>
