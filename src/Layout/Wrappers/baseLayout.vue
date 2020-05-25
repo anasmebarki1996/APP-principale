@@ -18,12 +18,8 @@
     <b-modal id="modal1" title="Bootstrap-Vue">
       <p class="my-4">Hello from modal!</p>
     </b-modal>
-    <b-modal id="modallg" size="lg" title="Large Modal">
-      Hello Modal!
-    </b-modal>
-    <b-modal id="modalsm" size="sm" title="Small Modal">
-      Hello Modal!
-    </b-modal>
+    <b-modal id="modallg" size="lg" title="Large Modal">Hello Modal!</b-modal>
+    <b-modal id="modalsm" size="sm" title="Small Modal">Hello Modal!</b-modal>
   </div>
 </template>
 
@@ -37,27 +33,27 @@ export default {
   components: {
     Header,
     Sidebar,
-    Footer,
+    Footer
   },
   data() {
     return {
       agent: {},
       nom: "",
-      role: "",
+      role: ""
     };
   },
   methods: {
     logout() {
       this.$http
-        .post("http://localhost:8000/API/logout", {})
+        .post(process.env.VUE_APP_API + "/logout", {})
         .then(() => {
           this.$store.commit("delete_agent");
           this.$router.push({ path: "/login" });
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
-    },
+    }
   },
   mounted() {
     this.agent = this.$store.getters;
@@ -65,6 +61,6 @@ export default {
       this.nom = this.agent.get_agent_nom;
       this.role = this.agent.get_agent_role;
     } else this.logout();
-  },
+  }
 };
 </script>

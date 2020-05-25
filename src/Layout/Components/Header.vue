@@ -1,6 +1,6 @@
 <template>
   <div class="app-header header-shadow">
-    <div class="logo-src" />
+    <!-- <div class="logo-src" /> -->
     <div class="app-header__content">
       <!-- <div class="app-header-left">
                 <SearchBox/>
@@ -55,18 +55,18 @@ export default {
   components: {
     // SearchBox,
     UserArea,
-    "font-awesome-icon": FontAwesomeIcon
+    "font-awesome-icon": FontAwesomeIcon,
   },
 
   data() {
     return {
       isOpen: false,
-      isOpenMobileMenu: false
+      isOpenMobileMenu: false,
     };
   },
   props: {
     nom: String,
-    role: String
+    role: String,
   },
   methods: {
     toggleMobile(className) {
@@ -89,7 +89,7 @@ export default {
       } else {
         el.classList.remove(className);
       }
-    }
-  }
+    },
+  },
 };
 </script>

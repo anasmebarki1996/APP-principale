@@ -1,25 +1,17 @@
 <template>
   <div>
-    <page-title
-      :heading="heading"
-      :subheading="subheading"
-      :icon="icon"
-    ></page-title>
+    <page-title :heading="heading" :subheading="subheading" :icon="icon"></page-title>
     <div class="row">
       <div class="col-md-6 input-group"></div>
       <div class="col-md-6 input-group">
         <input
           type="text"
           class="form-control"
-          placeholder="Search this blog"
+          placeholder="Tapez ici pour rechercher"
           v-model="search"
         />
         <div class="input-group-append">
-          <button
-            class="btn btn-secondary"
-            type="button"
-            v-on:click="getAllIntervention"
-          >
+          <button class="btn btn-secondary" type="button" v-on:click="getAllIntervention">
             <b-icon icon="search"></b-icon>
           </button>
         </div>
@@ -35,14 +27,6 @@
       @sort-changed="foo"
       show-empty
     >
-      <template v-slot:cell(show_details)="data">
-        <b-button variant="success" v-on:click="updateAgent(data.item._id)">
-          <font-awesome-icon icon="edit" />
-        </b-button>
-        <b-button variant="danger" v-on:click="deleteAgent(data.item._id)">
-          <font-awesome-icon icon="trash" />
-        </b-button>
-      </template>
       <template v-slot:empty>
         <h4 class="d-flex justify-content-center">table vide</h4>
       </template>
@@ -68,7 +52,7 @@ import PageTitle from "../../../Layout/Components/PageTitle";
 
 export default {
   components: {
-    PageTitle,
+    PageTitle
   },
   data() {
     return {
@@ -81,36 +65,31 @@ export default {
           key: "nom",
           label: "nom",
           tdClass: "nameOfTheClass",
-          sortable: true,
+          sortable: true
         },
         {
           key: "prenom",
           label: "prenom",
           tdClass: "nameOfTheClass",
-          sortable: true,
+          sortable: true
         },
         {
           key: "username",
           label: "username",
           tdClass: "nameOfTheClass",
-          sortable: true,
+          sortable: true
         },
         {
           key: "role",
           label: "role",
           tdClass: "nameOfTheClass",
-          sortable: true,
+          sortable: true
         },
         {
           key: "numTel",
           label: "numTel",
-          tdClass: "nameOfTheClass",
-        },
-        {
-          key: "show_details",
-          label: "",
-          tdClass: "nameOfTheClass",
-        },
+          tdClass: "nameOfTheClass"
+        }
       ],
       isBusy: false,
       items: [],
@@ -119,14 +98,15 @@ export default {
       currentPage: 1,
       sortBy: "",
       search: "",
-      value: "",
+      value: ""
     };
   },
   methods: {
     getAllIntervention() {
       this.isBusy = true;
       var link =
-        "http://localhost:8000/API/getAllAgents?limit=" +
+        process.env.VUE_APP_API +
+        "/getAllAgents?limit=" +
         this.limit +
         "&page=" +
         this.currentPage;
@@ -138,12 +118,12 @@ export default {
       }
       this.$http
         .post(link, {})
-        .then((res) => {
+        .then(res => {
           this.items = res.data.agents;
           this.rows = res.data.agents_total;
           this.isBusy = false;
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
     },
@@ -152,16 +132,10 @@ export default {
         this.sortBy = "-" + e.sortBy;
       } else this.sortBy = e.sortBy;
       this.getAllIntervention();
-    },
-    updateAgent(id_agent) {
-      this.$router.push({
-        path: "/modifier-agent",
-        query: { id_agent: id_agent },
-      });
-    },
+    }
   },
   created() {
     this.getAllIntervention();
-  },
+  }
 };
 </script>

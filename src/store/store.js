@@ -10,8 +10,11 @@ const store = new Vuex.Store({
     agent_role: "",
     agent_username: "",
     tree: [],
+    statistiques: {},
+    heatMap: [],
   },
   getters: {
+
     get_agent_id: (state) => {
       return state.agent_id;
     },
@@ -27,6 +30,12 @@ const store = new Vuex.Store({
     get_tree: (state) => {
       return state.tree;
     },
+    get_statistiques: (state) => {
+      return state.statistiques;
+    },
+    get_heatMap: (state) => {
+      return state.heatMap;
+    }
   },
   mutations: {
     init_agent: (state, agent) => {
@@ -43,6 +52,26 @@ const store = new Vuex.Store({
     },
     init_tree: (state, data) => {
       state.tree = data;
+    },
+    init_statistiques: (state, data) => {
+      state.statistiques = {
+        data: data.data,
+        labels: data.labels,
+        title: data.title
+      }
+    },
+    delete_statistiques: (state) => {
+      state.statistiques = {
+        data: [],
+        labels: [],
+        title: ""
+      }
+    },
+    init_heatMap: (state, data) => {
+      state.heatMap = data
+    },
+    delete_heatMap: (state) => {
+      state.heatMap = []
     },
   },
 });

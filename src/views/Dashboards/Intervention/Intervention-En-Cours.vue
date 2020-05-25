@@ -4,458 +4,196 @@
       :heading="heading"
       :subheading="subheading"
       :icon="icon"
+      :title="title"
+      :link="link"
     ></page-title>
-    <div class="card mb-3">
-      <div class="no-gutters row">
-        <div class="col-md-12 col-lg-4">
-          <ul class="list-group list-group-flush">
-            <li class="bg-transparent list-group-item">
-              <div class="widget-content p-0">
-                <div class="widget-content-outer">
-                  <div class="widget-content-wrapper">
-                    <div class="widget-content-left">
-                      <div class="widget-heading">Déstination :</div>
-                      <div class="widget-subheading">
-                        {{ destination.adresse_rue }} - {{ destination.daira }}
-                      </div>
-                    </div>
-                    <div class="widget-content-right">
-                      <div class="widget-numbers text-success"></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </li>
-          </ul>
-        </div>
-        <div class="col-md-12 col-lg-4">
-          <ul class="list-group list-group-flush">
-            <li class="bg-transparent list-group-item">
-              <div class="widget-content p-0">
-                <div class="widget-content-outer">
-                  <div class="widget-content-wrapper">
-                    <div class="widget-content-left">
-                      <div class="widget-heading">Distance :</div>
-                    </div>
-                    <div class="widget-content-right">
-                      <div class="widget-numbers text-danger">
-                        {{ destination.distance }} KM
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </li>
-          </ul>
-        </div>
-        <div class="col-md-12 col-lg-4">
-          <ul class="list-group list-group-flush">
-            <li class="bg-transparent list-group-item">
-              <div class="widget-content p-0">
-                <div class="widget-content-outer">
-                  <div class="widget-content-wrapper">
-                    <div class="widget-content-left">
-                      <div class="widget-heading">Temps Restant :</div>
-                    </div>
-                    <div class="widget-content-right">
-                      <div class="widget-numbers text-success">
-                        {{ destination.duree }}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
     <div class="row">
-      <div class="col col-lg-4">
-        <!-- ##################################################### -->
-        <div class="card-hover-shadow-2x mb-3 card">
-          <div class="scroll-area-lg">
-            <VuePerfectScrollbar class="scrollbar-container" v-once>
-              <div class="p-4">
-                <div
-                  class="vertical-time-simple vertical-without-time vertical-timeline vertical-timeline--animate vertical-timeline--one-column"
-                >
-                  <div class="dot-danger vertical-timeline-element">
-                    <div>
-                      <span
-                        class="vertical-timeline-element-icon bounce-in"
-                      ></span>
-                      <div class="vertical-timeline-element-content bounce-in">
-                        <h4 class="timeline-title">{{ unite.nom }}</h4>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="dot-warning vertical-timeline-element">
-                    <div>
-                      <span
-                        class="vertical-timeline-element-icon bounce-in"
-                      ></span>
-                      <div class="vertical-timeline-element-content bounce-in">
-                        <p>
-                          Appel à
-                          <span class="text-success">{{ dateTimeAppel }}</span>
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="dot-warning vertical-timeline-element">
-                    <div>
-                      <span
-                        class="vertical-timeline-element-icon bounce-in"
-                      ></span>
-                      <div class="vertical-timeline-element-content bounce-in">
-                        <p>
-                          Départ à
-                          <span class="text-success">{{ dateTimeDepart }}</span>
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="dot-success vertical-timeline-element">
-                    <div>
-                      <span
-                        class="vertical-timeline-element-icon bounce-in"
-                      ></span>
-                      <div class="vertical-timeline-element-content bounce-in">
-                        <h4 class="timeline-title">
-                          Arrivé à
-                          <div class="badge badge-danger ml-2">15:00 PM</div>
-                        </h4>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="dot-primary vertical-timeline-element">
-                    <div>
-                      <span
-                        class="vertical-timeline-element-icon bounce-in"
-                      ></span>
-                      <div class="vertical-timeline-element-content bounce-in">
-                        <h4 class="timeline-title">
-                          Intervention : feux
-                        </h4>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="dot-success vertical-timeline-element">
-                    <div>
-                      <span
-                        class="vertical-timeline-element-icon bounce-in"
-                      ></span>
-                      <div class="vertical-timeline-element-content bounce-in">
-                        <h4 class="timeline-title">
-                          Transfere à
-                          <div class="badge badge-danger ml-2">Hopital</div>
-                        </h4>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="dot-info vertical-timeline-element">
-                    <div>
-                      <span
-                        class="vertical-timeline-element-icon bounce-in"
-                      ></span>
-                      <div class="vertical-timeline-element-content bounce-in">
-                        <h4 class="timeline-title">
-                          Départ à : 15h00
-                        </h4>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="dot-info vertical-timeline-element">
-                    <div>
-                      <span
-                        class="vertical-timeline-element-icon bounce-in"
-                      ></span>
-                      <div class="vertical-timeline-element-content bounce-in">
-                        <h4 class="timeline-title">
-                          Arrivée à : 15h00
-                        </h4>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="dot-warning vertical-timeline-element">
-                    <div>
-                      <span
-                        class="vertical-timeline-element-icon bounce-in"
-                      ></span>
-                      <div class="vertical-timeline-element-content bounce-in">
-                        <p>
-                          Fin à
-                          <span class="text-success">15:00 PM</span>
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </VuePerfectScrollbar>
+      <div class="col-md-6">
+        <b-form-datepicker
+          id="example-datepicker"
+          v-model="date"
+          class="mb-2"
+          reset-button
+          close-button
+          locale="fr"
+          :disabled="true"
+        ></b-form-datepicker>
+      </div>
+      <div class="col-md-6">
+        <div class="input-group">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Tapez ici pour rechercher"
+            v-model="search"
+          />
+          <div class="input-group-append">
+            <button class="btn btn-secondary" type="button" v-on:click="getAllIntervention_EnCours">
+              <b-icon icon="search"></b-icon>
+            </button>
           </div>
         </div>
       </div>
-      <div class="col col-lg-8">
-        <div class="content">
-          <b-card class="main-card mb-4">
-            <div id="maps-root">
-              <google-map
-                :center="center"
-                :zoom="10"
-                style="width: 100%; height: 360px"
-              >
-                <google-marker
-                  v-for="(m, i) in markers"
-                  :key="`marker-${i}`"
-                  :position="m.position"
-                  :icon="m.icon"
-                  :clickable="true"
-                  :draggable="true"
-                  @click="center = m.position"
-                ></google-marker>
-              </google-map>
-            </div>
-          </b-card>
-        </div>
-      </div>
     </div>
+
+    <b-table
+      :items="items"
+      :fields="fields"
+      striped
+      no-local-sorting
+      responsive="sm"
+      :busy="isBusy"
+      @sort-changed="foo"
+      show-empty
+    >
+      <template v-slot:empty>
+        <h4 class="d-flex justify-content-center">table vide</h4>
+      </template>
+      <template v-slot:table-busy>
+        <div class="text-center text-dark my-2">
+          <b-spinner class="align-middle"></b-spinner>
+          <strong>Loading...</strong>
+        </div>
+      </template>
+      <template v-slot:cell(show_details)="row">
+        <b-button size="sm" class="mr-2" v-on:click="showDetails(row.item._id)">détails</b-button>
+      </template>
+
+      <template v-slot:row-details="row">
+        <b-card>
+          <b-row class="mb-2">
+            <b-col sm="3" class="text-sm-right">
+              <b>numTel:</b>
+            </b-col>
+            <b-col>{{ row.item.numTel }}</b-col>
+          </b-row>
+
+          <b-row class="mb-2">
+            <b-col sm="3" class="text-sm-right">
+              <b>gps_coordonnee:</b>
+            </b-col>
+            <b-col>{{ row.item.gps_coordonnee }}</b-col>
+          </b-row>
+        </b-card>
+      </template>
+    </b-table>
+    <b-pagination
+      v-model="currentPage"
+      :total-rows="rows"
+      :per-page="limit"
+      aria-controls="my-table"
+      v-on:click.native="getAllIntervention_EnCours"
+    ></b-pagination>
   </div>
 </template>
 
 <script>
-import { library } from "@fortawesome/fontawesome-svg-core";
 import PageTitle from "../../../Layout/Components/PageTitle";
-import VuePerfectScrollbar from "vue-perfect-scrollbar";
-import Vue from "vue";
-import * as VueGoogleMaps from "vue2-google-maps";
-import {
-  faTrashAlt,
-  faCheck,
-  faCalendarAlt,
-  faAngleDown,
-  faAngleUp,
-  faTh,
-} from "@fortawesome/free-solid-svg-icons";
-
-library.add(faTrashAlt, faCheck, faAngleDown, faAngleUp, faTh, faCalendarAlt);
-
-Vue.use(VueGoogleMaps, {
-  load: {
-    key: "AIzaSyDf43lPdwlF98RCBsJOFNKOkoEjkwxb5Sc",
-  },
-  // Demonstrating how we can customize the name of the components
-  installComponents: false,
-});
-
 export default {
   components: {
-    PageTitle,
-    VuePerfectScrollbar,
-    "google-map": VueGoogleMaps.Map,
-    "google-marker": VueGoogleMaps.Marker,
+    PageTitle
   },
-  data: () => ({
-    heading: "Intervention en cours",
-    subheading: "Toutes les interventions en cours.",
-    icon: "pe-7s-map icon-gradient bg-premium-dark",
-    type: {
-      accident: ["bus", "voiture"],
-      feux: ["maison", "foret"],
-    },
-
-    url: "http://{s}.tile.osm.org/{z}/{x}/{y}.png",
-    zoom: 10,
-    center2: [34.8973038, -1.3852],
-    bounds: null,
-
-    center: {
-      lat: 34.8973038,
-      lng: -1.3852,
-    },
-    markers: [],
-
-    statut: "",
-    destination: {
-      adresse_rue: "",
-      daira: "",
-      wilaya: "",
-      gps_coordonnee: {},
-      distance: "",
-      duree: "",
-    },
-    team: {
-      nomChef: "",
-      numTel: "",
-      gps_coordonnee: "",
-      engin: "",
-    },
-    unite: {
-      nom: "",
-      gps_coordonnee: {},
-      numTel: "",
-    },
-    intervention: "",
-    description: "",
-    bilan: "",
-    dateTimeAppel: "",
-    dateTimeDepart: "",
-    dateTimeArrive: "",
-    transfere: {
-      lieu: "",
-      dateTimeDepart: "",
-    },
-    dateTimeFin: "",
-  }),
-
+  data() {
+    return {
+      heading: "Les intervention",
+      subheading:
+        "This is an example dashboard created using build-in elements and components.",
+      icon: "pe-7s-plane icon-gradient bg-tempting-azure",
+      title: "Nouvelle Intervention",
+      link: "/nouvelle-intervention",
+      fields: [
+        {
+          key: "numTel",
+          label: "numero de telephone",
+          tdClass: "nameOfTheClass",
+          sortable: true
+        },
+        {
+          key: "statut",
+          label: "statut",
+          tdClass: "nameOfTheClass",
+          sortable: true
+        },
+        {
+          key: "dateTimeAppel",
+          label: "dateTimeAppel",
+          tdClass: "nameOfTheClass",
+          sortable: true
+        },
+        {
+          key: "adresse.adresse_rue",
+          label: "adresse_rue",
+          tdClass: "nameOfTheClass",
+          sortable: true
+        },
+        {
+          key: "statut",
+          label: "statut",
+          tdClass: "nameOfTheClass",
+          sortable: true
+        },
+        { key: "show_details", label: "Role", tdClass: "nameOfTheClass" }
+      ],
+      isBusy: false,
+      items: [],
+      limit: 5,
+      rows: 0,
+      currentPage: 1,
+      sort: "dateTimeAppel",
+      sortBy: "",
+      search: "",
+      date: "2020-04-02"
+    };
+  },
   methods: {
-    getIntervention(id_intervention) {
+    getAllIntervention_EnCours() {
+      this.isBusy = true;
+      var link =
+        process.env.VUE_APP_API +
+        "/intervention/getAllIntervention_EnCours?limit=" +
+        this.limit +
+        "&page=" +
+        this.currentPage;
+      if (this.search) {
+        link = link + "&search=" + this.search;
+      }
+      if (this.sortBy != "") {
+        link = link + "&sort=" + this.sortBy;
+      }
       this.$http
-        .post("http://localhost:8000/API/intervention/getIntervention", {
-          id_intervention: id_intervention,
+        .post(link, {
+          date: this.date
         })
-        .then(async (res) => {
-          // ############ Intervention ############
-          this.statut = res.data.intervention.statut;
-          this.numTel = res.data.intervention.numTel;
-          this.description = res.data.intervention.description;
-          this.bilan = res.data.intervention.bilan;
-          // ############ dateTime ############
-          this.dateTimeAppel = res.data.intervention.dateTimeAppel;
-          this.dateTimeDepart = res.data.intervention.dateTimeDepart;
-          this.dateTimeArrive = res.data.intervention.dateTimeArrive;
-          this.dateTimeFin = res.data.intervention.dateTimeFin;
-          // ############ Adresse ############
-          this.destination.adresse_rue =
-            res.data.intervention.adresse.adresse_rue;
-          this.destination.wilaya = res.data.intervention.adresse.wilaya;
-          this.destination.daira = res.data.intervention.adresse.daira;
-          this.destination.gps_coordonnee =
-            res.data.intervention.adresse.gps_coordonnee;
-          let data = await this.gpsTraitement();
-          this.destination.duree = data.duree;
-          this.destination.distance = data.distance;
-          // ############ Team ############
-          this.getAdresseTeam(res.data.intervention.id_team);
-          this.getAgent(res.data.intervention.cco_agent);
-          // ############ Unite ############
-          this.getUnite(res.data.intervention.id_unite);
+        .then(res => {
+          for (let i = 0; i < res.data.interventions.length; i++) {
+            res.data.interventions[i].dateTimeAppel = this.$moment(
+              res.data.interventions[i].dateTimeAppel
+            ).format("YYYY-MM-DD à HH:mm");
+          }
+          this.items = res.data.interventions;
+          this.rows = res.data.interventions_total;
+          this.isBusy = false;
         })
-        .catch((error) => {
-          console.log(error);
-          this.$dialog.showErrorBox(
-            "error" + error.response.status,
-            error.response.data.message
-          );
+        .catch(err => {
+          console.log(err);
         });
     },
-    async gpsTraitement() {
-      return new Promise((resolve) => {
-        let response;
-        let data = {};
-        this.$gmapApiPromiseLazy().then(() => {
-          // eslint-disable-next-line
-          var service = new google.maps.DistanceMatrixService();
+    foo(e) {
+      if (e.sortDesc) {
+        this.sortBy = "-" + e.sortBy;
+      } else this.sortBy = e.sortBy;
+      this.getAllIntervention_EnCours();
+    },
 
-          service.getDistanceMatrix(
-            {
-              origins: [{ lat: 50.087, lng: 14.421 }],
-              destinations: [{ lat: 50.087, lng: 14.421 }],
-              travelMode: "DRIVING",
-            },
-            function(res) {
-              console.log(res.rows[0].elements[0].duration.text);
-              if (res.rows[0].elements[0].status == "OK") {
-                data.duree = res.rows[0].elements[0].duration.text;
-                data.distance = res.rows[0].elements[0].distance.text;
-                response = resolve(data);
-              }
-            }
-          );
-        });
-        return response;
+    showDetails(id_intervention) {
+      this.$router.push({
+        path: "/intervention-details",
+        query: { id_intervention: id_intervention }
       });
-    },
-    getAgent(id_agent) {
-      this.$http
-        .post("http://localhost:8000/API/getAgent", {
-          id_agent: id_agent,
-        })
-        .then((res) => {
-          console.log(res.data);
-          this.team.nomChef = res.data.agent.nom;
-          this.team.numTel = res.data.agent.numTel;
-        })
-        .catch((error) => {
-          this.$dialog.showErrorBox(
-            "error" + error.response.status,
-            error.response.data.message
-          );
-        });
-    },
-    getAdresseTeam(id_team) {
-      this.$http
-        .post("http://localhost:8000/API/team/getAdresseTeam", {
-          id_team: id_team,
-        })
-        .then((res) => {
-          console.log(res.data);
-          this.team.gps_coordonnee = res.data.team.gps_coordonnee;
-        })
-        .catch((error) => {
-          this.$dialog.showErrorBox(
-            "error" + error.response.status,
-            error.response.data.message
-          );
-        });
-    },
-    getUnite(id_unite) {
-      this.$http
-        .post("http://localhost:8000/API/getUnite", {
-          id_unite: id_unite,
-        })
-        .then((res) => {
-          this.unite.nom = res.data.unite.nom;
-          this.unite.gps_coordonnee = res.data.unite.adresse.gps_coordonnee;
-          this.unite.numTel = res.data.unite.numTel;
-        })
-        .catch((error) => {
-          this.$dialog.showErrorBox(
-            "error" + error.response.status,
-            error.response.data.message
-          );
-        });
-    },
+    }
   },
   created() {
-    let car = {
-      position: {
-        lat: 34.9011051,
-        lng: -1.3367916,
-      },
-      icon: {
-        url: require("../../../assets/images/avatars/taxi-stand.svg"),
-      },
-    };
-    let station = {
-      position: {
-        lat: 34.8873038,
-        lng: -1.3852001,
-      },
-      icon: {
-        url: require("../../../assets/images/avatars/physiotherapist.svg"),
-      },
-    };
-    this.markers = [car, station];
-  },
-  mounted() {
-    this.$route.query.id_intervention = "5ebecfd83afd3f29342dadca";
-    if (!this.$route.query.id_intervention) {
-      // this.annuler();
-    }
-    this.getIntervention(this.$route.query.id_intervention);
-  },
+    this.getAllIntervention_EnCours();
+  }
 };
 </script>

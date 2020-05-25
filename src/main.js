@@ -36,6 +36,8 @@ Vue.component("font-awesome-icon", FontAwesomeIcon);
 // ################### moment ####################
 import moment from "moment-timezone";
 moment.tz.setDefault("Africa/Algiers");
+
+moment.locale('fr');
 Vue.prototype.$moment = moment;
 
 const dialog = require("electron").remote.dialog;

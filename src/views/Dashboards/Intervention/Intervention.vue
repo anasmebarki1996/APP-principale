@@ -7,21 +7,31 @@
       :title="title"
       :link="link"
     ></page-title>
-    <div class="input-group">
-      <input
-        type="text"
-        class="form-control"
-        placeholder="Search this blog"
-        v-model="search"
-      />
-      <div class="input-group-append">
-        <button
-          class="btn btn-secondary"
-          type="button"
-          v-on:click="getAllIntervention"
-        >
-          <b-icon icon="search"></b-icon>
-        </button>
+    <div class="row">
+      <div class="col-md-6">
+        <b-form-datepicker
+          id="example-datepicker"
+          v-model="date"
+          class="mb-2"
+          reset-button
+          close-button
+          locale="fr"
+        ></b-form-datepicker>
+      </div>
+      <div class="col-md-6">
+        <div class="input-group">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Tapez ici pour rechercher"
+            v-model="search"
+          />
+          <div class="input-group-append">
+            <button class="btn btn-secondary" type="button" v-on:click="getAllIntervention">
+              <b-icon icon="search"></b-icon>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -35,7 +45,7 @@
       @sort-changed="foo"
       show-empty
     >
-      <template v-slot:empty="">
+      <template v-slot:empty>
         <h4 class="d-flex justify-content-center">table vide</h4>
       </template>
       <template v-slot:table-busy>
@@ -45,9 +55,7 @@
         </div>
       </template>
       <template v-slot:cell(show_details)="row">
-        <b-button size="sm" @click="row.toggleDetails" class="mr-2"
-          >{{ row.detailsShowing ? "Hide" : "Show" }} Details</b-button
-        >
+        <b-button size="sm" class="mr-2" v-on:click="showDetails(row.item._id)">détails</b-button>
       </template>
 
       <template v-slot:row-details="row">
@@ -82,7 +90,7 @@
 import PageTitle from "../../../Layout/Components/PageTitle";
 export default {
   components: {
-    PageTitle,
+    PageTitle
   },
   data() {
     return {
@@ -94,18 +102,36 @@ export default {
       link: "/nouvelle-intervention",
       fields: [
         {
-          key: "num",
-          label: "num",
-          tdClass: "nameOfTheClass",
-          sortable: true,
-        },
-        {
           key: "numTel",
           label: "numero de telephone",
           tdClass: "nameOfTheClass",
-          sortable: true,
+          sortable: true
         },
-        { key: "show_details", label: "Role", tdClass: "nameOfTheClass" },
+        {
+          key: "statut",
+          label: "statut",
+          tdClass: "nameOfTheClass",
+          sortable: true
+        },
+        {
+          key: "dateTimeAppel",
+          label: "dateTimeAppel",
+          tdClass: "nameOfTheClass",
+          sortable: true
+        },
+        {
+          key: "adresse.adresse_rue",
+          label: "adresse_rue",
+          tdClass: "nameOfTheClass",
+          sortable: true
+        },
+        {
+          key: "statut",
+          label: "statut",
+          tdClass: "nameOfTheClass",
+          sortable: true
+        },
+        { key: "show_details", label: "Role", tdClass: "nameOfTheClass" }
       ],
       isBusy: false,
       items: [],
@@ -115,13 +141,15 @@ export default {
       sort: "dateTimeAppel",
       sortBy: "",
       search: "",
+      date: "2020-04-02"
     };
   },
   methods: {
     getAllIntervention() {
       this.isBusy = true;
       var link =
-        "http://localhost:8000/API/getAllIntervention?limit=" +
+        process.env.VUE_APP_API +
+        "/intervention/getAllIntervention?limit=" +
         this.limit +
         "&page=" +
         this.currentPage;
@@ -132,13 +160,20 @@ export default {
         link = link + "&sort=" + this.sortBy;
       }
       this.$http
-        .post(link, {})
-        .then((res) => {
+        .post(link, {
+          date: this.date
+        })
+        .then(res => {
+          for (let i = 0; i < res.data.interventions.length; i++) {
+            res.data.interventions[i].dateTimeAppel = this.$moment(
+              res.data.interventions[i].dateTimeAppel
+            ).format("YYYY-MM-DD à HH:mm");
+          }
           this.items = res.data.interventions;
           this.rows = res.data.interventions_total;
           this.isBusy = false;
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
     },
@@ -149,12 +184,15 @@ export default {
       this.getAllIntervention();
     },
 
-    hello() {
-      alert(this.currentPage);
-    },
+    showDetails(id_intervention) {
+      this.$router.push({
+        path: "/intervention-details",
+        query: { id_intervention: id_intervention }
+      });
+    }
   },
   created() {
     this.getAllIntervention();
-  },
+  }
 };
 </script>

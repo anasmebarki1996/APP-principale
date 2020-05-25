@@ -1,16 +1,9 @@
 <template>
   <div id="parent">
-    <div
-      class="d-flex h-100 justify-content-center align-items-center"
-      id="form_login"
-    >
+    <div class="d-flex h-100 justify-content-center align-items-center" id="form_login">
       <b-col md="4" style="margin-bottom: 100px;">
         <div class="h5 modal-title text-center" style="margin: 30px;">
-          <img
-            src="./../../assets/images/protection_civile_logo.png"
-            alt
-            style="width: 100px;"
-          />
+          <img src="./../../assets/images/protection_civile_logo.png" alt style="width: 100px;" />
         </div>
         <b-form-group
           id="exampleInputGroup1"
@@ -42,9 +35,7 @@
           ></b-form-input>
         </b-form-group>
         <div>
-          <b-button class="btn btn-warning col-12" v-on:click="onSubmit"
-            >Entrer</b-button
-          >
+          <b-button class="btn btn-warning col-12" v-on:click="onSubmit">Entrer</b-button>
         </div>
         <div class="d-flex justify-content-center">
           <div style="position: fixed; bottom: 0; margin-bottom: 2%;">
@@ -85,7 +76,7 @@ export default {
       stateUsername: null,
       invalidFeedbackUsername: null,
       statePassword: null,
-      invalidFeedbackPassword: null,
+      invalidFeedbackPassword: null
     };
   },
   methods: {
@@ -93,15 +84,15 @@ export default {
       this.checkInput();
       if (this.stateUsername != false && this.statePassword != false) {
         this.$http
-          .post("http://localhost:8000/API/login", {
+          .post(process.env.VUE_APP_API + "/login", {
             username: this.username,
-            password: this.password,
+            password: this.password
           })
-          .then((res) => {
+          .then(res => {
             this.$store.commit("init_agent", res.data);
             this.$router.push({ path: "/" });
           })
-          .catch((error) => {
+          .catch(error => {
             this.stateUsername = false;
             this.statePassword = false;
             this.invalidFeedbackUsername = "";
@@ -133,10 +124,10 @@ export default {
         this.invalidFeedbackPassword =
           "veuillez vous introduire votre mot de passe";
       }
-    },
+    }
   },
 
   created() {},
-  computed: {},
+  computed: {}
 };
 </script>
