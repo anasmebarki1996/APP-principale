@@ -2,143 +2,138 @@
   <div>
     <!-- Modal -->
 
-    <!-- ##################################################### -->
     <div class="row" style="margin-top: 10px;">
-      <div class="col-lg-12">
+      <div class="col-12">
         <div>
-          <!-- ##################################################### -->
-          <b-card bg-variant="light" style="padding-buttom: 200px;">
-            <h5 class="modal-title text-center" style="width:100%;">Modifier Nœud</h5>
+          <h5 class="modal-title text-center" style="width:100%;">Modifier Nœud</h5>
+          <div class="container">
+            <div class="row">
+              <div class="form-group col-12">
+                <label for="Nom">Nom</label>
+                <input class="form-control" id="Nom" v-model="node_to_update.name" />
+              </div>
+              <div class="form-group col-6">
+                <label for="Nom">Description</label>
+                <textarea
+                  cols="30"
+                  class="form-control"
+                  rows="5"
+                  v-model="node_to_update.description"
+                ></textarea>
+              </div>
 
-            <div class="container">
-              <div class="modal-body">
-                <div class="form-group">
-                  <label for="Nom">Nom</label>
-                  <input class="form-control" id="Nom" v-model="node_to_update.name" />
-                </div>
-
-                <div class="form-group">
-                  <label for="Nom">Description</label>
-
-                  <textarea
-                    cols="30"
-                    class="form-control"
-                    rows="4"
-                    v-model="node_to_update.description"
-                  ></textarea>
-                </div>
-
-                <div class="form-group">
-                  <label for="Nom">Conseils et instructions</label>
-
-                  <input
-                    class="form-control"
-                    placeholder="Saisir une nouvelle instruction"
-                    id="update_new_instruction"
-                    v-on:keyup.enter="
+              <div class="form-group col-6">
+                <label for="Nom">Conseils et instructions</label>
+                <input
+                  class="form-control"
+                  placeholder="Saisir une nouvelle instruction"
+                  id="update_new_instruction"
+                  v-on:keyup.enter="
                     node_to_update.Conseils_instructions.push(
                       $event.target.value
                     );
                     $event.target.value = '';
                   "
-                  />
+                />
 
-                  <select class="form-control" multiple>
-                    <option
-                      v-for="(instruction,
+                <select class="form-control" multiple>
+                  <option
+                    v-for="(instruction,
                     key) in node_to_update.Conseils_instructions"
-                      :key="key"
-                      :value="instruction"
-                      style="cursor: no-drop;"
-                      v-on:dblclick="
+                    :key="key"
+                    :value="instruction"
+                    style="cursor: no-drop;"
+                    v-on:dblclick="
                       node_to_update.Conseils_instructions.splice(key, 1)
                     "
-                      title="double-cliquez pour supprimer cet élément"
-                    >{{ instruction }}</option>
-                  </select>
-                </div>
+                    title="double-cliquez pour supprimer cet élément"
+                  >{{ instruction }}</option>
+                </select>
+              </div>
 
-                <div class="form-group">
-                  <label for="Nom">Définir les moyens (Engins) pour cet cas d'intervention</label>
+              <div class="form-group col-6">
+                <label for="Nom">Définir les moyens (Engins) pour cet cas d'intervention</label>
 
-                  <select
-                    class="form-control"
-                    v-on:change="
+                <select
+                  class="form-control"
+                  v-on:change="
                     $event.target.value != null
                       ? node_to_update.decision.intern.push($event.target.value)
                       : null;
                     $event.target.value = 'null';
                   "
-                  >
-                    <option value="null">Ajouter Engin</option>
-                    <option
-                      v-for="(engin, key) in Engins"
-                      :key="key"
-                      :value="engin.name"
-                    >{{ engin.name }}</option>
-                  </select>
+                >
+                  <option value="null">Ajouter Engin</option>
+                  <option
+                    v-for="(engin, key) in Engins"
+                    :key="key"
+                    :value="engin.name"
+                  >{{ engin.name }}</option>
+                </select>
 
-                  <select class="form-control" multiple>
-                    <option
-                      v-for="(engin, key) in node_to_update.decision.intern"
-                      :key="key"
-                      :value="engin"
-                      style="cursor: no-drop;"
-                      v-on:dblclick="
+                <select class="form-control" multiple>
+                  <option
+                    v-for="(engin, key) in node_to_update.decision.intern"
+                    :key="key"
+                    :value="engin"
+                    style="cursor: no-drop;"
+                    v-on:dblclick="
                       node_to_update.decision.intern.splice(key, 1)
                     "
-                      title="double-cliquez pour supprimer cet élément"
-                    >{{ engin }}</option>
-                  </select>
-                </div>
+                    title="double-cliquez pour supprimer cet élément"
+                  >{{ engin }}</option>
+                </select>
+              </div>
 
-                <div class="form-group">
-                  <label for="Nom">Les établissements extern nécéssaire pour cette intervention</label>
+              <div class="form-group col-6">
+                <label for="Nom">Les établissements extern nécéssaire pour cette intervention</label>
 
-                  <select
-                    class="form-control"
-                    v-on:change="
+                <select
+                  class="form-control"
+                  v-on:change="
                     $event.target.value != null
                       ? node_to_update.decision.extern.push($event.target.value)
                       : null;
                     $event.target.value = 'null';
                   "
-                  >
-                    <option value="null">Ajouter Une Etablissement Extern</option>
-                    <option
-                      v-for="(etablissement, key) in etablissement_extern"
-                      :key="key"
-                      :value="etablissement.name"
-                    >{{ etablissement.name }}</option>
-                  </select>
+                >
+                  <option value="null">Ajouter Une Etablissement Extern</option>
+                  <option
+                    v-for="(etablissement, key) in etablissement_extern"
+                    :key="key"
+                    :value="etablissement.name"
+                  >{{ etablissement.name }}</option>
+                </select>
 
-                  <select class="form-control" multiple>
-                    <option
-                      v-for="(etablissement, key) in node_to_update.decision
+                <select class="form-control" multiple>
+                  <option
+                    v-for="(etablissement, key) in node_to_update.decision
                       .extern"
-                      :key="key"
-                      :value="etablissement"
-                      style="cursor: no-drop;"
-                      v-on:dblclick="
+                    :key="key"
+                    :value="etablissement"
+                    style="cursor: no-drop;"
+                    v-on:dblclick="
                       node_to_update.decision.extern.splice(key, 1)
                     "
-                      title="double-cliquez pour supprimer cet élément"
-                    >
-                      <!--{{etablissement.name }} ( {{etablissement._id}} )-->
-                      {{ etablissement }}
-                    </option>
-                  </select>
-                </div>
+                    title="double-cliquez pour supprimer cet élément"
+                  >
+                    <!--{{etablissement.name }} ( {{etablissement._id}} )-->
+                    {{ etablissement }}
+                  </option>
+                </select>
               </div>
-
-              <button
-                type="button"
-                class="btn btn-primary"
-                id="add_submit"
-                v-on:click="submit_node_update()"
-              >Modifier</button>
             </div>
-          </b-card>
+            <div id="childDiv" class="d-flex align-items-end flex-column">
+              <div class="mt-auto">
+                <b-button
+                  variant="success"
+                  id="add_submit"
+                  v-on:click="submit_node_update()"
+                >Confirmer les modifications</b-button>
+                <b-button variant="outline-primary" v-on:click="annuler()">Annuler</b-button>
+              </div>
+            </div>
+          </div>
           <br />
           <br />
           <!-- ##################################################### -->
@@ -224,11 +219,10 @@ export default {
           this.Engins = res.data.data;
         })
         .catch(error => {
-          this.$swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: error.response.data.message
-          });
+          this.$dialog.showErrorBox(
+            "error" + error.response.status,
+            error.response.data.message
+          );
         });
     },
     submit_node_update() {
@@ -247,12 +241,16 @@ export default {
           });
         })
         .catch(error => {
-          this.$swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: error.response.data.message
-          });
+          this.$dialog.showErrorBox(
+            "error" + error.response.status,
+            error.response.data.message
+          );
         });
+    },
+    annuler() {
+      this.$router.push({
+        path: "/intervention/listnode"
+      });
     }
   },
 

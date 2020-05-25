@@ -183,11 +183,10 @@ export default {
           this.list_intervention = res.data.interventions;
         })
         .catch(error => {
-          this.$swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: error.response.data.message
-          });
+          this.$dialog.showErrorBox(
+            "error" + error.response.status,
+            error.response.data.message
+          );
         });
     }
   },

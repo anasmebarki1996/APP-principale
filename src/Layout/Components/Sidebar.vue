@@ -112,8 +112,8 @@ export default {
         }
       ],
       collapsed: true,
-
-      windowWidth: 0
+      windowWidth: 0,
+      role: ""
     };
   },
   props: {
@@ -157,6 +157,26 @@ export default {
     }
   },
   mounted() {
+    this.role = this.$store.getters.get_agent_role;
+    console.log(this.role);
+    // if (this.role == "admin") {
+    this.menu.push(
+      {
+        header: true,
+        title: "Admin Interventions"
+      },
+      {
+        title: "Interventions",
+        icon: "pe-7s-rocket",
+        child: [
+          {
+            href: "/intervention/listnode",
+            title: "list intervention"
+          }
+        ]
+      }
+    );
+    // }
     this.$nextTick(function() {
       window.addEventListener("resize", this.getWindowWidth);
 

@@ -9,17 +9,7 @@ Vue.use(VueRouter);
 
 const routes = [
   // ########################### Intervention ###########################
-  {
-    path: "/intervention/addnode",
-    name: "addNode",
-    component: () => import("../views/Dashboards/Intervention/addNode.vue"),
-    props: true,
-  },
-  {
-    path: "/intervention/updatenode",
-    name: "updateNode",
-    component: () => import("../views/Dashboards/Intervention/updateNode.vue"),
-  },
+
   {
     path: "/intervention",
     name: "intervention",
@@ -82,7 +72,23 @@ const routes = [
     },
     component: () => import("../views/auth/Login.vue"),
   },
-
+  // Nodes
+  {
+    path: "/intervention/addnode",
+    name: "addNode",
+    component: () => import("../views/Dashboards/Node/addNode.vue"),
+    props: true,
+  },
+  {
+    path: "/intervention/updatenode",
+    name: "updateNode",
+    component: () => import("../views/Dashboards/Node/updateNode.vue"),
+  },
+  {
+    path: "/intervention/listnode",
+    name: "listNode",
+    component: () => import("../views/Dashboards/Node/listNode.vue"),
+  },
   // redirect
 
   {
