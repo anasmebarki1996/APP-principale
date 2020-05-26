@@ -8,20 +8,10 @@
             <div class="widget-subheading">{{ role }}</div>
           </div>
           <div class="widget-content-left">
-            <b-dropdown
-              toggle-class="p-0 mr-2"
-              menu-class="dropdown-menu-lg"
-              variant="link"
-              right
-            >
+            <b-dropdown toggle-class="p-0 mr-2" menu-class="dropdown-menu-lg" variant="link" right>
               <span slot="button-content" v-if="role">
                 <div class="icon-wrapper icon-wrapper-alt rounded-circle">
-                  <img
-                    width="42"
-                    class="rounded-circle"
-                    :src="getIconPath()"
-                    alt
-                  />
+                  <img width="42" class="rounded-circle" :src="getIconPath()" alt />
                 </div>
               </span>
               <button
@@ -29,9 +19,7 @@
                 tabindex="0"
                 class="dropdown-item"
                 v-on:click="logout"
-              >
-                Se déconnecter
-              </button>
+              >Se déconnecter</button>
             </b-dropdown>
           </div>
         </div>
@@ -73,7 +61,7 @@ export default {
   data: () => ({}),
   props: {
     nom: String,
-    role: String,
+    role: String
   },
 
   methods: {
@@ -84,15 +72,18 @@ export default {
           this.$store.commit("delete_agent");
           this.$router.push({ path: "/login" });
         })
-        .catch((err) => {
-          console.log(err);
+        .catch(error => {
+          this.$dialog.showErrorBox(
+            "error" + error.response.status,
+            error.response.data.message
+          );
         });
     },
     getIconPath() {
       return this.role
         ? require(`../../../assets/images/avatars/${this.role}.png`)
         : "";
-    },
-  },
+    }
+  }
 };
 </script>

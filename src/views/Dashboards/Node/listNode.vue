@@ -287,7 +287,6 @@ export default {
           this.Engins = res.data.data;
         })
         .catch(error => {
-          console.log(error.message);
           this.$dialog.showErrorBox(
             "error" + error.response.status,
             error.response.data.message
@@ -404,7 +403,6 @@ export default {
           this.selected_path = res.data.data.reverse();
         })
         .catch(error => {
-          console.log(error.message);
           this.$dialog.showErrorBox(
             "error" + error.response.status,
             error.response.data.message
@@ -426,36 +424,32 @@ export default {
     },
 
     removeNode() {
-      this.$swal
-        .fire({
+      this.$dialog.showMessageBox(
+        {
           title: "Êtes-vous sûr?",
-          text: "Vous ne pourrez pas revenir en arrière !",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#3085d6",
-          cancelButtonColor: "#d33",
-          confirmButtonText: "Oui, supprimez-le !"
-        })
-        .then(result => {
-          if (result.value) {
+          buttons: ["Yes", "No", "Cancel"],
+          message: "Vous ne pourrez pas revenir en arrière !"
+        },
+        response => {
+          if (response == 0) {
             this.$http
               .delete("http://localhost:8000/api/tree/" + this.parent_node_id)
               .then(() => {
-                this.$swal
-                  .fire("Supprimé!", "le nœud a été supprimé.", "success")
-                  .then(() => {
-                    this.selected_path.pop();
-                  });
+                this.selected_path.pop();
+                this.$dialog.showMessageBox({
+                  title: "success",
+                  message: "le nœud a été supprimé."
+                });
               })
               .catch(error => {
-                this.$swal.fire({
-                  icon: "error",
-                  title: "Oops...",
-                  text: error.response.data.message
-                });
+                this.$dialog.showErrorBox(
+                  "error" + error.response.status,
+                  error.response.data.message
+                );
               });
           }
-        });
+        }
+      );
     },
 
     // ########################### maps ##############################
@@ -483,7 +477,7 @@ export default {
               )
               .then(() => {
                 this.$dialog.showMessageBox({
-                  titile: "success",
+                  title: "success",
                   message: "intervention envoyé"
                 });
                 this.reset();
@@ -515,7 +509,6 @@ export default {
           await this.order();
         })
         .catch(error => {
-          console.log(error.message);
           this.$dialog.showErrorBox(
             "error" + error.response.status,
             error.response.data.message

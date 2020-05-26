@@ -123,8 +123,11 @@ export default {
           this.rows = res.data.agents_total;
           this.isBusy = false;
         })
-        .catch(err => {
-          console.log(err);
+        .catch(error => {
+          this.$dialog.showErrorBox(
+            "error" + error.response.status,
+            error.response.data.message
+          );
         });
     },
     foo(e) {

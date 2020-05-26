@@ -95,7 +95,7 @@ export default {
   },
   data() {
     return {
-      heading: "Les intervention",
+      heading: "Les interventions en cours",
       subheading:
         "This is an example dashboard created using build-in elements and components.",
       icon: "pe-7s-plane icon-gradient bg-tempting-azure",
@@ -174,8 +174,11 @@ export default {
           this.rows = res.data.interventions_total;
           this.isBusy = false;
         })
-        .catch(err => {
-          console.log(err);
+        .catch(error => {
+          this.$dialog.showErrorBox(
+            "error" + error.response.status,
+            error.response.data.message
+          );
         });
     },
     foo(e) {

@@ -11,7 +11,7 @@ const routes = [
   // ########################### Intervention ###########################
 
   {
-    path: "/intervention",
+    path: "/",
     name: "intervention",
     component: () =>
       import("../views/Dashboards/Intervention/Intervention.vue"),
@@ -53,7 +53,7 @@ const routes = [
   // ########################### statistiques ###########################
 
   {
-    path: "/",
+    path: "/statistiques/unites",
     name: "Unites",
     component: () => import("../views/Dashboards/Statistiques/Unites.vue"),
   },

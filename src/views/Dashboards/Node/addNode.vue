@@ -219,10 +219,9 @@ export default {
             description: "",
             parent_id: null
           };
-
-          this.$swal.fire({
-            icon: "success",
-            title: "Nœud ajouté avec succès"
+          this.$dialog.showMessageBox({
+            title: "success",
+            message: "Nœud ajouté avec succès"
           });
         })
         .catch(error => {

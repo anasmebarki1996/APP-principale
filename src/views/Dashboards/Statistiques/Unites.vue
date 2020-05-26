@@ -1,10 +1,6 @@
 <template>
   <div>
-    <page-title
-      :heading="heading"
-      :subheading="subheading"
-      :icon="icon"
-    ></page-title>
+    <page-title :heading="heading" :subheading="subheading" :icon="icon"></page-title>
 
     <div class="main-card mb-3 card">
       <div class="card-body">
@@ -20,17 +16,9 @@
             </div>
             <div class="mb-2 mr-sm-2 mb-sm-0 position-relative form-group">
               <label for="exampleEmail22" class="mr-sm-2">Date</label>
-              <select
-                class="mb-2 form-control"
-                v-model="day"
-                v-if="choix == 'quotidien'"
-              >
+              <select class="mb-2 form-control" v-model="day" v-if="choix == 'quotidien'">
                 <option value="null" disabled selected>Jour</option>
-                <option
-                  v-bind:value="n < 10 ? '0' + n : n"
-                  v-for="n in 31"
-                  v-bind:key="n"
-                >
+                <option v-bind:value="n < 10 ? '0' + n : n" v-for="n in 31" v-bind:key="n">
                   <div v-if="n < 10">0{{ n }}</div>
                   <div v-else>{{ n }}</div>
                 </option>
@@ -41,28 +29,17 @@
                 v-if="choix == 'quotidien' || choix == 'mensuel'"
               >
                 <option value="null" disabled selected>Mois</option>
-                <option
-                  v-bind:value="n < 10 ? '0' + n : n"
-                  v-for="n in 12"
-                  v-bind:key="n"
-                >
+                <option v-bind:value="n < 10 ? '0' + n : n" v-for="n in 12" v-bind:key="n">
                   <div v-if="n < 10">0{{ n }}</div>
                   <div v-else>{{ n }}</div>
                 </option>
               </select>
               <select class="mb-2 form-control" v-model="year">
                 <option value="null" disabled selected>Année</option>
-                <option
-                  v-bind:value="year - i"
-                  v-for="(n, i) in 5"
-                  v-bind:key="n"
-                  >{{ year - i }}</option
-                >
+                <option v-bind:value="year - i" v-for="(n, i) in 5" v-bind:key="n">{{ year - i }}</option>
               </select>
             </div>
-            <button class="btn btn-primary" v-on:click="recherche()">
-              recherche
-            </button>
+            <button class="btn btn-primary" v-on:click="recherche()">recherche</button>
           </div>
         </div>
       </div>
@@ -86,9 +63,7 @@
         </div>
       </template>
       <template v-slot:cell(show_details)="row">
-        <b-button size="sm" class="mr-2" v-on:click="showDetails(row.item._id)"
-          >détails</b-button
-        >
+        <b-button size="sm" class="mr-2" v-on:click="showDetails(row.item._id)">détails</b-button>
       </template>
 
       <template v-slot:row-details="row">
@@ -118,7 +93,7 @@ import PageTitle from "../../../Layout/Components/PageTitle.vue";
 
 export default {
   components: {
-    PageTitle,
+    PageTitle
   },
   data: () => ({
     heading: "ChartJS",
@@ -141,28 +116,28 @@ export default {
       {
         key: "nom",
         label: "Unites",
-        tdClass: "nameOfTheClass",
+        tdClass: "nameOfTheClass"
       },
       {
         key: "nombreAgents",
         label: "Agents",
-        tdClass: "nameOfTheClass",
+        tdClass: "nameOfTheClass"
       },
       {
         key: "nombreEngins",
         label: "Engins",
-        tdClass: "nameOfTheClass",
+        tdClass: "nameOfTheClass"
       },
       {
         key: "nombreInterventions",
         label: "Interventions",
-        tdClass: "nameOfTheClass",
+        tdClass: "nameOfTheClass"
       },
       {
         key: "tempsReponse",
         label: "Moyenne de temps de reponse",
-        tdClass: "nameOfTheClass",
-      },
+        tdClass: "nameOfTheClass"
+      }
     ],
     items: [],
     isBusy: false,
@@ -171,7 +146,7 @@ export default {
     currentPage: 1,
     sort: "dateTimeAppel",
     sortBy: "",
-    search: "",
+    search: ""
   }),
 
   methods: {
@@ -179,9 +154,9 @@ export default {
       this.$http
         .post(process.env.VUE_APP_API + "/statistique/getStatistiques", {
           date: this.date,
-          choix: this.choix,
+          choix: this.choix
         })
-        .then((res) => {
+        .then(res => {
           this.items = res.data.unites;
 
           for (let j = 0; j < this.items.length; j++) {
@@ -222,9 +197,8 @@ export default {
             }
             if (!this.items[j].tempsReponse) this.items[j].tempsReponse = 0;
           }
-          console.log(this.items);
         })
-        .catch((error) => {
+        .catch(error => {
           this.$dialog.showErrorBox(
             "error" + error.response.status,
             error.response.data.message
@@ -270,7 +244,7 @@ export default {
       } else {
         this.$dialog.showErrorBox("error", "Il y a un erreur");
       }
-    },
+    }
   },
   created() {
     this.date = this.$moment().format("YYYY-MM-DD");
@@ -278,6 +252,6 @@ export default {
     this.year = this.$moment().format("YYYY");
     this.month = this.$moment().format("MM");
     this.day = this.$moment().format("DD");
-  },
+  }
 };
 </script>

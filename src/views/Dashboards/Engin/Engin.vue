@@ -146,8 +146,11 @@ export default {
           this.engin_code_name_list = res.data.engin_code_name_list;
           this.isBusy = false;
         })
-        .catch(err => {
-          console.log(err);
+        .catch(error => {
+          this.$dialog.showErrorBox(
+            "error" + error.response.status,
+            error.response.data.message
+          );
         });
     },
     foo(e) {

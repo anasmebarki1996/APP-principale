@@ -234,10 +234,9 @@ export default {
         .then(res => {
           this.selected_node = res.data.data;
           this.selected_node_display = this.selected_node;
-          this.$swal.fire({
-            icon: "success",
-            title: "Nœud modifié avec succès",
-            text: ""
+          this.$dialog.showMessageBox({
+            title: "success",
+            message: "Nœud modifié avec succès"
           });
         })
         .catch(error => {

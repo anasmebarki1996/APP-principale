@@ -370,7 +370,6 @@ export default {
         .then(async (res) => {
           // ############ Intervention ############
           this.statut = res.data.intervention.statut;
-          console.log(this.statut);
           this.numTel = res.data.intervention.numTel;
           this.description = res.data.intervention.description;
           this.bilan = res.data.intervention.bilan;
@@ -415,7 +414,7 @@ export default {
             error.response.data.message
           );
           this.$router.push({
-            path: "/intervention",
+            path: "/",
           });
         });
     },
@@ -535,13 +534,12 @@ export default {
 
     annuler() {
       this.$router.push({
-        path: "/intervention",
+        path: "/",
       });
     },
   },
   created() {},
   mounted() {
-    console.log(this.$route.query.id_intervention);
     if (!this.$route.query.id_intervention) {
       this.annuler();
     }
