@@ -8,23 +8,30 @@
             <div class="widget-subheading">{{ role }}</div>
           </div>
           <div class="widget-content-left">
-            <b-dropdown toggle-class="p-0 mr-2" menu-class="dropdown-menu-lg" variant="link" right>
+            <b-dropdown
+              toggle-class="p-0 mr-2"
+              menu-class="dropdown-menu-lg"
+              variant="link"
+              right
+            >
               <span slot="button-content" v-if="role">
                 <div class="icon-wrapper icon-wrapper-alt rounded-circle">
-                  <img width="42" class="rounded-circle" :src="getIconPath()" alt />
+                  <img
+                    width="42"
+                    class="rounded-circle"
+                    :src="getIconPath()"
+                    alt
+                  />
                 </div>
               </span>
-              <button type="button" tabindex="0" class="dropdown-item">Menus</button>
-              <button type="button" tabindex="0" class="dropdown-item">Settingsddd</button>
-              <h6 tabindex="-1" class="dropdown-header">Header</h6>
-              <button type="button" tabindex="0" class="dropdown-item">Actions</button>
-              <div tabindex="-1" class="dropdown-divider"></div>
               <button
                 type="button"
                 tabindex="0"
                 class="dropdown-item"
                 v-on:click="logout"
-              >Se déconnecter</button>
+              >
+                Se déconnecter
+              </button>
             </b-dropdown>
           </div>
         </div>
@@ -66,7 +73,7 @@ export default {
   data: () => ({}),
   props: {
     nom: String,
-    role: String
+    role: String,
   },
 
   methods: {
@@ -77,7 +84,7 @@ export default {
           this.$store.commit("delete_agent");
           this.$router.push({ path: "/login" });
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     },
@@ -85,7 +92,7 @@ export default {
       return this.role
         ? require(`../../../assets/images/avatars/${this.role}.png`)
         : "";
-    }
-  }
+    },
+  },
 };
 </script>

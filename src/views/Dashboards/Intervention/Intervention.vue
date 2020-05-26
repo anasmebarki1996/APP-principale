@@ -27,7 +27,11 @@
             v-model="search"
           />
           <div class="input-group-append">
-            <button class="btn btn-secondary" type="button" v-on:click="getAllIntervention">
+            <button
+              class="btn btn-secondary"
+              type="button"
+              v-on:click="getAllIntervention"
+            >
               <b-icon icon="search"></b-icon>
             </button>
           </div>
@@ -55,7 +59,9 @@
         </div>
       </template>
       <template v-slot:cell(show_details)="row">
-        <b-button size="sm" class="mr-2" v-on:click="showDetails(row.item._id)">détails</b-button>
+        <b-button size="sm" class="mr-2" v-on:click="showDetails(row.item._id)"
+          >détails {{ row.item._id }}</b-button
+        >
       </template>
 
       <template v-slot:row-details="row">
@@ -90,7 +96,7 @@
 import PageTitle from "../../../Layout/Components/PageTitle";
 export default {
   components: {
-    PageTitle
+    PageTitle,
   },
   data() {
     return {
@@ -105,33 +111,33 @@ export default {
           key: "numTel",
           label: "numero de telephone",
           tdClass: "nameOfTheClass",
-          sortable: true
+          sortable: true,
         },
         {
           key: "statut",
           label: "statut",
           tdClass: "nameOfTheClass",
-          sortable: true
+          sortable: true,
         },
         {
           key: "dateTimeAppel",
           label: "dateTimeAppel",
           tdClass: "nameOfTheClass",
-          sortable: true
+          sortable: true,
         },
         {
           key: "adresse.adresse_rue",
           label: "adresse_rue",
           tdClass: "nameOfTheClass",
-          sortable: true
+          sortable: true,
         },
         {
           key: "statut",
           label: "statut",
           tdClass: "nameOfTheClass",
-          sortable: true
+          sortable: true,
         },
-        { key: "show_details", label: "Role", tdClass: "nameOfTheClass" }
+        { key: "show_details", label: "Role", tdClass: "nameOfTheClass" },
       ],
       isBusy: false,
       items: [],
@@ -141,7 +147,7 @@ export default {
       sort: "dateTimeAppel",
       sortBy: "",
       search: "",
-      date: "2020-04-02"
+      date: "2020-04-02",
     };
   },
   methods: {
@@ -161,9 +167,10 @@ export default {
       }
       this.$http
         .post(link, {
-          date: this.date
+          date: this.date,
         })
-        .then(res => {
+        .then((res) => {
+          console.log(res.data.interventions);
           for (let i = 0; i < res.data.interventions.length; i++) {
             res.data.interventions[i].dateTimeAppel = this.$moment(
               res.data.interventions[i].dateTimeAppel
@@ -173,7 +180,7 @@ export default {
           this.rows = res.data.interventions_total;
           this.isBusy = false;
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     },
@@ -187,12 +194,12 @@ export default {
     showDetails(id_intervention) {
       this.$router.push({
         path: "/intervention-details",
-        query: { id_intervention: id_intervention }
+        query: { id_intervention: id_intervention },
       });
-    }
+    },
   },
   created() {
     this.getAllIntervention();
-  }
+  },
 };
 </script>

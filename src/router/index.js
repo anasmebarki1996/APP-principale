@@ -24,9 +24,14 @@ const routes = [
   },
   {
     path: "/intervention-en-cours",
-    name: "Intervention_En_Cours",
+    name: "Intervention En Cours",
     component: () =>
       import("../views/Dashboards/Intervention/Intervention-En-Cours.vue"),
+  },
+  {
+    path: "/nouvelle-intervention",
+    name: "Nouvelle Intervention",
+    component: () => import("../views/Dashboards/Intervention/Nouvelle-Intervention.vue"),
   },
 
   // Agent
@@ -49,8 +54,8 @@ const routes = [
 
   {
     path: "/",
-    name: "analytics",
-    component: () => import("../views/Dashboards/Statistiques/Analytics.vue"),
+    name: "Unites",
+    component: () => import("../views/Dashboards/Statistiques/Unites.vue"),
   },
   {
     path: "/statistiques/journal",
@@ -124,7 +129,7 @@ router.beforeEach(async (to, from, next) => {
     } else next("/login");
   } else {
     if (resp == "success") {
-      next("/");
+      next("/nouvelle-intervention");
     } else {
       next();
     }
