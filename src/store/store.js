@@ -9,6 +9,7 @@ const store = new Vuex.Store({
     agent_nom: "",
     agent_role: "",
     agent_username: "",
+    agent_id_unite: "",
     tree: [],
     statistiques: {},
     heatMap: [],
@@ -27,6 +28,9 @@ const store = new Vuex.Store({
     get_agent_username: (state) => {
       return state.agent_username;
     },
+    get_agent_id_unite: (state) => {
+      return state.agent_id_unite;
+    },
     get_tree: (state) => {
       return state.tree;
     },
@@ -43,12 +47,14 @@ const store = new Vuex.Store({
       state.agent_nom = agent.agent_nom;
       state.agent_role = agent.agent_role;
       state.agent_username = agent.agent_username;
+      state.agent_id_unite = agent.id_unite
     },
     delete_agent: (state) => {
       state.agent_id = null;
       state.agent_nom = null;
       state.agent_role = null;
       state.agent_username = null;
+      state.agent_id_unite = null;
     },
     init_tree: (state, data) => {
       state.tree = data;

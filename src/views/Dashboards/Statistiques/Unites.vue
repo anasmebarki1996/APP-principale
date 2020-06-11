@@ -36,7 +36,11 @@
               </select>
               <select class="mb-2 form-control" v-model="year">
                 <option value="null" disabled selected>Année</option>
-                <option v-bind:value="year - i" v-for="(n, i) in 5" v-bind:key="n">{{ year - i }}</option>
+                <option
+                  v-bind:value="current_year - i"
+                  v-for="(n, i) in 5"
+                  v-bind:key="n"
+                >{{ current_year - i }}</option>
               </select>
             </div>
             <button class="btn btn-primary" v-on:click="recherche()">recherche</button>
@@ -250,6 +254,7 @@ export default {
     this.date = this.$moment().format("YYYY-MM-DD");
     this.getStatistiques();
     this.year = this.$moment().format("YYYY");
+    this.current_year = this.$moment().format("YYYY");
     this.month = this.$moment().format("MM");
     this.day = this.$moment().format("DD");
   }

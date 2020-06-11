@@ -49,12 +49,20 @@ import VueAxios from "vue-axios";
 
 Vue.use(VueAxios, axios);
 
+Vue.filter('lastTime', function (dateTime) {
+  return moment(new Date(dateTime)).fromNow()
+})
+
+Vue.filter('dateTime', function (dateTime) {
+  return moment(new Date(dateTime)).format("YYYY-MM-DD à HH:mm");
+})
+
 
 import * as VueGoogleMaps from 'vue2-google-maps'
 
 Vue.use(VueGoogleMaps, {
   load: {
-    key: "AIzaSyDh-wrSH71HVGsYWw9RcFgCBstOOyeHKqo",
+    key: "AIzaSyAOifFchSotR-YmTmtWsgybi62qqGmVjUU",
     libraries: ["places", "visualization"]
   }
 })

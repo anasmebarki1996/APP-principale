@@ -282,7 +282,7 @@ export default {
   methods: {
     getAllEngins() {
       this.$http
-        .get("http://localhost:8000/api/engin/")
+        .get(process.env.VUE_APP_API + "/engin/")
         .then(res => {
           this.Engins = res.data.data;
         })
@@ -344,7 +344,7 @@ export default {
           response => {
             if (response == 0) {
               this.$http
-                .post("http://localhost:8000/API/getAppel", {
+                .post(process.env.VUE_APP_API + "/getAppel", {
                   numTel: this.numTelInput
                 })
                 .then(async res => {
@@ -373,7 +373,7 @@ export default {
     },
     getCurrentLevel() {
       this.$http
-        .get("http://localhost:8000/api/tree/nodes/" + this.parent_node_id)
+        .get(process.env.VUE_APP_API + "/tree/nodes/" + this.parent_node_id)
         .then(res => {
           this.current_level = res.data.data;
           if (!res.data.data.length) {
@@ -398,7 +398,7 @@ export default {
     },
     getNodePath() {
       this.$http
-        .get("http://localhost:8000/api/tree/path/" + this.parent_node_id)
+        .get(process.env.VUE_APP_API + "/tree/path/" + this.parent_node_id)
         .then(res => {
           this.selected_path = res.data.data.reverse();
         })
@@ -433,7 +433,7 @@ export default {
         response => {
           if (response == 0) {
             this.$http
-              .delete("http://localhost:8000/api/tree/" + this.parent_node_id)
+              .delete(process.env.VUE_APP_API + "/tree/" + this.parent_node_id)
               .then(() => {
                 this.selected_path.pop();
                 this.$dialog.showMessageBox({
@@ -464,7 +464,7 @@ export default {
           if (response == 0) {
             this.$http
               .post(
-                "http://localhost:8000/API/intervention/envoyerIntervention",
+                process.env.VUE_APP_API + "/intervention/envoyerIntervention",
                 {
                   id_unite: id_unite,
                   node: this.parent_node_id,
@@ -494,7 +494,7 @@ export default {
     },
     async getUnitePlusProche() {
       await this.$http
-        .post("http://localhost:8000/API/getUnitePlusProche", {
+        .post(process.env.VUE_APP_API + "/getUnitePlusProche", {
           lat: 34.6,
           lng: 0
         })

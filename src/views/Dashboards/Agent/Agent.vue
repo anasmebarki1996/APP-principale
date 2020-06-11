@@ -1,8 +1,26 @@
 <template>
   <div>
-    <page-title :heading="heading" :subheading="subheading" :icon="icon"></page-title>
+    <page-title
+      :heading="heading"
+      :subheading="subheading"
+      :icon="icon"
+    ></page-title>
     <div class="row">
-      <div class="col-md-6 input-group"></div>
+      <div class="col-md-6 input-group">
+        <select
+          class="mb-2 form-control"
+          v-model="id_unite"
+          v-on:change="getAllAgents()"
+        >
+          <option value="" selected>Tout</option>
+          <option
+            v-bind:value="unite1._id"
+            v-for="unite1 in unites"
+            v-bind:key="unite1._id"
+            >{{ unite1.nom }}</option
+          >
+        </select>
+      </div>
       <div class="col-md-6 input-group">
         <input
           type="text"
@@ -11,7 +29,7 @@
           v-model="search"
         />
         <div class="input-group-append">
-          <button class="btn btn-secondary" type="button" v-on:click="getAllIntervention">
+          <button class="btn btn-light" type="button" v-on:click="getAllAgents">
             <b-icon icon="search"></b-icon>
           </button>
         </div>
@@ -27,6 +45,14 @@
       @sort-changed="foo"
       show-empty
     >
+      <template v-slot:cell(show_details)="data">
+        <b-button variant="success" v-on:click="updateAgent(data.item._id)">
+          <font-awesome-icon icon="edit" />
+        </b-button>
+        <b-button variant="danger" v-on:click="deleteAgent(data.item._id)">
+          <font-awesome-icon icon="trash" />
+        </b-button>
+      </template>
       <template v-slot:empty>
         <h4 class="d-flex justify-content-center">table vide</h4>
       </template>
@@ -42,7 +68,7 @@
       :total-rows="rows"
       :per-page="limit"
       aria-controls="my-table"
-      v-on:click.native="getAllIntervention"
+      v-on:click.native="getAllAgents"
     ></b-pagination>
   </div>
 </template>
@@ -52,7 +78,7 @@ import PageTitle from "../../../Layout/Components/PageTitle";
 
 export default {
   components: {
-    PageTitle
+    PageTitle,
   },
   data() {
     return {
@@ -65,31 +91,36 @@ export default {
           key: "nom",
           label: "nom",
           tdClass: "nameOfTheClass",
-          sortable: true
+          sortable: true,
         },
         {
           key: "prenom",
           label: "prenom",
           tdClass: "nameOfTheClass",
-          sortable: true
+          sortable: true,
         },
         {
           key: "username",
           label: "username",
           tdClass: "nameOfTheClass",
-          sortable: true
+          sortable: true,
         },
         {
           key: "role",
           label: "role",
           tdClass: "nameOfTheClass",
-          sortable: true
+          sortable: true,
         },
         {
           key: "numTel",
           label: "numTel",
-          tdClass: "nameOfTheClass"
-        }
+          tdClass: "nameOfTheClass",
+        },
+        {
+          key: "show_details",
+          label: "",
+          tdClass: "nameOfTheClass",
+        },
       ],
       isBusy: false,
       items: [],
@@ -98,11 +129,13 @@ export default {
       currentPage: 1,
       sortBy: "",
       search: "",
-      value: ""
+      value: "",
+      unites: [],
+      id_unite: "",
     };
   },
   methods: {
-    getAllIntervention() {
+    getAllAgents() {
       this.isBusy = true;
       var link =
         process.env.VUE_APP_API +
@@ -117,13 +150,15 @@ export default {
         link = link + "&sort=" + this.sortBy;
       }
       this.$http
-        .post(link, {})
-        .then(res => {
+        .post(link, {
+          id_unite: this.id_unite,
+        })
+        .then((res) => {
           this.items = res.data.agents;
           this.rows = res.data.agents_total;
           this.isBusy = false;
         })
-        .catch(error => {
+        .catch((error) => {
           this.$dialog.showErrorBox(
             "error" + error.response.status,
             error.response.data.message
@@ -134,11 +169,66 @@ export default {
       if (e.sortDesc) {
         this.sortBy = "-" + e.sortBy;
       } else this.sortBy = e.sortBy;
-      this.getAllIntervention();
-    }
+      this.getAllAgents();
+    },
+    getListUnitePrincipaleAndSesSecondaire() {
+      this.$http
+        .post(
+          process.env.VUE_APP_API + "/getListUnitePrincipaleAndSesSecondaire"
+        )
+        .then((res) => {
+          this.unites = res.data.unites;
+        })
+        .catch((error) => {
+          this.$dialog.showErrorBox(
+            "error" + error.response.status,
+            error.response.data.message
+          );
+        });
+    },
+    updateAgent(id_agent) {
+      this.$router.push({
+        path: "/modifier-agent",
+        query: { id_agent: id_agent },
+      });
+    },
+    deleteAgent(id_agent) {
+      this.$dialog.showMessageBox(
+        {
+          title: "Supprimer un agent",
+          buttons: ["Yes", "No", "Cancel"],
+          message: "Vous etes sur?",
+        },
+        (response) => {
+          if (response == 0) {
+            this.$http
+              .post(process.env.VUE_APP_API + "/deleteAgent", {
+                id_agent: id_agent,
+              })
+              .then(() => {
+                this.$dialog.showMessageBox({
+                  title: "success",
+                  message: "Agent supprimé avec succès",
+                });
+                this.getAllAgents();
+              })
+              .catch((error) => {
+                this.$dialog.showErrorBox(
+                  "error" + error.response.status,
+                  error.response.data.message
+                );
+              });
+          }
+        }
+      );
+    },
   },
   created() {
-    this.getAllIntervention();
-  }
+    if (this.$route.query.id_unite) {
+      this.id_unite = this.$route.query.id_unite;
+    }
+    this.getAllAgents();
+    this.getListUnitePrincipaleAndSesSecondaire();
+  },
 };
 </script>

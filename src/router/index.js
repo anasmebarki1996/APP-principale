@@ -9,7 +9,6 @@ Vue.use(VueRouter);
 
 const routes = [
   // ########################### Intervention ###########################
-
   {
     path: "/",
     name: "intervention",
@@ -31,7 +30,8 @@ const routes = [
   {
     path: "/nouvelle-intervention",
     name: "Nouvelle Intervention",
-    component: () => import("../views/Dashboards/Intervention/Nouvelle-Intervention.vue"),
+    component: () =>
+      import("../views/Dashboards/Intervention/Nouvelle-Intervention.vue"),
   },
 
   // Agent
@@ -41,6 +41,16 @@ const routes = [
     name: "Agent",
     component: () => import("../views/Dashboards/Agent/Agent.vue"),
   },
+  {
+    path: "/nouveau-agent",
+    name: "Nouveau Agent",
+    component: () => import("../views/Dashboards/Agent/Nouveau-Agent.vue"),
+  },
+  {
+    path: "/modifier-agent",
+    name: "Modifier Agent",
+    component: () => import("../views/Dashboards/Agent/Modifier-Agent.vue"),
+  },
 
   // Engin
 
@@ -48,6 +58,13 @@ const routes = [
     path: "/engin",
     name: "Engin",
     component: () => import("../views/Dashboards/Engin/Engin.vue"),
+  },
+  // Unite
+
+  {
+    path: "/unite",
+    name: "Unite",
+    component: () => import("../views/Dashboards/Unite/Unite.vue"),
   },
 
   // ########################### statistiques ###########################

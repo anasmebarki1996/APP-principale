@@ -1,5 +1,5 @@
 {
-  "name": "my-app",
+  "name": "MainUnit_ProtectLife",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -28,6 +28,7 @@
     "jquery": "^3.4.1",
     "moment-timezone": "^0.5.28",
     "node-sass": "^4.13.1",
+    "pdfmake": "^0.1.65",
     "pe7-icon": "^1.0.4",
     "perfect-scrollbar": "^1.5.0",
     "popper.js": "^1.16.1",

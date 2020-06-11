@@ -8,6 +8,27 @@
       :link="link"
     ></page-title>
     <div class="row">
+      <div>
+        <b-button variant="primary">Primary</b-button>
+        <b-button variant="light">light</b-button>
+        <b-button variant="success">Success</b-button>
+        <b-button variant="danger">Danger</b-button>
+        <b-button variant="warning">Warning</b-button>
+        <b-button variant="info">Info</b-button>
+        <b-button variant="light">Light</b-button>
+        <b-button variant="dark">Dark</b-button>
+      </div>
+      <div>
+        <button type="button" class="btn btn-primary">Primary</button>
+        <button type="button" class="btn btn-light">light</button>
+        <button type="button" class="btn btn-success">Success</button>
+        <button type="button" class="btn btn-danger">Danger</button>
+        <button type="button" class="btn btn-warning">Warning</button>
+        <button type="button" class="btn btn-info">Info</button>
+        <button type="button" class="btn btn-light">Light</button>
+        <button type="button" class="btn btn-dark">Dark</button>
+        <button type="button" class="btn btn-link">Link</button>
+      </div>
       <div class="col-md-6">
         <b-form-datepicker
           id="example-datepicker"
@@ -27,7 +48,11 @@
             v-model="search"
           />
           <div class="input-group-append">
-            <button class="btn btn-secondary" type="button" v-on:click="getAllIntervention">
+            <button
+              class="btn btn-light"
+              type="button"
+              v-on:click="getAllIntervention"
+            >
               <b-icon icon="search"></b-icon>
             </button>
           </div>
@@ -58,8 +83,19 @@
         <b-button
           size="sm"
           class="mr-2"
+          variant="light"
           v-on:click="showDetails(row.item._id)"
-        >détails {{ row.item._id }}</b-button>
+          >détails</b-button
+        >
+
+        <b-button
+          v-if="(row.item.statut = 'termine')"
+          size="sm"
+          class="mr-2"
+          variant="info"
+          v-on:click="donwloadInterventionPDF(row.item._id)"
+          >Télécharger</b-button
+        >
       </template>
 
       <template v-slot:row-details="row">
@@ -94,7 +130,7 @@
 import PageTitle from "../../../Layout/Components/PageTitle";
 export default {
   components: {
-    PageTitle
+    PageTitle,
   },
   data() {
     return {
@@ -109,33 +145,33 @@ export default {
           key: "numTel",
           label: "numero de telephone",
           tdClass: "nameOfTheClass",
-          sortable: true
+          sortable: true,
         },
         {
           key: "statut",
           label: "statut",
           tdClass: "nameOfTheClass",
-          sortable: true
+          sortable: true,
         },
         {
           key: "dateTimeAppel",
-          label: "dateTimeAppel",
+          label: "Heure Appel",
           tdClass: "nameOfTheClass",
-          sortable: true
+          sortable: true,
         },
         {
           key: "adresse.adresse_rue",
           label: "adresse_rue",
           tdClass: "nameOfTheClass",
-          sortable: true
+          sortable: true,
         },
         {
           key: "statut",
           label: "statut",
           tdClass: "nameOfTheClass",
-          sortable: true
+          sortable: true,
         },
-        { key: "show_details", label: "Role", tdClass: "nameOfTheClass" }
+        { key: "show_details", label: "Role", tdClass: "nameOfTheClass" },
       ],
       isBusy: false,
       items: [],
@@ -145,7 +181,7 @@ export default {
       sort: "dateTimeAppel",
       sortBy: "",
       search: "",
-      date: "2020-04-02"
+      date: "2020-05-27",
     };
   },
   methods: {
@@ -165,9 +201,9 @@ export default {
       }
       this.$http
         .post(link, {
-          date: this.date
+          date: this.date,
         })
-        .then(res => {
+        .then((res) => {
           for (let i = 0; i < res.data.interventions.length; i++) {
             res.data.interventions[i].dateTimeAppel = this.$moment(
               res.data.interventions[i].dateTimeAppel
@@ -177,7 +213,7 @@ export default {
           this.rows = res.data.interventions_total;
           this.isBusy = false;
         })
-        .catch(error => {
+        .catch((error) => {
           this.$dialog.showErrorBox(
             "error" + error.response.status,
             error.response.data.message
@@ -194,12 +230,124 @@ export default {
     showDetails(id_intervention) {
       this.$router.push({
         path: "/intervention-details",
-        query: { id_intervention: id_intervention }
+        query: { id_intervention: id_intervention },
       });
-    }
+    },
+    donwloadInterventionPDF(id_intervention) {
+      var pdfMake = require("pdfmake");
+      if (pdfMake.vfs == undefined) {
+        var pdfFonts = require("pdfmake/build/vfs_fonts.js");
+        pdfMake.vfs = pdfFonts.pdfMake.vfs;
+      }
+      this.$http
+        .post(
+          process.env.VUE_APP_API + "/intervention/getIntervention_details",
+          {
+            id_intervention: id_intervention,
+          }
+        )
+        .then((res) => {
+          let description = "";
+          for (var i = 0; i < res.data.intervention.description.length; i++) {
+            description += res.data.intervention.description[i] + " - ";
+          }
+          var docDefinition = {
+            content: [
+              {
+                text: "La direction de la protection civile",
+                style: "header",
+                alignment: "center",
+              },
+              {
+                text:
+                  "Unite principale :" +
+                  res.data.intervention.unite_principale.nom,
+                style: "header",
+                alignment: "center",
+              },
+              {
+                text:
+                  "Unite principale :" +
+                  res.data.intervention.unite_secondaire.nom,
+                style: "header",
+                alignment: "center",
+              },
+              {
+                text: "\n",
+              },
+              {
+                columns: [
+                  {
+                    text:
+                      "Unite principale :" +
+                      "\n" +
+                      res.data.intervention.unite_principale.nom +
+                      "\n" +
+                      res.data.intervention.unite_principale.adresse.wilaya +
+                      "\n" +
+                      res.data.intervention.unite_principale.adresse.daira +
+                      "\n" +
+                      res.data.intervention.unite_principale.adresse
+                        .adresse_rue +
+                      "\nCCO :" +
+                      res.data.intervention.cco_agent_principale.nom +
+                      " " +
+                      res.data.intervention.cco_agent_principale.prenom,
+                  },
+                  {
+                    text:
+                      "Unite secondaire :" +
+                      "\n" +
+                      res.data.intervention.unite_secondaire.nom +
+                      "\n" +
+                      res.data.intervention.unite_secondaire.adresse.wilaya +
+                      "\n" +
+                      res.data.intervention.unite_secondaire.adresse.daira +
+                      "\n" +
+                      res.data.intervention.unite_secondaire.adresse
+                        .adresse_rue +
+                      "\nCCO :" +
+                      res.data.intervention.cco_agent_secondaire.nom +
+                      " " +
+                      res.data.intervention.cco_agent_secondaire.prenom,
+                  },
+                ],
+              },
+              {
+                text: "\n",
+              },
+              { text: "Intervention", style: "header", alignment: "center" },
+              { text: "\n" },
+              {
+                columns: [
+                  {
+                    text:
+                      "Le " +
+                      this.$moment(res.data.intervention.dateTimeAppel).format(
+                        "YYYY-MM-DD à HH:MM"
+                      ),
+                  },
+                  {
+                    text: "type :" + description,
+                  },
+                ],
+              },
+            ],
+          };
+          pdfMake.createPdf(docDefinition).download("optionalName.pdf");
+        })
+        .catch((error) => {
+          console.log(error);
+          this.$dialog.showErrorBox(
+            "error" + error.response.status,
+            error.response.data.message
+          );
+        });
+      console.log(id_intervention);
+    },
   },
   created() {
     this.getAllIntervention();
-  }
+  },
 };
 </script>

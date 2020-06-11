@@ -1,7 +1,11 @@
 <template>
   <div>
     <div class="d-flex justify-content-center">
-      <div class="search-wrapper" v-bind:class="{ active: searchOpen }" style="width: auto;">
+      <div
+        class="search-wrapper"
+        v-bind:class="{ active: searchOpen }"
+        style="width: auto;"
+      >
         <div class="input-holder" style="width: 500px;">
           <input
             v-model="numTelInput"
@@ -21,7 +25,7 @@
       <div class="col-lg-12">
         <div>
           <!-- ##################################################### -->
-          <b-card bg-variant="light" style="padding-buttom: 200px;">
+          <b-card bg-variant="link" style="padding-buttom: 200px;">
             <b-form-group
               label-cols-lg="3"
               label="Informations Personnelles"
@@ -36,7 +40,11 @@
                 label-align-sm="right"
                 label-for="nested-street"
               >
-                <b-form-input id="nested-street" v-model="numTel" readonly></b-form-input>
+                <b-form-input
+                  id="nested-street"
+                  v-model="numTel"
+                  readonly
+                ></b-form-input>
               </b-form-group>
 
               <b-form-group
@@ -45,7 +53,11 @@
                 label-align-sm="right"
                 label-for="gpsAdresse"
               >
-                <b-form-input id="gpsAdresse" v-model="gpsAdresse" readonly></b-form-input>
+                <b-form-input
+                  id="gpsAdresse"
+                  v-model="gpsAdresse"
+                  readonly
+                ></b-form-input>
               </b-form-group>
 
               <b-form-group
@@ -71,7 +83,10 @@
                 label-align-sm="right"
                 label-for="nested-state"
               >
-                <b-form-input id="nested-state" v-model="adresse_rue"></b-form-input>
+                <b-form-input
+                  id="nested-state"
+                  v-model="adresse_rue"
+                ></b-form-input>
               </b-form-group>
             </b-form-group>
           </b-card>
@@ -94,7 +109,11 @@
                       <b>Niveau Principal</b>
                     </span>
                   </li>
-                  <li class="breadcrumb-item" v-for="(path_item, key) in selected_path" :key="key">
+                  <li
+                    class="breadcrumb-item"
+                    v-for="(path_item, key) in selected_path"
+                    :key="key"
+                  >
                     <span
                       style="cursor:pointer"
                       :class="
@@ -130,16 +149,17 @@
                 <div class="p-1 slick-slider-sm mx-auto">
                   <div class="widget-chart widget-chart2 text-left p-0">
                     <div class="widget-chat-wrapper-outer">
-                      <div class="row" style="margin: 10px;" v-if="!show_unites">
-                        <!-- v-on:mouseover="nodeInfoDisplay(node)"
-                        v-on:mouseleave="nodeInfoDisplay(null)"-->
+                      <div
+                        class="row"
+                        style="margin: 10px;"
+                        v-if="!show_unites"
+                      >
                         <div
                           class="col-4 col-4"
                           v-for="node in current_level"
                           :key="node._id"
                           style="margin-bottom:10px;"
                         >
-                          <!-- v-on:mouseover="tmp_selected_node = selected_node ; selected_node = node" v-on:mouseleave="selected_node = tmp_selected_node" -->
                           <b-button
                             variant="light"
                             v-on:click="getChildren(node)"
@@ -151,21 +171,13 @@
                               v-bind:title="node.name"
                             >
                               <div class="widget-content-wrapper">
-                                <div class="widget-content-left">
-                                  <div class="widget-heading">
-                                    <!-- <img
-                                      src="https://static.thenounproject.com/png/656264-200.png"
-                                      width="50"
-                                      alt
-                                      srcset
-                                    />-->
-                                  </div>
-                                </div>
                                 <div class="widget-content-outer">
                                   <div
                                     class="widget-heading"
                                     style="padding-left:25px;"
-                                  >{{ node.name }}</div>
+                                  >
+                                    {{ node.name }}
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -173,34 +185,37 @@
                         </div>
                       </div>
                       <!-- // ########################## -->
+
                       <div class="row col-md-12" v-if="show_unites">
                         <div
                           v-for="unite in unites"
                           :key="unite._id"
-                          class="col-lg-3 col-md-4 card mb-4 widget-content"
-                          style="margin:2px;"
+                          class="col-md-4 card mb-4 widget-content"
                         >
-                          <div class="widget-content-wrapper">
-                            <div class="widget-content-left">
-                              <div class="widget-heading">{{ unite.nom_unite }}</div>
-                              <div v-for="engin in unite.engins" :key="engin._id">
-                                <div
-                                  class="widget-subheading"
-                                >{{ engin.code_name }} {{ engin.nombre }}</div>
+                          <div class="">
+                            <div class="widget-content-left col-md-12">
+                              <div class="widget-heading">
+                                {{ unite.nom_unite }}
                               </div>
-                            </div>
-                          </div>
-                          <div class="widget-content-wrapper">
-                            <div class="widget-content-left">
+                              <div
+                                v-for="engin in unite.engins"
+                                :key="engin._id"
+                              >
+                                <div class="widget-subheading">
+                                  {{ engin.code_name }} {{ engin.nombre }}
+                                </div>
+                              </div>
                               <div class="widget-numbers text-success">
                                 <span>{{ unite.duration }}</span>
                                 <br />
                                 <span>{{ unite.distanceEnKM }}</span>
                                 <br />
                               </div>
-                            </div>
-                            <div class="widget-content-right">
-                              <b-button v-on:click="envoyerIntervention(unite._id)">envoyer</b-button>
+                              <b-button
+                                variant="light"
+                                v-on:click="envoyerIntervention(unite._id)"
+                                >envoyer</b-button
+                              >
                             </div>
                           </div>
                         </div>
@@ -219,19 +234,27 @@
                 <div v-if="selected_node_display != null">
                   <div id="description">
                     <ol class="breadcrumb" style="padding:5px;">
-                      <span style="cursor:pointer" class="text-success text-capitalize">
+                      <span
+                        style="cursor:pointer"
+                        class="text-success text-capitalize"
+                      >
                         <b>Description :</b>
                       </span>
                     </ol>
 
                     <div class="row">
-                      <p class="col-12 pl-4">{{ selected_node_display.description }}</p>
+                      <p class="col-12 pl-4">
+                        {{ selected_node_display.description }}
+                      </p>
                     </div>
                   </div>
 
                   <div id="Conseils_instructions">
                     <ol class="breadcrumb" style="padding:5px;">
-                      <span style="cursor:pointer" class="text-success text-capitalize">
+                      <span
+                        style="cursor:pointer"
+                        class="text-success text-capitalize"
+                      >
                         <b>Conseils et instructions :</b>
                       </span>
                     </ol>
@@ -243,7 +266,9 @@
                           key) in selected_node_display.Conseils_instructions"
                           :key="key"
                           style="margin-bottom:3px;"
-                        >- {{ instruction }}</p>
+                        >
+                          - {{ instruction }}
+                        </p>
                       </div>
 
                       <div class="col-4">
@@ -254,7 +279,10 @@
 
                   <div id="intern_decision">
                     <ol class="breadcrumb" style="padding:5px;">
-                      <span style="cursor:pointer" class="text-success text-capitalize">
+                      <span
+                        style="cursor:pointer"
+                        class="text-success text-capitalize"
+                      >
                         <b>Moyen D'intervention Recommandée</b>
                       </span>
                     </ol>
@@ -276,7 +304,10 @@
 
                   <div id="extern_decision">
                     <ol class="breadcrumb" style="padding:5px;">
-                      <span style="cursor:pointer" class="text-success text-capitalize">
+                      <span
+                        style="cursor:pointer"
+                        class="text-success text-capitalize"
+                      >
                         <b>Intervention Externe Recommandée</b>
                       </span>
                     </ol>
@@ -314,7 +345,7 @@ import {
   faCalendarAlt,
   faAngleDown,
   faAngleUp,
-  faTh
+  faTh,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(faTrashAlt, faCheck, faAngleDown, faAngleUp, faTh, faCalendarAlt);
@@ -342,44 +373,44 @@ export default {
     Engins: [],
     etablissement_extern: [
       {
-        name: "Police"
+        name: "Police",
       },
       {
-        name: "Gendarmerie"
+        name: "Gendarmerie",
       },
       {
-        name: "Conservation des forêts"
+        name: "Conservation des forêts",
       },
       {
-        name: "Hopital"
-      }
+        name: "Hopital",
+      },
     ],
     node_to_add: {
       decision: {
         intern: [],
-        extern: []
+        extern: [],
       },
       icon: "",
       Conseils_instructions: [],
 
       name: "",
       description: "",
-      parent_id: null
+      parent_id: null,
     },
     // ################# partie unites #################
 
     unites: [],
-    show_unites: false
+    show_unites: false,
   }),
 
   methods: {
     getAllEngins() {
       this.$http
-        .get("http://localhost:8000/api/engin/")
-        .then(res => {
+        .get(process.env.VUE_APP_API + "/engin/")
+        .then((res) => {
           this.Engins = res.data.data;
         })
-        .catch(error => {
+        .catch((error) => {
           this.$dialog.showErrorBox(
             "error" + error.response.status,
             error.response.data.message
@@ -398,15 +429,15 @@ export default {
           {
             title: "Vous confirmez ce numero ?",
             buttons: ["Yes", "No", "Cancel"],
-            message: "Vous etes sur?"
+            message: "Vous etes sur?",
           },
-          response => {
+          (response) => {
             if (response == 0) {
               this.$http
-                .post("http://localhost:8000/API/getAppel", {
-                  numTel: this.numTelInput
+                .post(process.env.VUE_APP_API + "/getAppel", {
+                  numTel: this.numTelInput,
                 })
-                .then(async res => {
+                .then(async (res) => {
                   this.numTel = res.data.appel.numTel;
                   this.numTelInput = "";
                   this.gps_coordonnee = res.data.appel.gps_coordonnee;
@@ -414,7 +445,7 @@ export default {
                     this.gps_coordonnee
                   );
                 })
-                .catch(error => {
+                .catch((error) => {
                   this.$dialog.showErrorBox(
                     "erreur" + error.response.status,
                     error.response.data.message
@@ -432,15 +463,15 @@ export default {
     },
     getCurrentLevel() {
       this.$http
-        .get("http://localhost:8000/api/tree/nodes/" + this.parent_node_id)
-        .then(res => {
+        .get(process.env.VUE_APP_API + "/tree/nodes/" + this.parent_node_id)
+        .then((res) => {
           this.current_level = res.data.data;
           if (!res.data.data.length) {
             this.getUnitePlusProche();
             this.show_unites = true;
           }
         })
-        .catch(error => {
+        .catch((error) => {
           this.$dialog.showErrorBox(
             "error" + error.response.status,
             error.response.data.message
@@ -458,11 +489,11 @@ export default {
     },
     getNodePath() {
       this.$http
-        .get("http://localhost:8000/api/tree/path/" + this.parent_node_id)
-        .then(res => {
+        .get(process.env.VUE_APP_API + "/tree/path/" + this.parent_node_id)
+        .then((res) => {
           this.selected_path = res.data.data.reverse();
         })
-        .catch(error => {
+        .catch((error) => {
           this.$dialog.showErrorBox(
             "error" + error.response.status,
             error.response.data.message
@@ -490,31 +521,32 @@ export default {
         {
           title: "Etes vous sur de l'envoyer ?",
           buttons: ["oui", "non", "Cancel"],
-          message: "Vous ne pourrez plus la retransmettre apres l'envoie"
+          message: "Vous ne pourrez plus la retransmettre apres l'envoie",
         },
-        response => {
+        (response) => {
           if (response == 0) {
             this.$http
               .post(
                 process.env.VUE_APP_API + "/intervention/envoyerIntervention",
                 {
                   id_unite: id_unite,
-                  node: this.parent_node_id,
+                  id_node: this.parent_node_id,
+                  description: this.selected_path,
                   wilaya: this.wilaya,
                   daira: this.daira,
                   adresse_rue: this.adresse_rue,
                   gps_coordonnee: this.gps_coordonnee,
-                  numTel: this.numTel
+                  numTel: this.numTel,
                 }
               )
               .then(() => {
                 this.$dialog.showMessageBox({
                   title: "success",
-                  message: "intervention envoyé"
+                  message: "intervention envoyé",
                 });
                 this.reset();
               })
-              .catch(error => {
+              .catch((error) => {
                 this.$dialog.showErrorBox(
                   "erreur" + error.response.status,
                   error.response.data.message
@@ -526,21 +558,21 @@ export default {
     },
     async getUnitePlusProche() {
       await this.$http
-        .post("http://localhost:8000/API/getUnitePlusProche", {
+        .post(process.env.VUE_APP_API + "/getUnitePlusProche", {
           lat: 34.6,
-          lng: 0
+          lng: 0,
         })
-        .then(async res => {
+        .then(async (res) => {
           this.unites = await this.gpsTraitement(
             {
               lat: 34.6,
-              lng: 1
+              lng: 1,
             },
             res.data.unites
           );
           await this.order();
         })
-        .catch(error => {
+        .catch((error) => {
           this.$dialog.showErrorBox(
             "error" + error.response.status,
             error.response.data.message
@@ -548,18 +580,18 @@ export default {
         });
     },
     async gpsTraitement(secoursAdresse, unites) {
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         let response;
         let distances = [];
         this.$gmapApiPromiseLazy().then(() => {
           // eslint-disable-next-line
           var service = new google.maps.DistanceMatrixService();
-          unites.forEach(e => {
+          unites.forEach((e) => {
             service.getDistanceMatrix(
               {
                 origins: [secoursAdresse],
                 destinations: [e.adresse.gps_coordonnee],
-                travelMode: "DRIVING"
+                travelMode: "DRIVING",
               },
               function(resp) {
                 distances.push({
@@ -570,7 +602,7 @@ export default {
                   uniteAdresse: e.adresse,
                   distanceEnKM: resp.rows[0].elements[0].distance.text,
                   duration: resp.rows[0].elements[0].duration.text,
-                  duration_en_sec: resp.rows[0].elements[0].duration.value
+                  duration_en_sec: resp.rows[0].elements[0].duration.value,
                 });
                 if (unites.length == distances.length) {
                   response = resolve(distances);
@@ -583,7 +615,7 @@ export default {
       });
     },
     async getLocationName(adresse) {
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         let response;
         this.$gmapApiPromiseLazy().then(() => {
           // eslint-disable-next-line
@@ -592,7 +624,7 @@ export default {
             {
               origins: [adresse],
               destinations: [adresse],
-              travelMode: "DRIVING"
+              travelMode: "DRIVING",
             },
             function(resp) {
               response = resolve(resp.originAddresses[0]);
@@ -606,8 +638,8 @@ export default {
       this.$gmapApiPromiseLazy().then(() => {
         var options = {
           componentRestrictions: {
-            country: "dz"
-          }
+            country: "dz",
+          },
         };
         // eslint-disable-next-line
         var places = new google.maps.places.Autocomplete(
@@ -620,7 +652,7 @@ export default {
           this.gpsAdresse = place.formatted_address;
           this.gps_coordonnee = {
             lat: place.geometry.location.lat(),
-            lng: place.geometry.location.lng()
+            lng: place.geometry.location.lng(),
           };
         });
       });
@@ -649,7 +681,7 @@ export default {
         this.show_unites = true;
         this.getUnitePlusProche();
       }
-    }
+    },
   },
 
   watch: {
@@ -659,18 +691,18 @@ export default {
       this.getNodePath();
       this.selected_node_display = this.selected_node;
       this.node_to_update = this.selected_node;
-    }
+    },
   },
   computed: {
     randomKey: function() {
       return Math.ceil(Math.random() * 10);
-    }
+    },
   },
   created() {
     this.getAllEngins();
     this.getCurrentLevel();
     this.getGpsAdresse();
-  }
+  },
 };
 </script>
 <style scoped>

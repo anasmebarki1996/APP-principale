@@ -41,7 +41,7 @@ import VuePerfectScrollbar from "vue-perfect-scrollbar";
 export default {
   components: {
     SidebarMenu,
-    VuePerfectScrollbar
+    VuePerfectScrollbar,
   },
   data() {
     return {
@@ -51,7 +51,7 @@ export default {
       menu: [
         {
           header: true,
-          title: "Main Navigation"
+          title: "Main Navigation",
         },
         {
           title: "Interventions",
@@ -59,17 +59,17 @@ export default {
           child: [
             {
               href: "/",
-              title: "Intervention"
+              title: "Intervention",
             },
             {
               href: "/nouvelle-intervention",
-              title: "Nouvelle Intervention"
+              title: "Nouvelle Intervention",
             },
             {
               href: "/intervention-en-cours",
-              title: "Intervention En Cours"
-            }
-          ]
+              title: "Intervention En Cours",
+            },
+          ],
         },
 
         {
@@ -78,9 +78,13 @@ export default {
           child: [
             {
               href: "/agent",
-              title: "Les agents"
-            }
-          ]
+              title: "Les agents",
+            },
+            {
+              href: "/nouveau-agent",
+              title: "Nouveau Agent",
+            },
+          ],
         },
         {
           title: "Engins",
@@ -88,9 +92,19 @@ export default {
           child: [
             {
               href: "/engin",
-              title: "Engin"
-            }
-          ]
+              title: "Engin",
+            },
+          ],
+        },
+        {
+          title: "Unites",
+          icon: "pe-7s-car",
+          child: [
+            {
+              href: "/unite",
+              title: "Unite",
+            },
+          ],
         },
         {
           title: "Statistiques",
@@ -98,26 +112,26 @@ export default {
           child: [
             {
               href: "/statistiques/unites",
-              title: "Unites"
+              title: "Unites",
             },
             {
               href: "/statistiques/maps",
-              title: "Heat Map"
+              title: "Heat Map",
             },
             {
               title: "journal",
-              href: "/statistiques/journal"
-            }
-          ]
-        }
+              href: "/statistiques/journal",
+            },
+          ],
+        },
       ],
       collapsed: true,
       windowWidth: 0,
-      role: ""
+      role: "",
     };
   },
   props: {
-    sidebarbg: String
+    sidebarbg: String,
   },
   methods: {
     toggleBodyClass(className) {
@@ -154,7 +168,7 @@ export default {
       } else {
         el.classList.remove("closed-sidebar", "closed-sidebar-md");
       }
-    }
+    },
   },
   mounted() {
     this.role = this.$store.getters.get_agent_role;
@@ -162,7 +176,7 @@ export default {
       this.menu.push(
         {
           header: true,
-          title: "Admin Interventions"
+          title: "Admin Interventions",
         },
         {
           title: "Interventions",
@@ -170,9 +184,9 @@ export default {
           child: [
             {
               href: "/intervention/listnode",
-              title: "list intervention"
-            }
-          ]
+              title: "list intervention",
+            },
+          ],
         }
       );
     }
@@ -186,6 +200,6 @@ export default {
 
   beforeDestroy() {
     window.removeEventListener("resize", this.getWindowWidth);
-  }
+  },
 };
 </script>
