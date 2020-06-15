@@ -1,10 +1,6 @@
 <template>
   <div>
-    <page-title
-      :heading="heading"
-      :subheading="subheading"
-      :icon="icon"
-    ></page-title>
+    <page-title :heading="heading" :subheading="subheading" :icon="icon"></page-title>
 
     <!-- ##################################################### -->
     <div class="row">
@@ -19,38 +15,70 @@
                   v-on:click="selecteNodeFromPath(null)"
                 >
                   <b>Niveau Principal</b>
+                  <span v-if="selected_path.length == 0">
+                    <router-link :to="{ name: 'addNode', params: { parent_node_id } }">
+                      <img
+                        style="margin-left:20px;margin-top:-7px;"
+                        src="@/assets/images/add.png"
+                        width="15"
+                        title="Ajouter Un nœud "
+                      />
+                    </router-link>
+                  </span>
                 </span>
               </li>
-              <li
-                class="breadcrumb-item"
-                v-for="(path_item, key) in selected_path"
-                :key="key"
-              >
+              <li class="breadcrumb-item" v-for="(path_item, key) in selected_path" :key="key">
                 <span
                   style="cursor:pointer"
                   :class="
-                    path_item._id == selected_path[selected_path.length - 1]._id
-                      ? 'badge badge-success'
-                      : 'badge badge-primary'
-                  "
+                        path_item._id ==
+                        selected_path[selected_path.length - 1]._id
+                          ? 'badge badge-success'
+                          : 'badge badge-primary'
+                      "
                   v-on:click="selecteNodeFromPath(path_item._id)"
                 >
                   {{ path_item.name }}
                   <span
                     style="margin-left:20px;"
                     v-if="
-                      path_item._id ==
-                        selected_path[selected_path.length - 1]._id
-                    "
-                  ></span>
+                          path_item._id ==
+                            selected_path[selected_path.length - 1]._id
+                        "
+                  >
+                    <router-link :to="{ name: 'addNode', params: { parent_node_id } }">
+                      <img
+                        style="margin-top:-7px;"
+                        src="@/assets/images/add.png"
+                        width="15"
+                        title="Ajouter Un nœud "
+                      />
+                    </router-link>
+                    <router-link
+                      :to="{
+                            name: 'updateNode',
+                            params: { selected_node, parent_node_id },
+                          }"
+                    >
+                      <img
+                        style="margin-left:5px;margin-top:-7px;"
+                        src="@/assets/images/edit.png"
+                        width="15"
+                        title="modifier cet nœud  "
+                      />
+                    </router-link>
+                    <img
+                      style="margin-left:5px;cursor:pointer;margin-top:-7px;"
+                      src="@/assets/images/remove.png"
+                      width="15"
+                      title="Supprimer cet nœud sélectionné"
+                      v-on:click="removeNode()"
+                    />
+                  </span>
                 </span>
               </li>
               <li class="breadcrumb-item" v-if="selected_path.length">
-                <span
-                  style="cursor:pointer"
-                  class="badge badge-warning"
-                  v-on:click="terminer()"
-                >
+                <span style="cursor:pointer" class="badge badge-warning" v-on:click="terminer()">
                   <b>Terminer</b>
                 </span>
               </li>
@@ -72,19 +100,10 @@
                         v-on:click="getChildren(node)"
                         style="width:260px;height:64px"
                       >
-                        <div
-                          class="widget-content"
-                          style="padding:0px;"
-                          v-bind:title="node.name"
-                        >
+                        <div class="widget-content" style="padding:0px;" v-bind:title="node.name">
                           <div class="widget-content-wrapper">
                             <div class="widget-content-outer">
-                              <div
-                                class="widget-heading"
-                                style="padding-left:25px;"
-                              >
-                                {{ node.name }}
-                              </div>
+                              <div class="widget-heading" style="padding-left:25px;">{{ node.name }}</div>
                             </div>
                           </div>
                         </div>
@@ -97,9 +116,7 @@
             </div>
 
             <div class="d-flex justify-content-center" v-if="empty">
-              <b-col class="d-flex justify-content-center"
-                >Il n'y a plus des interventions fils</b-col
-              >
+              <b-col class="d-flex justify-content-center">Il n'y a plus des interventions fils</b-col>
             </div>
           </div>
         </div>
@@ -111,27 +128,19 @@
             <div v-if="selected_node_display != null">
               <div id="description">
                 <ol class="breadcrumb" style="padding:5px;">
-                  <span
-                    style="cursor:pointer"
-                    class="text-success text-capitalize"
-                  >
+                  <span style="cursor:pointer" class="text-success text-capitalize">
                     <b>Description :</b>
                   </span>
                 </ol>
 
                 <div class="row">
-                  <p class="col-12 pl-4">
-                    {{ selected_node_display.description }}
-                  </p>
+                  <p class="col-12 pl-4">{{ selected_node_display.description }}</p>
                 </div>
               </div>
 
               <div id="Conseils_instructions">
                 <ol class="breadcrumb" style="padding:5px;">
-                  <span
-                    style="cursor:pointer"
-                    class="text-success text-capitalize"
-                  >
+                  <span style="cursor:pointer" class="text-success text-capitalize">
                     <b>Conseils et instructions :</b>
                   </span>
                 </ol>
@@ -143,9 +152,7 @@
                       key) in selected_node_display.Conseils_instructions"
                       :key="key"
                       style="margin-bottom:3px;"
-                    >
-                      - {{ instruction }}
-                    </p>
+                    >- {{ instruction }}</p>
                   </div>
 
                   <div class="col-4">
@@ -156,10 +163,7 @@
 
               <div id="intern_decision">
                 <ol class="breadcrumb" style="padding:5px;">
-                  <span
-                    style="cursor:pointer"
-                    class="text-success text-capitalize"
-                  >
+                  <span style="cursor:pointer" class="text-success text-capitalize">
                     <b>Moyen D'intervention Recommandée</b>
                   </span>
                 </ol>
@@ -181,10 +185,7 @@
 
               <div id="extern_decision">
                 <ol class="breadcrumb" style="padding:5px;">
-                  <span
-                    style="cursor:pointer"
-                    class="text-success text-capitalize"
-                  >
+                  <span style="cursor:pointer" class="text-success text-capitalize">
                     <b>Intervention Externe Recommandée</b>
                   </span>
                 </ol>
@@ -221,7 +222,7 @@ import {
   faCalendarAlt,
   faAngleDown,
   faAngleUp,
-  faTh,
+  faTh
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(faTrashAlt, faCheck, faAngleDown, faAngleUp, faTh, faCalendarAlt);
@@ -243,30 +244,30 @@ export default {
     Engins: [],
     etablissement_extern: [
       {
-        name: "Police",
+        name: "Police"
       },
       {
-        name: "Gendarmerie",
+        name: "Gendarmerie"
       },
       {
-        name: "Conservation des forêts",
+        name: "Conservation des forêts"
       },
       {
-        name: "Hopital",
-      },
+        name: "Hopital"
+      }
     ],
     node_to_add: {
       decision: {
         intern: [],
-        extern: [],
+        extern: []
       },
       icon: "",
       Conseils_instructions: [],
 
       name: "",
       description: "",
-      parent_id: null,
-    },
+      parent_id: null
+    }
   }),
 
   methods: {
@@ -274,13 +275,13 @@ export default {
       this.empty = false;
       this.$http
         .get(process.env.VUE_APP_API + "/tree/nodes/" + this.parent_node_id)
-        .then((res) => {
+        .then(res => {
           this.current_level = res.data.data;
           if (!res.data.data.length) {
             this.empty = true;
           }
         })
-        .catch((error) => {
+        .catch(error => {
           this.$dialog.showErrorBox(
             "error" + error.response.status,
             error.response.data.message
@@ -299,10 +300,10 @@ export default {
     getNodePath() {
       this.$http
         .get(process.env.VUE_APP_API + "/tree/path/" + this.parent_node_id)
-        .then((res) => {
+        .then(res => {
           this.selected_path = res.data.data.reverse();
         })
-        .catch((error) => {
+        .catch(error => {
           this.$dialog.showErrorBox(
             "error" + error.response.status,
             error.response.data.message
@@ -322,15 +323,14 @@ export default {
         this.parent_node_id = id;
       }
     },
-
     removeNode() {
       this.$dialog.showMessageBox(
         {
           title: "Êtes-vous sûr?",
           buttons: ["Yes", "No", "Cancel"],
-          message: "Vous ne pourrez pas revenir en arrière !",
+          message: "Vous ne pourrez pas revenir en arrière !"
         },
-        (response) => {
+        response => {
           if (response == 0) {
             this.$http
               .delete(process.env.VUE_APP_API + "/tree/" + this.parent_node_id)
@@ -338,10 +338,10 @@ export default {
                 this.selected_path.pop();
                 this.$dialog.showMessageBox({
                   title: "success",
-                  message: "le nœud a été supprimé.",
+                  message: "le nœud a été supprimé."
                 });
               })
-              .catch((error) => {
+              .catch(error => {
                 this.$dialog.showErrorBox(
                   "error" + error.response.status,
                   error.response.data.message
@@ -350,7 +350,7 @@ export default {
           }
         }
       );
-    },
+    }
   },
 
   watch: {
@@ -360,16 +360,16 @@ export default {
       this.getNodePath();
       this.selected_node_display = this.selected_node;
       this.node_to_update = this.selected_node;
-    },
+    }
   },
   computed: {
     randomKey: function() {
       return Math.ceil(Math.random() * 10);
-    },
+    }
   },
   created() {
     this.getCurrentLevel();
-  },
+  }
 };
 </script>
 <style scoped>

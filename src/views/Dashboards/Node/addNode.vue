@@ -5,18 +5,29 @@
     <div class="row" style="margin-top: 10px;">
       <div class="col-12">
         <div>
-          <h5 class="modal-title text-center" style="width:100%;">Ajouter un nouveau nœud</h5>
+          <h5 class="modal-title text-center" style="width:100%;">
+            Ajouter un nouveau nœud
+          </h5>
           <div class="container">
             <div class="row">
               <div class="form-group col-12">
                 <label for="Nom">Nom</label>
-                <input class="form-control" id="Nom" v-model="node_to_add.name" />
+                <input
+                  class="form-control"
+                  id="Nom"
+                  v-model="node_to_add.name"
+                />
               </div>
 
               <div class="form-group col-6">
                 <label for="Nom">Description</label>
 
-                <textarea cols="30" class="form-control" rows="5" v-model="node_to_add.description"></textarea>
+                <textarea
+                  cols="30"
+                  class="form-control"
+                  rows="5"
+                  v-model="node_to_add.description"
+                ></textarea>
               </div>
 
               <div class="form-group col-6">
@@ -43,14 +54,14 @@
                       node_to_add.Conseils_instructions.splice(key, 1)
                     "
                     title="double-cliquez pour supprimer cet élément"
-                  >{{ instruction }}</option>
+                    >{{ instruction }}</option
+                  >
                 </select>
               </div>
 
               <div class="form-group col-6">
                 <label for="Nom">
-                  Définir les moyens (Engins) pour cet cas
-                  d'intervention
+                  Définir les moyens (Engins) pour cet cas d'intervention
                 </label>
 
                 <select
@@ -66,8 +77,9 @@
                   <option
                     v-for="(engin, key) in Engins"
                     :key="key"
-                    :value="engin.name"
-                  >{{ engin.name }}</option>
+                    :value="engin"
+                    >{{ engin }}</option
+                  >
                 </select>
 
                 <select class="form-control" multiple>
@@ -78,14 +90,14 @@
                     style="cursor: no-drop;"
                     v-on:dblclick="node_to_add.decision.intern.splice(key, 1)"
                     title="double-cliquez pour supprimer cet élément"
-                  >{{ engin }}</option>
+                    >{{ engin }}</option
+                  >
                 </select>
               </div>
 
               <div class="form-group col-6">
                 <label for="Nom">
-                  Les établissements extern nécéssaire pour cette
-                  intervention
+                  Les établissements extern nécéssaire pour cette intervention
                 </label>
 
                 <select
@@ -102,7 +114,8 @@
                     v-for="(etablissement, key) in etablissement_extern"
                     :key="key"
                     :value="etablissement.name"
-                  >{{ etablissement.name }}</option>
+                    >{{ etablissement.name }}</option
+                  >
                 </select>
 
                 <select class="form-control" multiple>
@@ -122,8 +135,15 @@
             </div>
             <div id="childDiv" class="d-flex align-items-end flex-column">
               <div class="mt-auto">
-                <b-button variant="success" id="add_submit" v-on:click="submit_node()">Ajouter</b-button>
-                <b-button variant="outline-primary" v-on:click="annuler()">Annuler</b-button>
+                <b-button
+                  variant="success"
+                  id="add_submit"
+                  v-on:click="submit_node()"
+                  >Ajouter</b-button
+                >
+                <b-button variant="outline-primary" v-on:click="annuler()"
+                  >Annuler</b-button
+                >
               </div>
             </div>
           </div>
@@ -143,7 +163,7 @@ import {
   faCalendarAlt,
   faAngleDown,
   faAngleUp,
-  faTh
+  faTh,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(faTrashAlt, faCheck, faAngleDown, faAngleUp, faTh, faCalendarAlt);
@@ -159,40 +179,41 @@ export default {
     Engins: [],
     etablissement_extern: [
       {
-        name: "Police"
+        name: "Police",
       },
       {
-        name: "Gendarmerie"
+        name: "Gendarmerie",
       },
       {
-        name: "Conservation des forêts"
+        name: "Conservation des forêts",
       },
       {
-        name: "Hopital"
-      }
+        name: "Hopital",
+      },
     ],
     node_to_add: {
       decision: {
         intern: [],
-        extern: []
+        extern: [],
       },
       icon: "",
       Conseils_instructions: [],
 
       name: "",
       description: "",
-      parent_id: null
-    }
+      parent_id: null,
+    },
   }),
 
   methods: {
     getAllEngins() {
       this.$http
-        .get(process.env.VUE_APP_API + "/engin/")
-        .then(res => {
-          this.Engins = res.data.data;
+        .get(process.env.VUE_APP_API + "/engin_name_list")
+        .then((res) => {
+          console.log(res.data.engin_code_name_list);
+          this.Engins = res.data.engin_code_name_list;
         })
-        .catch(error => {
+        .catch((error) => {
           this.$dialog.showErrorBox(
             "error" + error.response.status,
             error.response.data.message
@@ -204,27 +225,27 @@ export default {
       this.node_to_add.parent_id = this.parent_node_id;
       this.$http
         .post(process.env.VUE_APP_API + "/tree/", this.node_to_add)
-        .then(res => {
+        .then((res) => {
           this.parent_node_id = res.data.data._id;
 
           this.node_to_add = {
             decision: {
               intern: [],
-              extern: []
+              extern: [],
             },
             icon: "",
             Conseils_instructions: [],
 
             name: "",
             description: "",
-            parent_id: null
+            parent_id: null,
           };
           this.$dialog.showMessageBox({
             title: "success",
-            message: "Nœud ajouté avec succès"
+            message: "Nœud ajouté avec succès",
           });
         })
-        .catch(error => {
+        .catch((error) => {
           this.$dialog.showErrorBox(
             "error" + error.response.status,
             error.response.data.message
@@ -233,9 +254,9 @@ export default {
     },
     annuler() {
       this.$router.push({
-        path: "/intervention/listnode"
+        path: "/intervention/listnode",
       });
-    }
+    },
   },
 
   watch: {
@@ -250,18 +271,18 @@ export default {
       var tmp = [...new Set(this.node_to_add.decision.extern)];
       if (tmp.length != this.node_to_add.decision.extern.length)
         this.node_to_add.decision.extern = tmp;
-    }
+    },
   },
   computed: {
     randomKey: function() {
       return Math.ceil(Math.random() * 10);
-    }
+    },
   },
   created() {
     this.getAllEngins();
 
     this.parent_node_id = this.$route.params.parent_node_id;
-  }
+  },
 };
 </script>
 <style scoped>
