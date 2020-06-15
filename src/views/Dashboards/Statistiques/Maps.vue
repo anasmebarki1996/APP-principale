@@ -81,7 +81,7 @@
     <div class="content">
       <b-row>
         <b-col md="12">
-          <b-card title="Area Chart">
+          <b-card title="">
             <heat-map />
           </b-card>
         </b-col>
@@ -102,29 +102,13 @@ export default {
     HeatMap,
   },
   data: () => ({
-    heading: "ChartJS",
-    subheading: "Huge selection of charts created with the Vue ChartJS Plugin",
-    icon: "pe-7s-bandaid icon-gradient bg-amy-crisp",
+    heading: "Heat Map",
+    subheading: "",
+    icon: "pe-7s-map-2 icon-gradient bg-amy-crisp",
     labels: [],
-    data: [
-      { lat: 37.786117, lng: -122.440119 },
-      { lat: 37.786564, lng: -122.440209 },
-      { lat: 37.786905, lng: -122.44027 },
-      { lat: 37.786956, lng: -122.440279 },
-      { lat: 37.800224, lng: -122.43352 },
-      { lat: 37.800155, lng: -122.434101 },
-      { lat: 37.80016, lng: -122.43443 },
-      { lat: 37.800378, lng: -122.434527 },
-      { lat: 37.800738, lng: -122.434598 },
-      { lat: 37.800938, lng: -122.43465 },
-      { lat: 37.801024, lng: -122.434889 },
-      { lat: 37.800955, lng: -122.435392 },
-      { lat: 37.800886, lng: -122.435959 },
-    ],
+    data: [],
     chartData: [],
     chartLabels: [],
-    chartTitle: "helooo",
-    title: "helloo faloooo",
     date: null,
     datacollection: [1, 2, 3],
     list_intervention: [],

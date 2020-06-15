@@ -110,8 +110,8 @@ export default {
   },
   data: () => ({
     heading: "ChartJS",
-    subheading: "Huge selection of charts created with the Vue ChartJS Plugin",
-    icon: "pe-7s-bandaid icon-gradient bg-amy-crisp",
+    subheading: "",
+    icon: "pe-7s-graph1 icon-gradient bg-amy-crisp",
     labels: [],
     data: [],
     chartData: [],

@@ -79,7 +79,7 @@ export default {
 
   data() {
     return {
-      username: "anasmebarki1996",
+      username: "",
       password: "ANas123123123_",
       messages: [],
       stateUsername: null,
@@ -98,8 +98,18 @@ export default {
             password: this.password,
           })
           .then((res) => {
-            this.$store.commit("init_agent", res.data);
-            this.$router.push({ path: "/" });
+            if (
+              res.data.agent_role != "admin" &&
+              res.data.agent_role != "cco_agent"
+            ) {
+              this.stateUsername = false;
+              this.statePassword = false;
+              this.invalidFeedbackUsername = "";
+              this.invalidFeedbackPassword = "vous n'avez pas la permission";
+            } else {
+              this.$store.commit("init_agent", res.data);
+              this.$router.push({ path: "/" });
+            }
           })
           .catch((error) => {
             this.stateUsername = false;

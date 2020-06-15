@@ -8,27 +8,6 @@
       :link="link"
     ></page-title>
     <div class="row">
-      <div>
-        <b-button variant="primary">Primary</b-button>
-        <b-button variant="light">light</b-button>
-        <b-button variant="success">Success</b-button>
-        <b-button variant="danger">Danger</b-button>
-        <b-button variant="warning">Warning</b-button>
-        <b-button variant="info">Info</b-button>
-        <b-button variant="light">Light</b-button>
-        <b-button variant="dark">Dark</b-button>
-      </div>
-      <div>
-        <button type="button" class="btn btn-primary">Primary</button>
-        <button type="button" class="btn btn-light">light</button>
-        <button type="button" class="btn btn-success">Success</button>
-        <button type="button" class="btn btn-danger">Danger</button>
-        <button type="button" class="btn btn-warning">Warning</button>
-        <button type="button" class="btn btn-info">Info</button>
-        <button type="button" class="btn btn-light">Light</button>
-        <button type="button" class="btn btn-dark">Dark</button>
-        <button type="button" class="btn btn-link">Link</button>
-      </div>
       <div class="col-md-6">
         <b-form-datepicker
           id="example-datepicker"
@@ -71,12 +50,12 @@
       show-empty
     >
       <template v-slot:empty>
-        <h4 class="d-flex justify-content-center">table vide</h4>
+        <h4 class="d-flex justify-content-center">Aucune intervention</h4>
       </template>
       <template v-slot:table-busy>
         <div class="text-center text-dark my-2">
           <b-spinner class="align-middle"></b-spinner>
-          <strong>Loading...</strong>
+          <strong>Chargement...</strong>
         </div>
       </template>
       <template v-slot:cell(show_details)="row">
@@ -135,43 +114,36 @@ export default {
   data() {
     return {
       heading: "Les intervention",
-      subheading:
-        "This is an example dashboard created using build-in elements and components.",
-      icon: "pe-7s-plane icon-gradient bg-tempting-azure",
+      subheading: "",
+      icon: "pe-7s-ribbon icon-gradient bg-tempting-azure",
       title: "Nouvelle Intervention",
       link: "/nouvelle-intervention",
       fields: [
         {
           key: "numTel",
-          label: "numero de telephone",
-          tdClass: "nameOfTheClass",
-          sortable: true,
-        },
-        {
-          key: "statut",
-          label: "statut",
+          label: "Numéro de téléphone",
           tdClass: "nameOfTheClass",
           sortable: true,
         },
         {
           key: "dateTimeAppel",
-          label: "Heure Appel",
+          label: "Heure d'appel",
           tdClass: "nameOfTheClass",
           sortable: true,
         },
         {
           key: "adresse.adresse_rue",
-          label: "adresse_rue",
+          label: "Adresse",
           tdClass: "nameOfTheClass",
           sortable: true,
         },
         {
           key: "statut",
-          label: "statut",
+          label: "Statut",
           tdClass: "nameOfTheClass",
           sortable: true,
         },
-        { key: "show_details", label: "Role", tdClass: "nameOfTheClass" },
+        { key: "show_details", label: "", tdClass: "nameOfTheClass" },
       ],
       isBusy: false,
       items: [],
@@ -184,6 +156,7 @@ export default {
       date: "2020-05-27",
     };
   },
+
   methods: {
     getAllIntervention() {
       this.isBusy = true;
@@ -347,7 +320,11 @@ export default {
     },
   },
   created() {
-    this.getAllIntervention();
+    this.$socket.on("interventionStatusChange", (data) => {
+      if (data.unites.includes(this.$store.getters.get_agent_id_unite)) {
+        this.getAllIntervention();
+      }
+    });
   },
 };
 </script>

@@ -58,12 +58,12 @@
       show-empty
     >
       <template v-slot:empty>
-        <h4 class="d-flex justify-content-center">table vide</h4>
+        <h4 class="d-flex justify-content-center">Aucune unité</h4>
       </template>
       <template v-slot:table-busy>
         <div class="text-center text-dark my-2">
           <b-spinner class="align-middle"></b-spinner>
-          <strong>Loading...</strong>
+          <strong>Chargement...</strong>
         </div>
       </template>
       <template v-slot:cell(show_details)="row">
@@ -100,9 +100,9 @@ export default {
     PageTitle
   },
   data: () => ({
-    heading: "ChartJS",
-    subheading: "Huge selection of charts created with the Vue ChartJS Plugin",
-    icon: "pe-7s-bandaid icon-gradient bg-amy-crisp",
+    heading: "Statistiques",
+    subheading: "",
+    icon: "pe-7s-graph icon-gradient bg-amy-crisp",
     labels: [],
     data: [],
 

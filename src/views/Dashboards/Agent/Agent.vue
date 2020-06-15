@@ -1,24 +1,15 @@
 <template>
   <div>
-    <page-title
-      :heading="heading"
-      :subheading="subheading"
-      :icon="icon"
-    ></page-title>
+    <page-title :heading="heading" :subheading="subheading" :icon="icon"></page-title>
     <div class="row">
       <div class="col-md-6 input-group">
-        <select
-          class="mb-2 form-control"
-          v-model="id_unite"
-          v-on:change="getAllAgents()"
-        >
-          <option value="" selected>Tout</option>
+        <select class="mb-2 form-control" v-model="id_unite" v-on:change="getAllAgents()">
+          <option value selected>Tout</option>
           <option
             v-bind:value="unite1._id"
             v-for="unite1 in unites"
             v-bind:key="unite1._id"
-            >{{ unite1.nom }}</option
-          >
+          >{{ unite1.nom }}</option>
         </select>
       </div>
       <div class="col-md-6 input-group">
@@ -54,12 +45,12 @@
         </b-button>
       </template>
       <template v-slot:empty>
-        <h4 class="d-flex justify-content-center">table vide</h4>
+        <h4 class="d-flex justify-content-center">Aucun agent</h4>
       </template>
       <template v-slot:table-busy>
         <div class="text-center text-dark my-2">
           <b-spinner class="align-middle"></b-spinner>
-          <strong>Loading...</strong>
+          <strong>Chargement...</strong>
         </div>
       </template>
     </b-table>
@@ -78,49 +69,48 @@ import PageTitle from "../../../Layout/Components/PageTitle";
 
 export default {
   components: {
-    PageTitle,
+    PageTitle
   },
   data() {
     return {
       heading: "Les agents",
-      subheading:
-        "This is an example dashboard created using build-in elements and components.",
+      subheading: "",
       icon: "pe-7s-users icon-gradient bg-tempting-azure",
       fields: [
         {
           key: "nom",
-          label: "nom",
+          label: "Nom",
           tdClass: "nameOfTheClass",
-          sortable: true,
+          sortable: true
         },
         {
           key: "prenom",
-          label: "prenom",
+          label: "Prénom",
           tdClass: "nameOfTheClass",
-          sortable: true,
+          sortable: true
         },
         {
           key: "username",
-          label: "username",
+          label: "Nom d'utilisateur",
           tdClass: "nameOfTheClass",
-          sortable: true,
+          sortable: true
         },
         {
           key: "role",
-          label: "role",
+          label: "Role",
           tdClass: "nameOfTheClass",
-          sortable: true,
+          sortable: true
         },
         {
           key: "numTel",
-          label: "numTel",
-          tdClass: "nameOfTheClass",
+          label: "Numéro de téléphone",
+          tdClass: "nameOfTheClass"
         },
         {
           key: "show_details",
           label: "",
-          tdClass: "nameOfTheClass",
-        },
+          tdClass: "nameOfTheClass"
+        }
       ],
       isBusy: false,
       items: [],
@@ -131,7 +121,7 @@ export default {
       search: "",
       value: "",
       unites: [],
-      id_unite: "",
+      id_unite: ""
     };
   },
   methods: {
@@ -151,14 +141,14 @@ export default {
       }
       this.$http
         .post(link, {
-          id_unite: this.id_unite,
+          id_unite: this.id_unite
         })
-        .then((res) => {
+        .then(res => {
           this.items = res.data.agents;
           this.rows = res.data.agents_total;
           this.isBusy = false;
         })
-        .catch((error) => {
+        .catch(error => {
           this.$dialog.showErrorBox(
             "error" + error.response.status,
             error.response.data.message
@@ -176,10 +166,10 @@ export default {
         .post(
           process.env.VUE_APP_API + "/getListUnitePrincipaleAndSesSecondaire"
         )
-        .then((res) => {
+        .then(res => {
           this.unites = res.data.unites;
         })
-        .catch((error) => {
+        .catch(error => {
           this.$dialog.showErrorBox(
             "error" + error.response.status,
             error.response.data.message
@@ -189,7 +179,7 @@ export default {
     updateAgent(id_agent) {
       this.$router.push({
         path: "/modifier-agent",
-        query: { id_agent: id_agent },
+        query: { id_agent: id_agent }
       });
     },
     deleteAgent(id_agent) {
@@ -197,22 +187,22 @@ export default {
         {
           title: "Supprimer un agent",
           buttons: ["Yes", "No", "Cancel"],
-          message: "Vous etes sur?",
+          message: "Vous etes sur?"
         },
-        (response) => {
+        response => {
           if (response == 0) {
             this.$http
               .post(process.env.VUE_APP_API + "/deleteAgent", {
-                id_agent: id_agent,
+                id_agent: id_agent
               })
               .then(() => {
                 this.$dialog.showMessageBox({
                   title: "success",
-                  message: "Agent supprimé avec succès",
+                  message: "Agent supprimé avec succès"
                 });
                 this.getAllAgents();
               })
-              .catch((error) => {
+              .catch(error => {
                 this.$dialog.showErrorBox(
                   "error" + error.response.status,
                   error.response.data.message
@@ -221,7 +211,7 @@ export default {
           }
         }
       );
-    },
+    }
   },
   created() {
     if (this.$route.query.id_unite) {
@@ -229,6 +219,6 @@ export default {
     }
     this.getAllAgents();
     this.getListUnitePrincipaleAndSesSecondaire();
-  },
+  }
 };
 </script>

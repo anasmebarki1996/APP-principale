@@ -12,48 +12,22 @@
         <b-card bg-variant="link" v-if="!updateOpen">
           <b-form-group
             label-cols-lg="3"
-            label="Ajouter une unite"
+            label="Ajouter un hopital"
             label-size="lg"
             label-class="font-weight-bold pt-0"
             class="mb-0"
           >
             <b-form-group
               label-cols-sm="3"
-              label="Nom Complet De l'unite"
+              label="Nom Complet De l'hopital"
               label-align-sm="right"
               label-for="nested-street"
             >
-              <b-form-input id="nested-street" v-model="nom"></b-form-input>
-            </b-form-group>
-
-            <b-form-group
-              label-cols-sm="3"
-              label="Wilaya"
-              label-align-sm="right"
-              label-for="nested-street"
-            >
-              <b-form-input id="nested-street" v-model="wilaya"></b-form-input>
+              <b-form-input id="nested-street" v-model="name"></b-form-input>
             </b-form-group>
             <b-form-group
               label-cols-sm="3"
-              label="Daira"
-              label-align-sm="right"
-              label-for="nested-street"
-            >
-              <b-form-input id="nested-street" v-model="daira"></b-form-input>
-            </b-form-group>
-
-            <b-form-group
-              label-cols-sm="3"
-              label="Adresse"
-              label-align-sm="right"
-              label-for="nested-street"
-            >
-              <b-form-input id="nested-street" v-model="adresse_rue"></b-form-input>
-            </b-form-group>
-            <b-form-group
-              label-cols-sm="3"
-              label="Laltitude"
+              label="laltitude"
               label-align-sm="right"
               label-for="nested-street"
             >
@@ -61,7 +35,7 @@
             </b-form-group>
             <b-form-group
               label-cols-sm="3"
-              label="Longitude"
+              label="longitude"
               label-align-sm="right"
               label-for="nested-street"
             >
@@ -80,57 +54,38 @@
           <div class="d-flex justify-content-end">
             <b-button
               variant="success"
-              v-on:click="createUnite()"
+              v-on:click="createHospital()"
               style="margin-right: 10px;"
-            >confirmer</b-button>
-            <b-button variant="primary" v-on:click="reset()" style="margin-right: 10px;">Annuler</b-button>
+              >confirmer</b-button
+            >
+            <b-button
+              variant="primary"
+              v-on:click="reset()"
+              style="margin-right: 10px;"
+              >Annuler</b-button
+            >
           </div>
         </b-card>
         <b-card bg-variant="link" v-else>
           <b-form-group
             label-cols-lg="3"
-            label="Modifier l'unité"
+            label="Modifier l'hopital"
             label-size="lg"
             label-class="font-weight-bold pt-0"
             class="mb-0"
           >
             <b-form-group
               label-cols-sm="3"
-              label="Nom Complet De l'unite"
+              label="Nom Complet De l'hopital"
               label-align-sm="right"
               label-for="nested-street"
             >
-              <b-form-input id="nested-street" v-model="nom"></b-form-input>
+              <b-form-input id="nested-street" v-model="name"></b-form-input>
             </b-form-group>
 
             <b-form-group
               label-cols-sm="3"
-              label="Wilaya"
-              label-align-sm="right"
-              label-for="nested-street"
-            >
-              <b-form-input id="nested-street" v-model="wilaya"></b-form-input>
-            </b-form-group>
-            <b-form-group
-              label-cols-sm="3"
-              label="Daira"
-              label-align-sm="right"
-              label-for="nested-street"
-            >
-              <b-form-input id="nested-street" v-model="daira"></b-form-input>
-            </b-form-group>
-
-            <b-form-group
-              label-cols-sm="3"
-              label="Adresse"
-              label-align-sm="right"
-              label-for="nested-street"
-            >
-              <b-form-input id="nested-street" v-model="adresse_rue"></b-form-input>
-            </b-form-group>
-            <b-form-group
-              label-cols-sm="3"
-              label="Laltitude"
+              label="laltitude"
               label-align-sm="right"
               label-for="nested-street"
             >
@@ -138,7 +93,7 @@
             </b-form-group>
             <b-form-group
               label-cols-sm="3"
-              label="Longitude"
+              label="longitude"
               label-align-sm="right"
               label-for="nested-street"
             >
@@ -157,14 +112,16 @@
           <div class="d-flex justify-content-end">
             <b-button
               variant="success"
-              v-on:click="updateInformationUnite()"
+              v-on:click="updateHospital()"
               style="margin-right: 10px;"
-            >confirmer</b-button>
+              >confirmer</b-button
+            >
             <b-button
               variant="primary"
               v-on:click="(updateOpen = false), reset()"
               style="margin-right: 10px;"
-            >Annuler</b-button>
+              >Annuler</b-button
+            >
           </div>
         </b-card>
       </div>
@@ -177,7 +134,11 @@
           v-model="search"
         />
         <div class>
-          <button class="btn btn-light" type="button" v-on:click="getListUnite">
+          <button
+            class="btn btn-light"
+            type="button"
+            v-on:click="getListHospital"
+          >
             <b-icon icon="search"></b-icon>
           </button>
         </div>
@@ -205,22 +166,17 @@
           <strong>Chargement...</strong>
         </div>
       </template>
-      <template v-slot:cell(index)="data">{{ (data.index + 1) * currentPage }}</template>
       <template v-slot:cell(panne)="data">
-        <div v-if="!data.item.panne" class="mb-2 mr-2 badge badge-success">En service</div>
+        <div v-if="!data.item.panne" class="mb-2 mr-2 badge badge-success">
+          En service
+        </div>
         <div v-else class="mb-2 mr-2 badge badge-warning">Hors Service</div>
       </template>
       <template v-slot:cell(show_details)="data">
-        <b-button variant="light" v-on:click="goToAgents(data.item._id)">
-          <font-awesome-icon icon="users" />
-        </b-button>
-        <b-button variant="info" v-on:click="goToEngins(data.item._id)">
-          <font-awesome-icon icon="ambulance" />
-        </b-button>
-        <b-button variant="success" v-on:click="openUpdateUnite(data.item)">
+        <b-button variant="success" v-on:click="openUdapteHospital(data.item)">
           <font-awesome-icon icon="edit" />
         </b-button>
-        <b-button variant="danger" v-on:click="deleteUnite(data.item._id)">
+        <b-button variant="danger" v-on:click="deleteHospital(data.item._id)">
           <font-awesome-icon icon="trash" />
         </b-button>
       </template>
@@ -230,7 +186,7 @@
       :total-rows="rows"
       :per-page="limit"
       aria-controls="my-table"
-      v-on:click.native="getListUnite"
+      v-on:click.native="getListHospital"
     ></b-pagination>
   </div>
 </template>
@@ -240,49 +196,35 @@ import PageTitle from "../../../Layout/Components/PageTitle";
 
 export default {
   components: {
-    PageTitle
+    PageTitle,
   },
   data() {
     return {
       value: "",
-      heading: "Les unites",
+      heading: "Les hopitaux",
       subheading: "",
-      icon: "pe-7s-map-2 icon-gradient bg-tempting-azure",
+      icon: "pe-7s-bandaid icon-gradient bg-tempting-azure",
       title: "",
       link: "",
-      unite_nom_list: [],
-      unite_adresse_rue_list: [],
+
       fields: [
-        "index",
         {
-          key: "nom",
+          key: "name",
           label: "Nom Complet",
           tdClass: "nomOfTheClass",
-          sortable: true
-        },
-        {
-          key: "adresse.daira",
-          label: "Code Name",
-          tdClass: "nomOfTheClass",
-          sortable: true
-        },
-        {
-          key: "adresse.adresse_rue",
-          label: "Matricule",
-          tdClass: "nomOfTheClass",
-          sortable: true
+          sortable: true,
         },
         {
           key: "numTel",
           label: "Numéro de téléphone",
           tdClass: "nomOfTheClass",
-          sortable: true
+          sortable: true,
         },
         {
           key: "show_details",
           label: "",
-          tdClass: "nomOfTheClass"
-        }
+          tdClass: "nomOfTheClass",
+        },
       ],
       isBusy: false,
       items: [],
@@ -294,23 +236,23 @@ export default {
       search: "",
       //*********** */
 
-      nom: "",
+      name: "",
       wilaya: "",
       daira: "",
       adresse_rue: "",
       lat: "",
       lng: "",
       numTel: "",
-      id_unite: "",
-      updateOpen: false
+      id_hospital: "",
+      updateOpen: false,
     };
   },
   methods: {
-    getListUnite() {
+    getListHospital() {
       this.isBusy = true;
       var link =
         process.env.VUE_APP_API +
-        "/getListUnite?limit=" +
+        "/getListHospital?limit=" +
         this.limit +
         "&page=" +
         this.currentPage;
@@ -321,15 +263,13 @@ export default {
         link = link + "&sort=" + this.sortBy;
       }
       this.$http
-        .post(link, {})
-        .then(res => {
-          this.items = res.data.unites;
-          this.rows = res.data.unites_total;
-          this.unite_nom_list = res.data.unite_nom_list;
-          this.unite_adresse_rue_list = res.data.unite_adresse_rue_list;
+        .get(link)
+        .then((res) => {
+          this.items = res.data.hospitals;
+          this.rows = res.data.hospitals_length;
           this.isBusy = false;
         })
-        .catch(error => {
+        .catch((error) => {
           this.$dialog.showErrorBox(
             "error" + error.response.status,
             error.response.data.message
@@ -340,92 +280,82 @@ export default {
       if (e.sortDesc) {
         this.sortBy = "-" + e.sortBy;
       } else this.sortBy = e.sortBy;
-      this.getListUnite();
+      this.getListHospital();
     },
 
-    createUnite() {
+    createHospital() {
       this.$http
-        .post(process.env.VUE_APP_API + "/createUnite", {
-          nom: this.nom,
-          adresse: {
-            wilaya: this.wilaya,
-            daira: this.daira,
-            adresse_rue: this.adresse_rue,
-            gps_coordonnee: {
-              lat: this.lat,
-              lng: this.lng
-            }
+        .post(process.env.VUE_APP_API + "/createHospital", {
+          name: this.name,
+          gps_coordonnee: {
+            lat: this.lat,
+            lng: this.lng,
           },
-          numTel: this.numTel
+          numTel: this.numTel,
         })
         .then(() => {
           this.$dialog.showMessageBox({
             title: "success",
-            message: "Unite ajoutée avec succès"
+            message: "Hopital ajoutée avec succès",
           });
           this.reset();
-          this.getListUnite();
+          this.getListHospital();
         })
-        .catch(error => {
+        .catch((error) => {
           this.$dialog.showErrorBox(
             "error" + error.response.status,
             error.response.data.message
           );
         });
     },
-    updateInformationUnite() {
+    updateHospital() {
       this.$http
-        .post(process.env.VUE_APP_API + "/updateInformationUnite", {
-          id_unite: this.id_unite,
-          nom: this.nom,
-          adresse: {
-            wilaya: this.wilaya,
-            daira: this.daira,
-            adresse_rue: this.adresse_rue,
-            gps_coordonnee: {
-              lat: this.lat,
-              lng: this.lng
-            }
+        .post(process.env.VUE_APP_API + "/updateHospital", {
+          id_hospital: this.id_hospital,
+          name: this.name,
+          gps_coordonnee: {
+            lat: this.lat,
+            lng: this.lng,
           },
-          numTel: this.numTel
+          numTel: this.numTel,
         })
         .then(() => {
           this.$dialog.showMessageBox({
             title: "success",
-            message: "Unite modifié avec succès"
+            message: "Hopital modifié avec succès",
           });
           this.updateOpen = false;
           this.reset();
-          this.getListUnite();
+          this.getListHospital();
         })
-        .catch(error => {
+        .catch((error) => {
           this.$dialog.showErrorBox(
             "error" + error.response.status,
             error.response.data.message
           );
         });
     },
-    deleteUnite(id_unite) {
+    deleteHospital(id_hospital) {
       this.$dialog.showMessageBox(
         {
-          title: "Supprimer un unite",
+          title: "Supprimer un hopital",
           buttons: ["&Yes", "&No", "&Cancel"],
-          message: "Vous etes sur?"
+          message: "Vous etes sur?",
         },
-        response => {
+        (response) => {
           if (response == 0) {
             this.$http
-              .post(process.env.VUE_APP_API + "/deleteUnite", {
-                id_unite: id_unite
+              .post(process.env.VUE_APP_API + "/deleteHospital", {
+                id_hospital: id_hospital,
               })
               .then(() => {
                 this.$dialog.showMessageBox({
                   title: "success",
-                  message: "Unite supprimé avec succès"
+                  message: "Hopital supprimé avec succès",
                 });
-                this.getListUnite();
+                this.getListHospital();
               })
-              .catch(error => {
+              .catch((error) => {
                 this.$dialog.showErrorBox(
                   "error" + error.response.status,
                   error.response.data.message
@@ -435,41 +365,23 @@ export default {
         }
       );
     },
-    openUpdateUnite(unite) {
+    openUdapteHospital(hospital) {
       this.updateOpen = true;
-      this.nom = unite.nom;
-      this.wilaya = unite.adresse.wilaya;
-      this.daira = unite.adresse.daira;
-      this.adresse_rue = unite.adresse.adresse_rue;
-      this.lat = unite.adresse.gps_coordonnee.lat;
-      this.lng = unite.adresse.gps_coordonnee.lng;
-      this.numTel = unite.numTel;
-      this.id_unite = unite._id;
+      this.name = hospital.name;
+      this.lat = hospital.gps_coordonnee.lat;
+      this.lng = hospital.gps_coordonnee.lng;
+      this.numTel = hospital.numTel;
+      this.id_hospital = hospital._id;
     },
     reset() {
-      this.nom = "";
-      this.wilaya = "";
-      this.daira = "";
-      this.adresse_rue = "";
+      this.name = "";
       this.lat = "";
       this.lng = "";
       this.numTel = "";
     },
-    goToAgents(id_unite) {
-      this.$router.push({
-        path: "/agent",
-        query: { id_unite: id_unite }
-      });
-    },
-    goToEngins(id_unite) {
-      this.$router.push({
-        path: "/engin",
-        query: { id_unite: id_unite }
-      });
-    }
   },
   created() {
-    this.getListUnite();
-  }
+    this.getListHospital();
+  },
 };
 </script>

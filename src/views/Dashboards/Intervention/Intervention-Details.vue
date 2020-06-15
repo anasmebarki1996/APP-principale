@@ -1,6 +1,10 @@
 <template>
   <div>
-    <page-title :heading="heading" :subheading="subheading" :icon="icon"></page-title>
+    <page-title
+      :heading="heading"
+      :subheading="subheading"
+      :icon="icon"
+    ></page-title>
     <div class="card mb-3">
       <div class="no-gutters row">
         <div class="col-md-12 col-lg-4">
@@ -11,9 +15,9 @@
                   <div class="widget-content-wrapper">
                     <div class="widget-content-left">
                       <div class="widget-heading">Déstination :</div>
-                      <div
-                        class="widget-subheading"
-                      >{{ destination.adresse_rue }} - {{ destination.daira }}</div>
+                      <div class="widget-subheading">
+                        {{ destination.adresse_rue }} - {{ destination.daira }}
+                      </div>
                     </div>
                     <div class="widget-content-right">
                       <div class="widget-numbers text-success"></div>
@@ -39,7 +43,9 @@
                             statut != null &&
                             statut != 'termine'
                         "
-                      >{{ destination.distance }} KM</div>
+                      >
+                        {{ destination.distance }} KM
+                      </div>
                       <div class="widget-subheading" v-else>---</div>
                     </div>
                   </div>
@@ -89,7 +95,9 @@
                 >
                   <div>
                     <div class="vertical-timeline-element-content bounce-in">
-                      <h4 v-if="unite.nom" class="timeline-title">{{ unite.nom }}</h4>
+                      <h4 v-if="unite.nom" class="timeline-title">
+                        {{ unite.nom }}
+                      </h4>
                       <h4 class="timeline-title"></h4>
                     </div>
                   </div>
@@ -112,69 +120,109 @@
                   </div>
                   <div class="dot-primary vertical-timeline-element">
                     <div>
-                      <span class="vertical-timeline-element-icon bounce-in"></span>
+                      <span
+                        class="vertical-timeline-element-icon bounce-in"
+                      ></span>
                       <div class="vertical-timeline-element-content bounce-in">
                         <h4 class="timeline-title">
                           Type d'intervention :
                           <div
                             v-for="intervention in description"
                             :key="intervention.id"
-                          >{{ intervention }}</div>
+                          >
+                            {{ intervention }}
+                          </div>
                         </h4>
                       </div>
                     </div>
                   </div>
-                  <div class="dot-success vertical-timeline-element" v-if="dateTimeAppel">
+                  <div
+                    class="dot-success vertical-timeline-element"
+                    v-if="dateTimeAppel"
+                  >
                     <div>
-                      <span class="vertical-timeline-element-icon bounce-in"></span>
+                      <span
+                        class="vertical-timeline-element-icon bounce-in"
+                      ></span>
                       <div class="vertical-timeline-element-content bounce-in">
-                        <h4 class="timeline-title">Appel à {{ dateTimeAppel | dateTime }}</h4>
+                        <h4 class="timeline-title">
+                          Appel à {{ dateTimeAppel | dateTime }}
+                        </h4>
                       </div>
                     </div>
                   </div>
 
-                  <div class="dot-success vertical-timeline-element" v-if="dateTimeDepart">
+                  <div
+                    class="dot-success vertical-timeline-element"
+                    v-if="dateTimeDepart"
+                  >
                     <div>
-                      <span class="vertical-timeline-element-icon bounce-in"></span>
+                      <span
+                        class="vertical-timeline-element-icon bounce-in"
+                      ></span>
                       <div class="vertical-timeline-element-content bounce-in">
-                        <h4 class="timeline-title">Départ à {{ dateTimeDepart | dateTime }}</h4>
+                        <h4 class="timeline-title">
+                          Départ à {{ dateTimeDepart | dateTime }}
+                        </h4>
                       </div>
                     </div>
                   </div>
-                  <div class="dot-success vertical-timeline-element" v-if="dateTimeArrive">
+                  <div
+                    class="dot-success vertical-timeline-element"
+                    v-if="dateTimeArrive"
+                  >
                     <div>
-                      <span class="vertical-timeline-element-icon bounce-in"></span>
+                      <span
+                        class="vertical-timeline-element-icon bounce-in"
+                      ></span>
                       <div class="vertical-timeline-element-content bounce-in">
-                        <h4 class="timeline-title">Arrivé à {{ dateTimeArrive | dateTime }}</h4>
+                        <h4 class="timeline-title">
+                          Arrivé à {{ dateTimeArrive | dateTime }}
+                        </h4>
                       </div>
                     </div>
                   </div>
                   <div v-if="transfere.lieu">
                     <div class="dot-success vertical-timeline-element">
-                      <span class="vertical-timeline-element-icon bounce-in"></span>
+                      <span
+                        class="vertical-timeline-element-icon bounce-in"
+                      ></span>
                       <div class="vertical-timeline-element-content bounce-in">
                         <h4 class="timeline-title">
                           Transfere à :
-                          <div class="badge badge-danger ml-2">{{ transfere.lieu }}</div>
+                          <div class="badge badge-danger ml-2">
+                            {{ transfere.lieu }}
+                          </div>
                         </h4>
                       </div>
                     </div>
                     <div class="dot-info vertical-timeline-element">
                       <div>
-                        <span class="vertical-timeline-element-icon bounce-in"></span>
-                        <div class="vertical-timeline-element-content bounce-in">
-                          <h4
-                            class="timeline-title"
-                          >Départ à : {{ transfere.dateTimeDepart | dateTime }}</h4>
+                        <span
+                          class="vertical-timeline-element-icon bounce-in"
+                        ></span>
+                        <div
+                          class="vertical-timeline-element-content bounce-in"
+                        >
+                          <h4 class="timeline-title">
+                            Départ à : {{ transfere.dateTimeDepart | dateTime }}
+                          </h4>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div class="dot-info vertical-timeline-element" v-if="dateTimeFin">
+                  <div
+                    class="dot-info vertical-timeline-element"
+                    v-if="dateTimeFin"
+                  >
                     <div>
-                      <span class="vertical-timeline-element-icon bounce-in"></span>
+                      <span
+                        class="vertical-timeline-element-icon bounce-in"
+                      ></span>
                       <div class="vertical-timeline-element-content bounce-in">
-                        <h4 class="timeline-title">Fin à {{ dateTimeFin | dateTime }}</h4>
+                        <h4 class="timeline-title">
+                          Fin à {{ dateTimeFin | dateTime }}
+                        </h4>
                       </div>
                     </div>
                   </div>
@@ -188,7 +236,12 @@
         <div class="content">
           <b-card class="main-card mb-4">
             <div id="maps-root">
-              <google-map :center="center" :zoom="10" style="width: 100%; height: 360px">
+              <google-map
+                :center="center"
+                :zoom="10"
+                :restriction="restriction"
+                style="width: 100%; height: 360px"
+              >
                 <google-marker
                   v-if="this.unite.nom"
                   :position="this.unite.gps_coordonnee"
@@ -244,17 +297,17 @@ import {
   faCalendarAlt,
   faAngleDown,
   faAngleUp,
-  faTh
+  faTh,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(faTrashAlt, faCheck, faAngleDown, faAngleUp, faTh, faCalendarAlt);
 
 Vue.use(VueGoogleMaps, {
   load: {
-    key: "AIzaSyDf43lPdwlF98RCBsJOFNKOkoEjkwxb5Sc"
+    key: "AIzaSyDf43lPdwlF98RCBsJOFNKOkoEjkwxb5Sc",
   },
   // Demonstrating how we can customize the name of the components
-  installComponents: false
+  installComponents: false,
 });
 
 export default {
@@ -262,15 +315,15 @@ export default {
     PageTitle,
     VuePerfectScrollbar,
     "google-map": VueGoogleMaps.Map,
-    "google-marker": VueGoogleMaps.Marker
+    "google-marker": VueGoogleMaps.Marker,
   },
   data: () => ({
     heading: "Détails interventions",
-    subheading: "Toutes les interventions en cours.",
+    subheading: "",
     icon: "pe-7s-map icon-gradient bg-premium-dark",
     type: {
       accident: ["bus", "voiture"],
-      feux: ["maison", "foret"]
+      feux: ["maison", "foret"],
     },
 
     url: "http://{s}.tile.osm.org/{z}/{x}/{y}.png",
@@ -280,7 +333,7 @@ export default {
 
     center: {
       lat: 34.8973038,
-      lng: -1.3852
+      lng: -1.3852,
     },
     markers: [],
 
@@ -293,8 +346,8 @@ export default {
       distance: "",
       duree: "",
       icon: {
-        url: require("../../../assets/images/avatars/physiotherapist.svg")
-      }
+        url: require("../../../assets/images/avatars/physiotherapist.svg"),
+      },
     },
     team: {
       nomChef: "",
@@ -302,16 +355,16 @@ export default {
       gps_coordonnee: {},
       engin: "",
       icon: {
-        url: require("../../../assets/images/avatars/taxi-stand.svg")
-      }
+        url: require("../../../assets/images/avatars/taxi-stand.svg"),
+      },
     },
     unite: {
       nom: "",
       gps_coordonnee: {},
       numTel: "",
       icon: {
-        url: require("../../../assets/images/avatars/political.svg")
-      }
+        url: require("../../../assets/images/avatars/political.svg"),
+      },
     },
     intervention: "",
     description: "",
@@ -321,18 +374,28 @@ export default {
     dateTimeArrive: "",
     transfere: {
       lieu: "",
-      dateTimeDepart: ""
+      dateTimeDepart: "",
     },
-    dateTimeFin: ""
+    dateTimeFin: "",
+
+    restriction: {
+      latLngBounds: {
+        north: 38,
+        south: 19,
+        west: -9,
+        east: 12,
+      },
+      strictBounds: false,
+    },
   }),
 
   methods: {
     getIntervention(id_intervention) {
       this.$http
         .post(process.env.VUE_APP_API + "/intervention/getIntervention", {
-          id_intervention: id_intervention
+          id_intervention: id_intervention,
         })
-        .then(async res => {
+        .then(async (res) => {
           // ############ Intervention ############
           this.statut = res.data.intervention.statut;
           this.numTel = res.data.intervention.numTel;
@@ -353,7 +416,7 @@ export default {
                   "/hospital/" +
                   res.data.intervention.transfere.hospital
               )
-              .then(async res => {
+              .then(async (res) => {
                 this.transfere.lieu = res.data.name;
                 this.transfere.gps_coordonnee = res.data.gps_coordonnee;
               });
@@ -368,11 +431,11 @@ export default {
           this.markers[0] = {
             position: {
               lat: res.data.intervention.adresse.gps_coordonnee.lat,
-              lng: res.data.intervention.adresse.gps_coordonnee.lng
+              lng: res.data.intervention.adresse.gps_coordonnee.lng,
             },
             icon: {
-              url: require("../../../assets/images/avatars/physiotherapist.svg")
-            }
+              url: require("../../../assets/images/avatars/physiotherapist.svg"),
+            },
           };
           // ############ Team ############
           this.getAdresseTeam(res.data.intervention.id_team);
@@ -380,18 +443,18 @@ export default {
           // ############ Unite ############
           await this.getUnite(res.data.intervention.id_unite);
         })
-        .catch(error => {
+        .catch((error) => {
           this.$dialog.showErrorBox(
             "error" + error.response.status,
             error.response.data.message
           );
           this.$router.push({
-            path: "/"
+            path: "/",
           });
         });
     },
     async gpsTraitement() {
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         let response;
         let data = {};
         this.$gmapApiPromiseLazy().then(() => {
@@ -409,13 +472,11 @@ export default {
           } else {
             depart = this.team.gps_coordonnee;
           }
-          console.log(destination);
-          console.log(depart);
           service.getDistanceMatrix(
             {
               origins: [JSON.parse(JSON.stringify(destination))],
               destinations: [JSON.parse(JSON.stringify(depart))],
-              travelMode: "DRIVING"
+              travelMode: "DRIVING",
             },
             function(res) {
               if (res.rows[0].elements[0].status == "OK") {
@@ -432,9 +493,9 @@ export default {
     getTeam(id_team) {
       this.$http
         .post(process.env.VUE_APP_API + "/team/getTeam", {
-          id_team: id_team
+          id_team: id_team,
         })
-        .then(res => {
+        .then((res) => {
           for (let i = 0; i < res.data.team.agents.length; i++) {
             if (res.data.team.agents[i].type == "chef") {
               this.team.nomChef =
@@ -445,7 +506,7 @@ export default {
             }
           }
         })
-        .catch(error => {
+        .catch((error) => {
           this.$dialog.showErrorBox(
             "error" + error.response.status,
             error.response.data.message
@@ -455,18 +516,18 @@ export default {
     getAdresseTeam(id_team) {
       this.$http
         .post(process.env.VUE_APP_API + "/team/getAdresseTeam", {
-          id_team: id_team
+          id_team: id_team,
         })
-        .then(res => {
+        .then((res) => {
           this.team.gps_coordonnee = {
             lat: res.data.team.gps_coordonnee.lat,
             lng: res.data.team.gps_coordonnee.lng,
             lastUpdate: this.$moment(
               new Date(res.data.team.gps_coordonnee.lastUpdate)
-            ).fromNow()
+            ).fromNow(),
           };
         })
-        .catch(error => {
+        .catch((error) => {
           this.$dialog.showErrorBox(
             "error" + error.response.status,
             error.response.data.message
@@ -476,23 +537,23 @@ export default {
     getUnite(id_unite) {
       this.$http
         .post(process.env.VUE_APP_API + "/getUnite", {
-          id_unite: id_unite
+          id_unite: id_unite,
         })
-        .then(async res => {
+        .then(async (res) => {
           this.unite.nom = res.data.unite.nom;
           this.unite.gps_coordonnee = res.data.unite.adresse.gps_coordonnee;
           this.markers[1] = {
             position: {
               lat: res.data.unite.adresse.gps_coordonnee.lat,
-              lng: res.data.unite.adresse.gps_coordonnee.lng
-            }
+              lng: res.data.unite.adresse.gps_coordonnee.lng,
+            },
           };
           this.unite.numTel = res.data.unite.numTel;
           let data = await this.gpsTraitement();
           this.destination.duree = data.duree;
           this.destination.distance = data.distance;
         })
-        .catch(error => {
+        .catch((error) => {
           this.$dialog.showErrorBox(
             "error" + error.response.status,
             error.response.data.message
@@ -502,9 +563,9 @@ export default {
 
     annuler() {
       this.$router.push({
-        path: "/"
+        path: "/",
       });
-    }
+    },
   },
   created() {},
   mounted() {
@@ -512,6 +573,11 @@ export default {
       this.annuler();
     }
     this.getIntervention(this.$route.query.id_intervention);
-  }
+    this.$socket.on("interventionStatusChange", (data) => {
+      if (data.id_intervention == this.$route.query.id_intervention) {
+        this.getIntervention(this.$route.query.id_intervention);
+      }
+    });
+  },
 };
 </script>

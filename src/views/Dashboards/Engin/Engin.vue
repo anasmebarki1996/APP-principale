@@ -9,7 +9,7 @@
     ></page-title>
     <div class="row">
       <div class="col-md-12 mb-3">
-        <b-card bg-variant="light" v-if="!updateOpen">
+        <b-card bg-variant="link" v-if="!updateOpen">
           <b-form-group
             label-cols-lg="3"
             label="Ajouter un engin"
@@ -92,14 +92,14 @@
               >confirmer</b-button
             >
             <b-button
-              variant="primary"
+              variant="outline-primary"
               v-on:click="reset()"
               style="margin-right: 10px;"
               >Annuler</b-button
             >
           </div>
         </b-card>
-        <b-card bg-variant="light" v-else>
+        <b-card bg-variant="link" v-else>
           <b-form-group
             label-cols-lg="3"
             label="Modifier l'engin"
@@ -164,12 +164,7 @@
               label-align-sm="right"
               label-for="nested-street"
             >
-              <select
-                class="mb-2 form-control"
-                v-model="id_unite"
-                v-on:change="getListEngin()"
-              >
-                <option value="" selected>Tout</option>
+              <select class="mb-2 form-control" v-model="id_unite_2">
                 <option
                   v-bind:value="unite1._id"
                   v-for="unite1 in unites"
@@ -187,7 +182,7 @@
               >Confirmer la modification</b-button
             >
             <b-button
-              variant="primary"
+              variant="outline-primary"
               v-on:click="(updateOpen = false), reset()"
               style="margin-right: 10px;"
               >Annuler</b-button
@@ -241,7 +236,7 @@
       show-empty
     >
       <template v-slot:empty>
-        <h4 class="d-flex justify-content-center">table vide</h4>
+        <h4 class="d-flex justify-content-center">Aucun engin</h4>
       </template>
       <template v-slot:table-busy>
         <div class="text-center text-dark my-2">
@@ -295,7 +290,7 @@ export default {
     return {
       value: "",
       heading: "Les engins",
-      subheading: "la liste des dsqdsqdsq",
+      subheading: "",
       icon: "pe-7s-car icon-gradient bg-tempting-azure",
       title: "",
       link: "",
@@ -348,7 +343,6 @@ export default {
       id_engin: "",
       id_unite_2: "",
       updateOpen: false,
-
       unites: [],
       id_unite: "",
     };
@@ -519,6 +513,7 @@ export default {
       this.code_name = engin.code_name;
       this.matricule = engin.matricule;
       this.id_engin = engin._id;
+      this.id_unite_2 = engin.id_unite;
     },
     getListUnitePrincipaleAndSesSecondaire() {
       this.$http
@@ -544,10 +539,11 @@ export default {
     },
   },
   created() {
-    this.id_unite_2 = this.$store.getters.get_agent_id_unite;
+    this.id_unite = this.$store.getters.get_agent_id_unite;
+    this.permission_admin = true;
+    this.getListUnite();
     this.getListUnitePrincipaleAndSesSecondaire();
     this.getListEngin();
-    this.getListUnite();
   },
 };
 </script>

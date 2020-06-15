@@ -10,10 +10,10 @@
     <div class="row">
       <div class="col">
         <!-- ##################################################### -->
-        <b-card bg-variant="light">
+        <b-card bg-variant="link">
           <b-form-group
             label-cols-lg="3"
-            label="Informations Personnel"
+            label="Informations Personnelles"
             label-size="lg"
             label-class="font-weight-bold pt-0"
             class="mb-0"
@@ -90,7 +90,7 @@
             </div>
           </div>
         </b-card>
-        <b-card bg-variant="light">
+        <b-card bg-variant="link">
           <b-form-group
             label-cols-lg="3"
             label="Informations Compte"
@@ -100,7 +100,7 @@
           >
             <b-form-group
               label-cols-sm="3"
-              label="Username:"
+              label="Nom d'utilisateur:"
               label-align-sm="right"
               label-for="nested-street"
               :invalid-feedback="invalidFeedbackUsername"
@@ -135,27 +135,23 @@
                   },
                 ]"
               ></b-form-radio-group>
-              <b-form-group
-                label-cols-sm="3"
-                label="Unité:"
-                label-align-sm="right"
-                label-for="nested-street"
-                :invalid-feedback="invalidFeedbackUsername"
-              >
-                <select
-                  class="mb-2 form-control"
-                  v-model="unite"
-                  v-on:change="getAllAgents()"
+            </b-form-group>
+            <b-form-group
+              label-cols-sm="3"
+              label="Unité:"
+              label-align-sm="right"
+              label-for="nested-street"
+              :invalid-feedback="invalidFeedbackUsername"
+            >
+              <select class="mb-2 form-control" v-model="id_unite">
+                <option
+                  v-bind:value="unite1._id"
+                  v-for="unite1 in unites"
+                  v-bind:key="unite1._id"
+                  selected
+                  >{{ unite1.nom }}</option
                 >
-                  <option
-                    v-bind:value="unite1._id"
-                    v-for="unite1 in unites"
-                    v-bind:key="unite1._id"
-                    selected
-                    >{{ unite1.nom }}</option
-                  >
-                </select>
-              </b-form-group>
+              </select>
             </b-form-group>
           </b-form-group>
 
@@ -170,7 +166,7 @@
             </div>
           </div>
         </b-card>
-        <b-card bg-variant="light">
+        <b-card bg-variant="link">
           <b-form-group
             label="Informations Mot de Passe"
             label-cols-lg="3"
@@ -237,8 +233,7 @@ export default {
   data() {
     return {
       heading: "Modifier Agent",
-      subheading:
-        "This is an example dashboard created using build-in elements and components.",
+      subheading: "",
       icon: "pe-7s-users icon-gradient bg-tempting-azure",
       title: "",
       link: "",
@@ -271,7 +266,7 @@ export default {
       //##########
       listAgents: [],
       unites: [],
-      unite: "",
+      id_unite: "",
     };
   },
   methods: {
@@ -281,15 +276,16 @@ export default {
           id_agent: id_agent,
         })
         .then((res) => {
-          this.nom = res.data.agent.nom;
-          this.prenom = res.data.agent.prenom;
-          this.date_de_naissance = new Date(res.data.agent.date_de_naissance);
-          this.numTel = res.data.agent.numTel;
-          this.username = res.data.agent.username;
-          this.role = res.data.agent.role;
-          this.unite = res.data.agent.id_unite;
+          this.nom = res.data.agent_nom;
+          this.prenom = res.data.agent_prenom;
+          this.date_de_naissance = new Date(res.data.agent_date_de_naissance);
+          this.numTel = res.data.agent_numTel;
+          this.username = res.data.agent_username;
+          this.role = res.data.agent_role;
+          this.id_unite = res.data.id_unite;
         })
-        .catch(() => {
+        .catch((err) => {
+          console.log(err);
           this.annuler();
         });
     },
@@ -302,25 +298,26 @@ export default {
       }
       if (!this.prenom) {
         this.statePrenom = false;
-        this.invalidFeedbackPrenom = "Veuillez vous introduire le nom";
+        this.invalidFeedbackPrenom = "Veuillez vous introduire le prénom";
         done = false;
       }
       if (!this.date_de_naissance) {
         this.stateDate_de_naissance = false;
         this.invalidFeedbackDate_de_naissance =
-          "Veuillez vous introduire le nom";
+          "Veuillez vous introduire la date de naissance";
         done = false;
       }
       if (!this.numTel) {
         this.stateNumTel = false;
-        this.invalidFeedbackNumTel = "Veuillez vous introduire le nom";
+        this.invalidFeedbackNumTel =
+          "Veuillez vous introduire le numéro de téléphone";
         done = false;
       }
 
       if (done) {
         this.$dialog.showMessageBox(
           {
-            title: "Change statut panne",
+            title: "Changer informations agent",
             buttons: ["Yes", "No", "Cancel"],
             message: "Vous etes sur?",
           },
@@ -328,7 +325,7 @@ export default {
             if (response == 0) {
               this.$http
                 .post(process.env.VUE_APP_API + "/updatePersonnelAgent", {
-                  _id: this.id_agent,
+                  id_agent: this.id_agent,
                   nom: this.nom,
                   prenom: this.prenom,
                   date_de_naissance: this.date_de_naissance,
@@ -346,7 +343,7 @@ export default {
                     error.response.data.message
                   );
                   this.invalidFeedbackPasswordConfirm =
-                    "error.response.data.message";
+                    error.response.data.message;
                 });
             }
           }
@@ -358,19 +355,20 @@ export default {
 
       if (!this.username) {
         this.stateUsername = false;
-        this.invalidFeedbackUsername = "Veuillez vous introduire le nom";
+        this.invalidFeedbackUsername =
+          "Veuillez vous introduire le nom d'utilisateur";
         done = false;
       }
       if (!this.role) {
         this.stateRole = false;
-        this.invalidFeedbackRole = "Veuillez vous introduire le nom";
+        this.invalidFeedbackRole = "Veuillez vous introduire le role";
         done = false;
       }
 
       if (done) {
         this.$dialog.showMessageBox(
           {
-            title: "Change statut panne",
+            title: "Changer informations agent",
             buttons: ["Yes", "No", "Cancel"],
             message: "Vous etes sur?",
           },
@@ -395,7 +393,7 @@ export default {
                     error.response.data.message
                   );
                   this.invalidFeedbackPasswordConfirm =
-                    "error.response.data.message";
+                    error.response.data.message;
                 });
             }
           }
@@ -407,12 +405,14 @@ export default {
 
       if (!this.password) {
         this.statePassword = false;
-        this.invalidFeedbackPassword = "Veuillez vous introduire le nom";
+        this.invalidFeedbackPassword =
+          "Veuillez vous introduire le mot de passe";
         done = false;
       }
       if (!this.passwordConfirm) {
         this.statePasswordConfirm = false;
-        this.invalidFeedbackPasswordConfirm = "Veuillez vous introduire le nom";
+        this.invalidFeedbackPasswordConfirm =
+          "Veuillez vous introduire le mot de passe confirmation";
         done = false;
       }
       if (
@@ -422,14 +422,14 @@ export default {
       ) {
         this.statePassword = false;
         this.statePasswordConfirm = false;
-        this.invalidFeedbackPassword = "Veuillez vous rerrrrrrrrrrrrrrr le ";
-        this.invalidFeedbackPasswordConfirm = "Veuillez vous rerrrrrrrrrrrrrrr";
+        this.invalidFeedbackPassword = "";
+        this.invalidFeedbackPasswordConfirm = "Mot de pass non identique";
         done = false;
       }
       if (done) {
         this.$dialog.showMessageBox(
           {
-            title: "Change statut panne",
+            title: "Changer mot de passe agent",
             buttons: ["Yes", "No", "Cancel"],
             message: "Vous etes sur?",
           },
@@ -453,7 +453,7 @@ export default {
                     error.response.data.message
                   );
                   this.invalidFeedbackPasswordConfirm =
-                    "error.response.data.message";
+                    error.response.data.message;
                 });
             }
           }
@@ -487,6 +487,7 @@ export default {
     if (!this.$route.query.id_agent) {
       this.annuler();
     }
+    this.id_agent = this.$route.query.id_agent;
     this.getAgent(this.$route.query.id_agent);
     this.getListUnitePrincipaleAndSesSecondaire();
   },

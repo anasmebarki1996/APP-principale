@@ -10,10 +10,10 @@
     <div class="row">
       <div class="col">
         <!-- ##################################################### -->
-        <b-card bg-variant="light">
+        <b-card bg-variant="link">
           <b-form-group
             label-cols-lg="3"
-            label="Informations Personnel"
+            label="Informations Personnelles"
             label-size="lg"
             label-class="font-weight-bold pt-0"
             class="mb-0"
@@ -79,7 +79,7 @@
             </b-form-group>
           </b-form-group>
         </b-card>
-        <b-card bg-variant="light">
+        <b-card bg-variant="link">
           <b-form-group
             label-cols-lg="3"
             label-size="lg"
@@ -131,11 +131,7 @@
               label-for="nested-street"
               :invalid-feedback="invalidFeedbackUsername"
             >
-              <select
-                class="mb-2 form-control"
-                v-model="id_unite"
-                v-on:change="getAllAgents()"
-              >
+              <select class="mb-2 form-control" v-model="id_unite">
                 <option
                   v-bind:value="unite1._id"
                   v-for="unite1 in unites"
@@ -203,8 +199,7 @@ export default {
   data() {
     return {
       heading: "Nouveau Agent",
-      subheading:
-        "This is an example dashboard created using build-in elements and components.",
+      subheading: "",
       icon: "pe-7s-users icon-gradient bg-tempting-azure",
       title: "",
       link: "",
@@ -250,38 +245,42 @@ export default {
       }
       if (!this.prenom) {
         this.statePrenom = false;
-        this.invalidFeedbackPrenom = "Veuillez vous introduire le nom";
+        this.invalidFeedbackPrenom = "Veuillez vous introduire le prénom";
         done = false;
       }
       if (!this.date_de_naissance) {
         this.stateDate_de_naissance = false;
         this.invalidFeedbackDate_de_naissance =
-          "Veuillez vous introduire le nom";
+          "Veuillez vous introduire la date de naissance";
         done = false;
       }
       if (!this.numTel) {
         this.stateNumTel = false;
-        this.invalidFeedbackNumTel = "Veuillez vous introduire le nom";
+        this.invalidFeedbackNumTel =
+          "Veuillez vous introduire le numéro de téléphone";
         done = false;
       }
       if (!this.username) {
         this.stateUsername = false;
-        this.invalidFeedbackUsername = "Veuillez vous introduire le nom";
+        this.invalidFeedbackUsername =
+          "Veuillez vous introduire le nom d'utilisateur";
         done = false;
       }
       if (!this.role) {
         this.stateRole = false;
-        this.invalidFeedbackRole = "Veuillez vous introduire le nom";
+        this.invalidFeedbackRole = "Veuillez vous introduire le role";
         done = false;
       }
       if (!this.password) {
         this.statePassword = false;
-        this.invalidFeedbackPassword = "Veuillez vous introduire le nom";
+        this.invalidFeedbackPassword =
+          "Veuillez vous introduire le mot de passer";
         done = false;
       }
       if (!this.passwordConfirm) {
         this.statePasswordConfirm = false;
-        this.invalidFeedbackPasswordConfirm = "Veuillez vous introduire le nom";
+        this.invalidFeedbackPasswordConfirm =
+          "Veuillez vous introduire le mot de passe confirmation";
         done = false;
       }
       if (
@@ -291,14 +290,14 @@ export default {
       ) {
         this.statePassword = false;
         this.statePasswordConfirm = false;
-        this.invalidFeedbackPassword = "Veuillez vous rerrrrrrrrrrrrrrr le ";
-        this.invalidFeedbackPasswordConfirm = "Veuillez vous rerrrrrrrrrrrrrrr";
+        this.invalidFeedbackPassword = "";
+        this.invalidFeedbackPasswordConfirm = "Mot de passe non identiques";
         done = false;
       }
       if (done) {
         this.$dialog.showMessageBox(
           {
-            title: "Change statut panne",
+            title: "Ajouter un agent",
             buttons: ["Yes", "No", "Cancel"],
             message: "Vous etes sur?",
           },
@@ -329,14 +328,13 @@ export default {
                     error.response.data.message
                   );
                   this.invalidFeedbackPasswordConfirm =
-                    "error.response.data.message";
+                    error.response.data.message;
                 });
             }
           }
         );
       }
     },
-
 
     reset() {
       this.nom = "";

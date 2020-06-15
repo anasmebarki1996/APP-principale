@@ -51,16 +51,22 @@
       show-empty
     >
       <template v-slot:empty>
-        <h4 class="d-flex justify-content-center">table vide</h4>
+        <h4 class="d-flex justify-content-center">
+          Aucune intervention en cours
+        </h4>
       </template>
       <template v-slot:table-busy>
         <div class="text-center text-dark my-2">
           <b-spinner class="align-middle"></b-spinner>
-          <strong>Loading...</strong>
+          <strong>Chargement...</strong>
         </div>
       </template>
       <template v-slot:cell(show_details)="row">
-        <b-button size="sm" class="mr-2" v-on:click="showDetails(row.item._id)"
+        <b-button
+          variant="light"
+          size="sm"
+          class="mr-2"
+          v-on:click="showDetails(row.item._id)"
           >détails</b-button
         >
       </template>
@@ -102,43 +108,37 @@ export default {
   data() {
     return {
       heading: "Les interventions en cours",
-      subheading:
-        "This is an example dashboard created using build-in elements and components.",
-      icon: "pe-7s-plane icon-gradient bg-tempting-azure",
+      subheading: "",
+      icon: "pe-7s-ribbon icon-gradient bg-tempting-azure",
       title: "Nouvelle Intervention",
       link: "/nouvelle-intervention",
       fields: [
         {
           key: "numTel",
-          label: "numero de telephone",
+          label: "Numéro de téléphone",
           tdClass: "nameOfTheClass",
           sortable: true,
         },
-        {
-          key: "statut",
-          label: "statut",
-          tdClass: "nameOfTheClass",
-          sortable: true,
-        },
+
         {
           key: "dateTimeAppel",
-          label: "dateTimeAppel",
+          label: "Heure d'appel",
           tdClass: "nameOfTheClass",
           sortable: true,
         },
         {
           key: "adresse.adresse_rue",
-          label: "adresse_rue",
+          label: "Adresse",
           tdClass: "nameOfTheClass",
           sortable: true,
         },
         {
           key: "statut",
-          label: "statut",
+          label: "Statut",
           tdClass: "nameOfTheClass",
           sortable: true,
         },
-        { key: "show_details", label: "Role", tdClass: "nameOfTheClass" },
+        { key: "show_details", label: "", tdClass: "nameOfTheClass" },
       ],
       isBusy: false,
       items: [],
@@ -202,6 +202,11 @@ export default {
     },
   },
   created() {
+    this.$socket.on("interventionStatusChange", (data) => {
+      if (data.unites.includes(this.$store.getters.get_agent_id_unite)) {
+        this.getAllIntervention_EnCours();
+      }
+    });
     this.getAllIntervention_EnCours();
   },
 };

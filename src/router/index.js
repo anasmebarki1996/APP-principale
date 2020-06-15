@@ -67,6 +67,11 @@ const routes = [
     component: () => import("../views/Dashboards/Unite/Unite.vue"),
   },
 
+  {
+    path: "/hospital",
+    name: "Hospital",
+    component: () => import("../views/Dashboards/Hospital/Hospital.vue"),
+  },
   // ########################### statistiques ###########################
 
   {

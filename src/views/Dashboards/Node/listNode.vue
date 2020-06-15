@@ -1,6 +1,10 @@
 <template>
   <div>
-    <page-title :heading="heading" :subheading="subheading" :icon="icon"></page-title>
+    <page-title
+      :heading="heading"
+      :subheading="subheading"
+      :icon="icon"
+    ></page-title>
 
     <!-- ##################################################### -->
     <div class="row">
@@ -15,66 +19,39 @@
                   v-on:click="selecteNodeFromPath(null)"
                 >
                   <b>Niveau Principal</b>
-                  <span v-if="selected_path.length == 0">
-                    <router-link :to="{ name: 'addNode', params: { parent_node_id } }">
-                      <img
-                        style="margin-left:20px;margin-top:-7px;"
-                        src="@/assets/images/add.png"
-                        width="15"
-                        title="Ajouter Un nœud "
-                      />
-                    </router-link>
-                  </span>
                 </span>
               </li>
-              <li class="breadcrumb-item" v-for="(path_item, key) in selected_path" :key="key">
+              <li
+                class="breadcrumb-item"
+                v-for="(path_item, key) in selected_path"
+                :key="key"
+              >
                 <span
                   style="cursor:pointer"
                   :class="
-                        path_item._id ==
-                        selected_path[selected_path.length - 1]._id
-                          ? 'badge badge-success'
-                          : 'badge badge-primary'
-                      "
+                    path_item._id == selected_path[selected_path.length - 1]._id
+                      ? 'badge badge-success'
+                      : 'badge badge-primary'
+                  "
                   v-on:click="selecteNodeFromPath(path_item._id)"
                 >
                   {{ path_item.name }}
                   <span
                     style="margin-left:20px;"
                     v-if="
-                          path_item._id ==
-                            selected_path[selected_path.length - 1]._id
-                        "
-                  >
-                    <router-link :to="{ name: 'addNode', params: { parent_node_id } }">
-                      <img
-                        style="margin-top:-7px;"
-                        src="@/assets/images/add.png"
-                        width="15"
-                        title="Ajouter Un nœud "
-                      />
-                    </router-link>
-                    <router-link
-                      :to="{
-                            name: 'updateNode',
-                            params: { selected_node, parent_node_id },
-                          }"
-                    >
-                      <img
-                        style="margin-left:5px;margin-top:-7px;"
-                        src="@/assets/images/edit.png"
-                        width="15"
-                        title="modifier cet nœud  "
-                      />
-                    </router-link>
-                    <img
-                      style="margin-left:5px;cursor:pointer;margin-top:-7px;"
-                      src="@/assets/images/remove.png"
-                      width="15"
-                      title="Supprimer cet nœud sélectionné"
-                      v-on:click="removeNode()"
-                    />
-                  </span>
+                      path_item._id ==
+                        selected_path[selected_path.length - 1]._id
+                    "
+                  ></span>
+                </span>
+              </li>
+              <li class="breadcrumb-item" v-if="selected_path.length">
+                <span
+                  style="cursor:pointer"
+                  class="badge badge-warning"
+                  v-on:click="terminer()"
+                >
+                  <b>Terminer</b>
                 </span>
               </li>
             </div>
@@ -83,9 +60,9 @@
             <div class="p-1 slick-slider-sm mx-auto">
               <div class="widget-chart widget-chart2 text-left p-0">
                 <div class="widget-chat-wrapper-outer">
-                  <div class="row col-md-12" style="margin: 10px;">
+                  <div class="row" style="margin: 10px;">
                     <div
-                      class="col-4"
+                      class="col-4 col-4"
                       v-for="node in current_level"
                       :key="node._id"
                       style="margin-bottom:10px;"
@@ -93,22 +70,21 @@
                       <b-button
                         variant="light"
                         v-on:click="getChildren(node)"
-                        style="width:100%;height:64px"
+                        style="width:260px;height:64px"
                       >
-                        <div class="widget-content" style="padding:0px;" v-bind:title="node.name">
+                        <div
+                          class="widget-content"
+                          style="padding:0px;"
+                          v-bind:title="node.name"
+                        >
                           <div class="widget-content-wrapper">
-                            <div class="widget-content-left">
-                              <div class="widget-heading">
-                                <img
-                                  src="https://static.thenounproject.com/png/656264-200.png"
-                                  width="50"
-                                  alt
-                                  srcset
-                                />
-                              </div>
-                            </div>
                             <div class="widget-content-outer">
-                              <div class="widget-heading" style="padding-left:25px;">{{ node.name }}</div>
+                              <div
+                                class="widget-heading"
+                                style="padding-left:25px;"
+                              >
+                                {{ node.name }}
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -116,31 +92,46 @@
                     </div>
                   </div>
                 </div>
+                <!-- // ########################## -->
               </div>
+            </div>
+
+            <div class="d-flex justify-content-center" v-if="empty">
+              <b-col class="d-flex justify-content-center"
+                >Il n'y a plus des interventions fils</b-col
+              >
             </div>
           </div>
         </div>
       </div>
 
       <div class="col-lg-3">
-        <div class="mb-3 card">
+        <div class="mb-3 card" style="min-height:400px">
           <div class="p-0 card-body">
             <div v-if="selected_node_display != null">
               <div id="description">
                 <ol class="breadcrumb" style="padding:5px;">
-                  <span style="cursor:pointer" class="text-success text-capitalize">
+                  <span
+                    style="cursor:pointer"
+                    class="text-success text-capitalize"
+                  >
                     <b>Description :</b>
                   </span>
                 </ol>
 
                 <div class="row">
-                  <p class="col-12 pl-4">{{ selected_node_display.description }}</p>
+                  <p class="col-12 pl-4">
+                    {{ selected_node_display.description }}
+                  </p>
                 </div>
               </div>
 
               <div id="Conseils_instructions">
                 <ol class="breadcrumb" style="padding:5px;">
-                  <span style="cursor:pointer" class="text-success text-capitalize">
+                  <span
+                    style="cursor:pointer"
+                    class="text-success text-capitalize"
+                  >
                     <b>Conseils et instructions :</b>
                   </span>
                 </ol>
@@ -149,10 +140,12 @@
                   <div class="col-12 pl-4 pr-4">
                     <p
                       v-for="(instruction,
-                          key) in selected_node_display.Conseils_instructions"
+                      key) in selected_node_display.Conseils_instructions"
                       :key="key"
                       style="margin-bottom:3px;"
-                    >- {{ instruction }}</p>
+                    >
+                      - {{ instruction }}
+                    </p>
                   </div>
 
                   <div class="col-4">
@@ -163,7 +156,10 @@
 
               <div id="intern_decision">
                 <ol class="breadcrumb" style="padding:5px;">
-                  <span style="cursor:pointer" class="text-success text-capitalize">
+                  <span
+                    style="cursor:pointer"
+                    class="text-success text-capitalize"
+                  >
                     <b>Moyen D'intervention Recommandée</b>
                   </span>
                 </ol>
@@ -185,7 +181,10 @@
 
               <div id="extern_decision">
                 <ol class="breadcrumb" style="padding:5px;">
-                  <span style="cursor:pointer" class="text-success text-capitalize">
+                  <span
+                    style="cursor:pointer"
+                    class="text-success text-capitalize"
+                  >
                     <b>Intervention Externe Recommandée</b>
                   </span>
                 </ol>
@@ -193,7 +192,7 @@
                 <div
                   class="row"
                   v-for="(d_extern, key) in selected_node_display.decision
-                        .extern"
+                    .extern"
                   :key="key"
                 >
                   <div class="col-8 pl-4">
@@ -222,7 +221,7 @@ import {
   faCalendarAlt,
   faAngleDown,
   faAngleUp,
-  faTh
+  faTh,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(faTrashAlt, faCheck, faAngleDown, faAngleUp, faTh, faCalendarAlt);
@@ -236,151 +235,52 @@ export default {
     selected_path: [],
     current_level: {},
     numTelInput: "",
-    numTel: "",
-    wilaya: "",
-    daira: "",
-    adresse_rue: "",
-    gpsAdresse: "",
-    gps_coordonnee: "",
+    empty: false,
     searchOpen: true,
-    heading: "Analytics Dashboard",
-    subheading:
-      "This is an example dashboard created using build-in elements and components.",
-    icon: "pe-7s-plane icon-gradient bg-tempting-azure",
+    heading: "Arbre des intervention",
+    subheading: "",
+    icon: "pe-7s-edit icon-gradient bg-tempting-azure",
     Engins: [],
     etablissement_extern: [
       {
-        name: "Police"
+        name: "Police",
       },
       {
-        name: "Gendarmerie"
+        name: "Gendarmerie",
       },
       {
-        name: "Conservation des forêts"
+        name: "Conservation des forêts",
       },
       {
-        name: "Hopital"
-      }
+        name: "Hopital",
+      },
     ],
     node_to_add: {
       decision: {
         intern: [],
-        extern: []
+        extern: [],
       },
       icon: "",
       Conseils_instructions: [],
 
       name: "",
       description: "",
-      parent_id: null
+      parent_id: null,
     },
-    // ################# partie unites #################
-
-    unites: []
   }),
 
   methods: {
-    getAllEngins() {
-      this.$http
-        .get(process.env.VUE_APP_API + "/engin/")
-        .then(res => {
-          this.Engins = res.data.data;
-        })
-        .catch(error => {
-          this.$dialog.showErrorBox(
-            "error" + error.response.status,
-            error.response.data.message
-          );
-        });
-    },
-    modal_next_click(direction) {
-      if (direction) {
-        // if true then next is clicked
-        document.querySelector("#node_update_1").style.display = "none";
-        document.querySelector("#node_update_2").style.display = "block";
-        document.querySelector("#update_back").style.display = "block";
-        document.querySelector("#update_next").style.display = "none";
-        document.querySelector("#update_submit").style.display = "block";
-      } else {
-        document.querySelector("#update_back").style.display = "none";
-        document.querySelector("#update_next").style.display = "block";
-        document.querySelector("#update_submit").style.display = "none";
-
-        document.querySelector("#node_update_2").style.display = "none";
-        document.querySelector("#node_update_1").style.display = "block";
-      }
-    },
-    add_modal_next_click(direction) {
-      if (direction) {
-        // if true then next is clicked
-        document.querySelector("#node_add_1").style.display = "none";
-        document.querySelector("#node_add_2").style.display = "block";
-        document.querySelector("#add_back").style.display = "block";
-        document.querySelector("#add_next").style.display = "none";
-        document.querySelector("#add_submit").style.display = "block";
-      } else {
-        document.querySelector("#add_back").style.display = "none";
-        document.querySelector("#add_next").style.display = "block";
-        document.querySelector("#add_submit").style.display = "none";
-
-        document.querySelector("#node_add_2").style.display = "none";
-        document.querySelector("#node_add_1").style.display = "block";
-      }
-    },
-
-    getAppel() {
-      if (this.numTelInput.length != 10) {
-        this.$dialog.showErrorBox(
-          "error",
-          "vous devrez vérifier le numéro de téléphone"
-        );
-      } else {
-        this.$dialog.showMessageBox(
-          {
-            title: "Vous confirmez ce numero ?",
-            buttons: ["Yes", "No", "Cancel"],
-            message: "Vous etes sur?"
-          },
-          response => {
-            if (response == 0) {
-              this.$http
-                .post(process.env.VUE_APP_API + "/getAppel", {
-                  numTel: this.numTelInput
-                })
-                .then(async res => {
-                  this.numTel = res.data.appel.numTel;
-                  this.numTelInput = "";
-                  this.gps_coordonnee = res.data.appel.gps_coordonnee;
-                  this.gpsAdresse = await this.getLocationName(
-                    this.gps_coordonnee
-                  );
-                })
-                .catch(error => {
-                  this.$dialog.showErrorBox(
-                    "erreur" + error.response.status,
-                    error.response.data.message
-                  );
-                  if (error.response.status == 404) {
-                    this.numTel = this.numTelInput;
-                    this.numTelInput = "";
-                    document.getElementById("gpsAdresse").readOnly = false;
-                  }
-                });
-            }
-          }
-        );
-      }
-    },
     getCurrentLevel() {
+      this.empty = false;
       this.$http
         .get(process.env.VUE_APP_API + "/tree/nodes/" + this.parent_node_id)
-        .then(res => {
+        .then((res) => {
           this.current_level = res.data.data;
           if (!res.data.data.length) {
-            this.getUnitePlusProche();
+            this.empty = true;
           }
         })
-        .catch(error => {
+        .catch((error) => {
           this.$dialog.showErrorBox(
             "error" + error.response.status,
             error.response.data.message
@@ -399,10 +299,10 @@ export default {
     getNodePath() {
       this.$http
         .get(process.env.VUE_APP_API + "/tree/path/" + this.parent_node_id)
-        .then(res => {
+        .then((res) => {
           this.selected_path = res.data.data.reverse();
         })
-        .catch(error => {
+        .catch((error) => {
           this.$dialog.showErrorBox(
             "error" + error.response.status,
             error.response.data.message
@@ -428,9 +328,9 @@ export default {
         {
           title: "Êtes-vous sûr?",
           buttons: ["Yes", "No", "Cancel"],
-          message: "Vous ne pourrez pas revenir en arrière !"
+          message: "Vous ne pourrez pas revenir en arrière !",
         },
-        response => {
+        (response) => {
           if (response == 0) {
             this.$http
               .delete(process.env.VUE_APP_API + "/tree/" + this.parent_node_id)
@@ -438,10 +338,10 @@ export default {
                 this.selected_path.pop();
                 this.$dialog.showMessageBox({
                   title: "success",
-                  message: "le nœud a été supprimé."
+                  message: "le nœud a été supprimé.",
                 });
               })
-              .catch(error => {
+              .catch((error) => {
                 this.$dialog.showErrorBox(
                   "error" + error.response.status,
                   error.response.data.message
@@ -451,167 +351,6 @@ export default {
         }
       );
     },
-
-    // ########################### maps ##############################
-    envoyerIntervention(id_unite) {
-      this.$dialog.showMessageBox(
-        {
-          title: "Etes vous sur de l'envoyer ?",
-          buttons: ["oui", "non", "Cancel"],
-          message: "Vous ne pourrez plus la retransmettre apres l'envoie"
-        },
-        response => {
-          if (response == 0) {
-            this.$http
-              .post(
-                process.env.VUE_APP_API + "/intervention/envoyerIntervention",
-                {
-                  id_unite: id_unite,
-                  node: this.parent_node_id,
-                  wilaya: this.wilaya,
-                  daira: this.daira,
-                  adresse_rue: this.adresse_rue,
-                  gps_coordonnee: this.gps_coordonnee,
-                  numTel: this.numTel
-                }
-              )
-              .then(() => {
-                this.$dialog.showMessageBox({
-                  title: "success",
-                  message: "intervention envoyé"
-                });
-                this.reset();
-              })
-              .catch(error => {
-                this.$dialog.showErrorBox(
-                  "erreur" + error.response.status,
-                  error.response.data.message
-                );
-              });
-          }
-        }
-      );
-    },
-    async getUnitePlusProche() {
-      await this.$http
-        .post(process.env.VUE_APP_API + "/getUnitePlusProche", {
-          lat: 34.6,
-          lng: 0
-        })
-        .then(async res => {
-          this.unites = await this.gpsTraitement(
-            {
-              lat: 34.6,
-              lng: 1
-            },
-            res.data.unites
-          );
-          await this.order();
-        })
-        .catch(error => {
-          this.$dialog.showErrorBox(
-            "error" + error.response.status,
-            error.response.data.message
-          );
-        });
-    },
-    async gpsTraitement(secoursAdresse, unites) {
-      return new Promise(resolve => {
-        let response;
-        let distances = [];
-        this.$gmapApiPromiseLazy().then(() => {
-          // eslint-disable-next-line
-          var service = new google.maps.DistanceMatrixService();
-          unites.forEach(e => {
-            service.getDistanceMatrix(
-              {
-                origins: [secoursAdresse],
-                destinations: [e.adresse.gps_coordonnee],
-                travelMode: "DRIVING"
-              },
-              function(resp) {
-                distances.push({
-                  id_unite: e.id_unite,
-                  nom_unite: e.nom_unite,
-                  engins: e.engins,
-                  secoursAdresse: resp.originAddresses[0],
-                  uniteAdresse: e.adresse,
-                  distanceEnKM: resp.rows[0].elements[0].distance.text,
-                  duration: resp.rows[0].elements[0].duration.text,
-                  duration_en_sec: resp.rows[0].elements[0].duration.value
-                });
-                if (unites.length == distances.length) {
-                  response = resolve(distances);
-                }
-              }
-            );
-          });
-        });
-        return response;
-      });
-    },
-    async getLocationName(adresse) {
-      return new Promise(resolve => {
-        let response;
-        this.$gmapApiPromiseLazy().then(() => {
-          // eslint-disable-next-line
-          var service = new google.maps.DistanceMatrixService();
-          service.getDistanceMatrix(
-            {
-              origins: [adresse],
-              destinations: [adresse],
-              travelMode: "DRIVING"
-            },
-            function(resp) {
-              response = resolve(resp.originAddresses[0]);
-            }
-          );
-        });
-        return response;
-      });
-    },
-    getGpsAdresse() {
-      this.$gmapApiPromiseLazy().then(() => {
-        var options = {
-          componentRestrictions: {
-            country: "dz"
-          }
-        };
-        // eslint-disable-next-line
-        var places = new google.maps.places.Autocomplete(
-          document.getElementById("gpsAdresse"),
-          options
-        );
-        // eslint-disable-next-line
-        new google.maps.event.addListener(places, "place_changed", function() {
-          var place = places.getPlace();
-          this.gpsAdresse = place.formatted_address;
-          this.gps_coordonnee = {
-            lat: place.geometry.location.lat(),
-            lng: place.geometry.location.lng()
-          };
-        });
-      });
-    },
-    order() {
-      function compare(a, b) {
-        if (a.duration_en_sec < b.duration_en_sec) return -1;
-        if (a.duration_en_sec > b.duration_en_sec) return 1;
-        return 0;
-      }
-      return this.unites.sort(compare);
-    },
-    reset() {
-      this.numTel = "";
-      this.numTelInput = "";
-      this.wilaya = "";
-      this.daira = "";
-      this.adresse_rue = "";
-      this.gpsAdresse = "";
-      this.gps_coordonnee = "";
-      this.unites = [];
-      this.selecteNodeFromPath(null);
-    }
   },
 
   watch: {
@@ -621,18 +360,16 @@ export default {
       this.getNodePath();
       this.selected_node_display = this.selected_node;
       this.node_to_update = this.selected_node;
-    }
+    },
   },
   computed: {
     randomKey: function() {
       return Math.ceil(Math.random() * 10);
-    }
+    },
   },
   created() {
-    this.getAllEngins();
     this.getCurrentLevel();
-    this.getGpsAdresse();
-  }
+  },
 };
 </script>
 <style scoped>
