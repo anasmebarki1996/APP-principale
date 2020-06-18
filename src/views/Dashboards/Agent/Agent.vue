@@ -105,11 +105,6 @@ export default {
           key: "numTel",
           label: "Numéro de téléphone",
           tdClass: "nameOfTheClass"
-        },
-        {
-          key: "show_details",
-          label: "",
-          tdClass: "nameOfTheClass"
         }
       ],
       isBusy: false,
@@ -121,7 +116,8 @@ export default {
       search: "",
       value: "",
       unites: [],
-      id_unite: ""
+      id_unite: "",
+      role: ""
     };
   },
   methods: {
@@ -217,6 +213,12 @@ export default {
     if (this.$route.query.id_unite) {
       this.id_unite = this.$route.query.id_unite;
     }
+    if (this.$store.getters.get_agent_role == "admin")
+      this.fields.push({
+        key: "show_details",
+        label: "",
+        tdClass: "nameOfTheClass"
+      });
     this.getAllAgents();
     this.getListUnitePrincipaleAndSesSecondaire();
   }

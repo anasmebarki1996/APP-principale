@@ -27,11 +27,7 @@
             v-model="search"
           />
           <div class="input-group-append">
-            <button
-              class="btn btn-light"
-              type="button"
-              v-on:click="getAllIntervention"
-            >
+            <button class="btn btn-light" type="button" v-on:click="getAllIntervention">
               <b-icon icon="search"></b-icon>
             </button>
           </div>
@@ -64,17 +60,14 @@
           class="mr-2"
           variant="light"
           v-on:click="showDetails(row.item._id)"
-          >détails</b-button
-        >
-
+        >détails</b-button>
         <b-button
-          v-if="(row.item.statut = 'termine')"
+          v-if="(row.item.statut == 'termine')"
           size="sm"
           class="mr-2"
           variant="info"
           v-on:click="donwloadInterventionPDF(row.item._id)"
-          >Télécharger</b-button
-        >
+        >Télécharger</b-button>
       </template>
 
       <template v-slot:row-details="row">
@@ -109,7 +102,7 @@
 import PageTitle from "../../../Layout/Components/PageTitle";
 export default {
   components: {
-    PageTitle,
+    PageTitle
   },
   data() {
     return {
@@ -123,27 +116,27 @@ export default {
           key: "numTel",
           label: "Numéro de téléphone",
           tdClass: "nameOfTheClass",
-          sortable: true,
+          sortable: true
         },
         {
           key: "dateTimeAppel",
           label: "Heure d'appel",
           tdClass: "nameOfTheClass",
-          sortable: true,
+          sortable: true
         },
         {
           key: "adresse.adresse_rue",
           label: "Adresse",
           tdClass: "nameOfTheClass",
-          sortable: true,
+          sortable: true
         },
         {
           key: "statut",
           label: "Statut",
           tdClass: "nameOfTheClass",
-          sortable: true,
+          sortable: true
         },
-        { key: "show_details", label: "", tdClass: "nameOfTheClass" },
+        { key: "show_details", label: "", tdClass: "nameOfTheClass" }
       ],
       isBusy: false,
       items: [],
@@ -153,7 +146,7 @@ export default {
       sort: "dateTimeAppel",
       sortBy: "",
       search: "",
-      date: "2020-05-27",
+      date: ""
     };
   },
 
@@ -174,19 +167,21 @@ export default {
       }
       this.$http
         .post(link, {
-          date: this.date,
+          date: this.date
         })
-        .then((res) => {
-          for (let i = 0; i < res.data.interventions.length; i++) {
-            res.data.interventions[i].dateTimeAppel = this.$moment(
-              res.data.interventions[i].dateTimeAppel
-            ).format("YYYY-MM-DD à HH:mm");
-          }
+        .then(res => {
+          // for (let i = 0; i < res.data.interventions.length; i++) {
+          //   res.data.interventions[i].dateTimeAppel = this.$moment(
+          //     res.data.interventions[i].dateTimeAppel
+          //   ).format("YYYY-MM-DD à HH:mm");
+          // }
+          console.log(res);
           this.items = res.data.interventions;
+
           this.rows = res.data.interventions_total;
           this.isBusy = false;
         })
-        .catch((error) => {
+        .catch(error => {
           this.$dialog.showErrorBox(
             "error" + error.response.status,
             error.response.data.message
@@ -203,7 +198,7 @@ export default {
     showDetails(id_intervention) {
       this.$router.push({
         path: "/intervention-details",
-        query: { id_intervention: id_intervention },
+        query: { id_intervention: id_intervention }
       });
     },
     donwloadInterventionPDF(id_intervention) {
@@ -216,10 +211,10 @@ export default {
         .post(
           process.env.VUE_APP_API + "/intervention/getIntervention_details",
           {
-            id_intervention: id_intervention,
+            id_intervention: id_intervention
           }
         )
-        .then((res) => {
+        .then(res => {
           let description = "";
           for (var i = 0; i < res.data.intervention.description.length; i++) {
             description += res.data.intervention.description[i] + " - ";
@@ -229,24 +224,24 @@ export default {
               {
                 text: "La direction de la protection civile",
                 style: "header",
-                alignment: "center",
+                alignment: "center"
               },
               {
                 text:
                   "Unite principale :" +
                   res.data.intervention.unite_principale.nom,
                 style: "header",
-                alignment: "center",
+                alignment: "center"
               },
               {
                 text:
                   "Unite principale :" +
                   res.data.intervention.unite_secondaire.nom,
                 style: "header",
-                alignment: "center",
+                alignment: "center"
               },
               {
-                text: "\n",
+                text: "\n"
               },
               {
                 columns: [
@@ -265,7 +260,7 @@ export default {
                       "\nCCO :" +
                       res.data.intervention.cco_agent_principale.nom +
                       " " +
-                      res.data.intervention.cco_agent_principale.prenom,
+                      res.data.intervention.cco_agent_principale.prenom
                   },
                   {
                     text:
@@ -282,12 +277,12 @@ export default {
                       "\nCCO :" +
                       res.data.intervention.cco_agent_secondaire.nom +
                       " " +
-                      res.data.intervention.cco_agent_secondaire.prenom,
-                  },
-                ],
+                      res.data.intervention.cco_agent_secondaire.prenom
+                  }
+                ]
               },
               {
-                text: "\n",
+                text: "\n"
               },
               { text: "Intervention", style: "header", alignment: "center" },
               { text: "\n" },
@@ -298,18 +293,18 @@ export default {
                       "Le " +
                       this.$moment(res.data.intervention.dateTimeAppel).format(
                         "YYYY-MM-DD à HH:MM"
-                      ),
+                      )
                   },
                   {
-                    text: "type :" + description,
-                  },
-                ],
-              },
-            ],
+                    text: "type :" + description
+                  }
+                ]
+              }
+            ]
           };
           pdfMake.createPdf(docDefinition).download("optionalName.pdf");
         })
-        .catch((error) => {
+        .catch(error => {
           console.log(error);
           this.$dialog.showErrorBox(
             "error" + error.response.status,
@@ -317,14 +312,17 @@ export default {
           );
         });
       console.log(id_intervention);
-    },
+    }
   },
   created() {
-    this.$socket.on("interventionStatusChange", (data) => {
+    this.date = this.$moment().format("YYYY-MM-DD");
+    this.getAllIntervention();
+
+    this.$socket.on("interventionStatusChange", data => {
       if (data.unites.includes(this.$store.getters.get_agent_id_unite)) {
         this.getAllIntervention();
       }
     });
-  },
+  }
 };
 </script>

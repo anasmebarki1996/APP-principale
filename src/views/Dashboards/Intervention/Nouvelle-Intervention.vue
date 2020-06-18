@@ -192,7 +192,7 @@
                           :key="unite._id"
                           class="col-md-4 card mb-4 widget-content"
                         >
-                          <div class="">
+                          <div class>
                             <div class="widget-content-left col-md-12">
                               <div class="widget-heading">
                                 {{ unite.nom_unite }}
@@ -213,7 +213,7 @@
                               </div>
                               <b-button
                                 variant="light"
-                                v-on:click="envoyerIntervention(unite._id)"
+                                v-on:click="envoyerIntervention(unite.id_unite)"
                                 >envoyer</b-button
                               >
                             </div>
@@ -517,6 +517,7 @@ export default {
 
     // ########################### maps ##############################
     envoyerIntervention(id_unite) {
+      let description = this.selected_path.map((x) => x.name);
       this.$dialog.showMessageBox(
         {
           title: "Etes vous sur de l'envoyer ?",
@@ -531,7 +532,7 @@ export default {
                 {
                   id_unite: id_unite,
                   id_node: this.parent_node_id,
-                  description: this.selected_path,
+                  description: description,
                   wilaya: this.wilaya,
                   daira: this.daira,
                   adresse_rue: this.adresse_rue,
@@ -563,10 +564,11 @@ export default {
           lng: 0,
         })
         .then(async (res) => {
+          console.log(this.gps_coordonnee.lat);
           this.unites = await this.gpsTraitement(
             {
-              lat: 34.6,
-              lng: 1,
+              lat: Number(this.gps_coordonnee.lat),
+              lng: Number(this.gps_coordonnee.lng),
             },
             res.data.unites
           );
@@ -581,6 +583,7 @@ export default {
     },
     async gpsTraitement(secoursAdresse, unites) {
       return new Promise((resolve) => {
+        console.log(this.gps_coordonnee);
         let response;
         let distances = [];
         this.$gmapApiPromiseLazy().then(() => {
@@ -594,6 +597,7 @@ export default {
                 travelMode: "DRIVING",
               },
               function(resp) {
+                console.log(resp);
                 distances.push({
                   id_unite: e.id_unite,
                   nom_unite: e.nom_unite,

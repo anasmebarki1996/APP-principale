@@ -28,11 +28,7 @@
             v-model="search"
           />
           <div class="input-group-append">
-            <button
-              class="btn btn-light"
-              type="button"
-              v-on:click="getAllIntervention_EnCours"
-            >
+            <button class="btn btn-light" type="button" v-on:click="getAllIntervention_EnCours">
               <b-icon icon="search"></b-icon>
             </button>
           </div>
@@ -51,9 +47,7 @@
       show-empty
     >
       <template v-slot:empty>
-        <h4 class="d-flex justify-content-center">
-          Aucune intervention en cours
-        </h4>
+        <h4 class="d-flex justify-content-center">Aucune intervention en cours</h4>
       </template>
       <template v-slot:table-busy>
         <div class="text-center text-dark my-2">
@@ -67,8 +61,7 @@
           size="sm"
           class="mr-2"
           v-on:click="showDetails(row.item._id)"
-          >détails</b-button
-        >
+        >détails</b-button>
       </template>
 
       <template v-slot:row-details="row">
@@ -103,7 +96,7 @@
 import PageTitle from "../../../Layout/Components/PageTitle";
 export default {
   components: {
-    PageTitle,
+    PageTitle
   },
   data() {
     return {
@@ -117,28 +110,28 @@ export default {
           key: "numTel",
           label: "Numéro de téléphone",
           tdClass: "nameOfTheClass",
-          sortable: true,
+          sortable: true
         },
 
         {
           key: "dateTimeAppel",
           label: "Heure d'appel",
           tdClass: "nameOfTheClass",
-          sortable: true,
+          sortable: true
         },
         {
           key: "adresse.adresse_rue",
           label: "Adresse",
           tdClass: "nameOfTheClass",
-          sortable: true,
+          sortable: true
         },
         {
           key: "statut",
           label: "Statut",
           tdClass: "nameOfTheClass",
-          sortable: true,
+          sortable: true
         },
-        { key: "show_details", label: "", tdClass: "nameOfTheClass" },
+        { key: "show_details", label: "", tdClass: "nameOfTheClass" }
       ],
       isBusy: false,
       items: [],
@@ -148,7 +141,7 @@ export default {
       sort: "dateTimeAppel",
       sortBy: "",
       search: "",
-      date: "2020-04-02",
+      date: "2020-04-02"
     };
   },
   methods: {
@@ -168,9 +161,9 @@ export default {
       }
       this.$http
         .post(link, {
-          date: this.date,
+          date: this.date
         })
-        .then((res) => {
+        .then(res => {
           for (let i = 0; i < res.data.interventions.length; i++) {
             res.data.interventions[i].dateTimeAppel = this.$moment(
               res.data.interventions[i].dateTimeAppel
@@ -180,7 +173,7 @@ export default {
           this.rows = res.data.interventions_total;
           this.isBusy = false;
         })
-        .catch((error) => {
+        .catch(error => {
           this.$dialog.showErrorBox(
             "error" + error.response.status,
             error.response.data.message
@@ -197,17 +190,17 @@ export default {
     showDetails(id_intervention) {
       this.$router.push({
         path: "/intervention-details",
-        query: { id_intervention: id_intervention },
+        query: { id_intervention: id_intervention }
       });
-    },
+    }
   },
   created() {
-    this.$socket.on("interventionStatusChange", (data) => {
+    this.$socket.on("interventionStatusChange", data => {
       if (data.unites.includes(this.$store.getters.get_agent_id_unite)) {
         this.getAllIntervention_EnCours();
       }
     });
     this.getAllIntervention_EnCours();
-  },
+  }
 };
 </script>
