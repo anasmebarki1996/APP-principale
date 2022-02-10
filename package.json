@@ -27,7 +27,7 @@
     "increase-memory-limit": "^1.0.7",
     "jquery": "^3.4.1",
     "moment-timezone": "^0.5.28",
-    "node-sass": "^4.13.1",
+    "node-sass": "^7.0.0",
     "pdfmake": "^0.1.65",
     "pe7-icon": "^1.0.4",
     "perfect-scrollbar": "^1.5.0",
